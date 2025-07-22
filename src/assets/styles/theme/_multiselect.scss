@@ -1,0 +1,13 @@
+.p-multiselect {
+  width: 100% !important;
+  &-item {
+    margin: 0;
+    padding: 0.4rem 1rem !important;
+  }
+}
+.p-inputtext-sm {
+  .p-multiselect-label {
+    font-size: 0.875rem;
+    padding: 0.875rem 0.875rem;
+  }
+}

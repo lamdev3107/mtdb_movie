@@ -1,0 +1,15 @@
+
+@import "variable";
+
+.process {
+  .p-progressbar{
+    height: 0.75rem;
+    background-color: #E6E8EB;
+
+    .p-progressbar-value{
+      background: $state_colors_success;
+      border-radius: 4px;
+    }
+  }
+
+}

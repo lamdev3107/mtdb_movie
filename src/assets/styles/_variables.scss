@@ -1,0 +1,121 @@
+/* Color styles */
+$white: #ffffff !default;
+
+$transparent: transparent !default;
+
+$primary-main: #1d8ed0 !default;
+$primary-alternative-light: #00a1ff !default;
+$primary-alternative-dark: #1d39c4 !default;
+$primary-contained-hover-background: #00a1ff !default;
+$primary-outlined-hover-background: #d1eeff !default;
+$primary-outlined-resting-background: #89d3ff !default;
+
+$info-main: #16b1ff !default;
+$info-alternative-light: #32baff !default;
+$info-alternative-dark: #0e71a3 !default;
+$info-contained-hover-background: #139ce0 !default;
+$info-outlined-hover-background: #caedff !default;
+$info-outlined-resting-background: #93dbff !default;
+
+$success-main: #56ca00 !default;
+$success-alternative-light: #6ad01f !default;
+$success-alternative-dark: #378100 !default;
+$success-contained-hover-background: #4cb200 !default;
+$success-outlined-hover-background: #ceffaa !default;
+$success-outlined-resting-background: #befa92 !default;
+
+$warning-main: #ffb400 !default;
+$warning-alternative-light: #ffb547 !default;
+$warning-alternative-dark: #a37300 !default;
+$warning-contained-hover-background: #e09e00 !default;
+$warning-outlined-hover-background: #ffe7ac !default;
+$warning-outlined-resting-background: #ffd776 !default;
+
+$error-main: #ff4c51 !default;
+$error-alternative-light: #ff6166 !default;
+$error-alternative-dark: #a33134 !default;
+$error-contained-hover-background: #e04347 !default;
+$error-outlined-hover-background: #ffd9da !default;
+$error-outlined-resting-background: #ff9094 !default;
+
+$text-primary: #1c1c1c !default;
+$text-secondary: #5b5b5b !default;
+$text-disabled: #b3b3b3 !default;
+$text-label-disable: #a1a1a1 !default;
+
+$action-active: #54505a !default;
+$action-hover: #e8e8e8 !default;
+$action-selected: #8f8c93 !default;
+$action-disabled: #e7e7e7 !default;
+$action-disabled-b-g: #f3f3f3 !default;
+
+$other-divider: #0000001a !default;
+$other-outline-border: #dddddd !default;
+$other-input-line: #c8c8c8 !default;
+$other-overlay: #888888 !default;
+
+$custom-b-g-secondary: #8a8d93 !default;
+$custom-b-g-info: #2196f3 !default;
+$custom-b-g-success: #4caf50 !default;
+$custom-b-g-warning: #ed6c02 !default;
+$custom-b-g-error: #f44336 !default;
+
+$button-colors: () !default;
+$button-colors: map-merge(
+  (
+    'create': #1d39c4,
+    'update': #1d39c4,
+    'assign': #ff7a45,
+    'history': #52c41a,
+    'cancel': #8a8a8a,
+  ),
+  $button-colors
+);
+
+$colors: () !default;
+$colors: map-merge(
+  (
+    'red': $error-main,
+    'green': $success-main,
+    'blue': $primary-main,
+    'yellow': $warning-main,
+    'gray': $text-secondary,
+    'cyan': #08979c,
+  ),
+  $colors
+);
+
+// campaign-progressbar
+$progressbar-revenue: #1d39c4;
+$progressbar-revenue-total: #ffe58f;
+$progressbar-customer: #135200;
+$progressbar-customer-total: #d9f7be;
+
+$card-border: #f5f5f5;
+$input-border: var(--gray-300);
+
+$base-bg-2: #e8eaf6 !default;
+
+/* Text-size styles */
+$chip: 13px !default;
+$button: 14px !default;
+$font-size-body: 12px !default;
+$heading-h1: 96px !default;
+$heading-h2: 60px !default;
+$heading-h3: 48px !default;
+$heading-h4: 34px !default;
+$heading-h5: 24px !default;
+$heading-h6: 20px !default;
+$table-header: 14px !default;
+$tooltip: 11px !default;
+$input-text: 16px !default;
+$input-notify: 12px !default;
+$input-label: 14px !default;
+$subtitle: 18px !default;
+$subtitle-1: 16px !default;
+$subtitle-2: 14px !default;
+
+/* menu size */
+$top-bar-height: var(--height-topbar);
+$left-menu-width: var(--width-sidebar);
+$right-bar-width: var(--width-appRight);

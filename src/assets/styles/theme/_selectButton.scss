@@ -1,0 +1,30 @@
+
+@import "variable";
+.not-default_select-button{
+
+  &.alone-selection.p-selectbutton .p-button{
+    border-radius: 4px !important;
+  }
+
+  &.p-selectbutton{
+    border-radius: 4px 0px 0px 4px;
+    .p-button:focus.p-highlight{
+      color: $white;
+      background-color: #050BA6
+    }
+    .p-button.p-highlight:hover{
+      color: $white;
+      background-color: #0058c3
+    }
+    .p-highlight{
+      color: $white;
+      background-color: #050BA6
+    }
+    .p-button-label{
+      font-size: 15px
+    }
+    .p-button{
+      padding: 8px 25px;
+    }
+  }
+}
