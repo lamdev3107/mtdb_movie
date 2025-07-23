@@ -23,17 +23,24 @@ $black-25: #404040;
 $black-30: #4c4c4c;
 
 // Grey Shades
-$grey-60: #b3b3b3;
+$grey-60: #999999;
 $grey-65: #a6a6a6;
-$grey-70: #bdbdbd;
-$grey-75: #e0e0e0;
-$grey-80: #e5e5e7;
+$grey-70: #b3b3b3;
+$grey-75: #bfbfbf;
+$grey-80: #e4e4e7;
 $grey-84: #f1f1f3;
 $grey-87: #f7f7f8;
 $grey-99: #fcfcfd;
 
 //Breakpoint
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1920px;
+
+//Font
+
+$regular: 400;
+$medium: 500;
+$semi-bold: 600;
+$bold: 700;

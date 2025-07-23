@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "mixins" as mix;
 
 * {
   -moz-box-sizing: border-box;
@@ -31,5 +32,38 @@ a {
   height: 24px;
   &--white {
     filter: brightness(0) invert(1);
+  }
+}
+
+.section {
+  margin: 150px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+
+  @include mix.mq-md {
+    max-width: 358px;
+  }
+  @include mix.mq-lg {
+    max-width: 1297px;
+  }
+  @include mix.mq-xl {
+    max-width: 1597px;
+  }
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      &__title {
+        @include mix.font-base(3.8rem, $bold, $white);
+      }
+      &__description {
+        @include mix.font-base(1.8rem, $regular, $grey-60, 1.5);
+      }
+    }
   }
 }

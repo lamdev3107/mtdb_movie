@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./features/home/home.module').then((m) => m.HomeModule),
   },
   {
+    path: '',
+    loadChildren: () =>
+      import('./features/movies/movies.module').then((m) => m.MoviesModule),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

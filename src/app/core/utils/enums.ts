@@ -18,7 +18,7 @@ export enum ColumnDataType {
   Boolean = 'boolean',
 }
 
-export function dataFake () {
+export function dataFake() {
   const data = [];
   for (let i = 0; i < 10; i++) {
     data.push({
@@ -26,13 +26,13 @@ export function dataFake () {
       address: `Ha Noi ${i + 1}`,
       dob: '1999-04-01',
       age: 6 + i,
-      note: 'Tân Lập là một xã thuộc huyện Đan Phượng, ' +
-        'thành phố Hà Nội, Việt Nam. '
-    })
+      note:
+        'Tân Lập là một xã thuộc huyện Đan Phượng, ' +
+        'thành phố Hà Nội, Việt Nam. ',
+    });
   }
   return data;
 }
-
 
 export enum SessionKey {
   UserProfile = 'KEY_USER_PROFILE',
@@ -93,7 +93,7 @@ export enum FunctionCode {
   RequestConfig = 'REQUEST_CONFIG_ASSIGNMENT',
   ListClaim = 'CLAIM_REQUEST',
   ClaimManagement = 'CLAIM_MANAGEMENT',
-  Correspondence = 'CORRESPONDENCE'
+  Correspondence = 'CORRESPONDENCE',
 }
 
 export enum Actions {

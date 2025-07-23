@@ -20,8 +20,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('🔥 Interceptor activated for:', req.url);
-
     // Thêm baseUrl nếu url là relative (không bắt đầu bằng http hoặc https)
     const apiUrl = environment.apiUrl + req.url;
 
@@ -36,12 +34,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       timeout(DEFAULT_TIMEOUT),
       tap({
         next: (event) => {
-          // log hoặc xử lý response nếu cần
           console.log('✅ Response received');
         },
-        error: (error: HttpErrorResponse) => {
-          console.error('❌ HTTP error:', error.message);
-        },
+        error: (error: HttpErrorResponse) => {},
       }),
       catchError((error: HttpErrorResponse) => {
         switch (error.status) {
