@@ -1,0 +1,37 @@
+<header class="header">
+  <div class="header__logo">
+    <img src="assets/images/logo-tablet.svg" alt="StreamVibe" />
+  </div>
+
+  <nav class="header__nav">
+    <a
+      [routerLink]="item.link"
+      routerLinkActive="active"
+      class="header__nav-item"
+      *ngFor="let item of headerNavigation"
+    >
+      {{ item.title }}
+    </a>
+  </nav>
+
+  <div class="header__buttons">
+    <button class="header__buttons-item">
+      <img
+        src="assets/icons/search.svg"
+        class="header__icons-item icon icon--white"
+        alt="Play"
+        width="34"
+        height="34"
+      />
+    </button>
+    <button class="header__buttons-item">
+      <img
+        src="assets/icons/bell.svg"
+        class="header__icons-item icon icon--white"
+        alt="Play"
+        width="34"
+        height="34"
+      />
+    </button>
+  </div>
+</header>
