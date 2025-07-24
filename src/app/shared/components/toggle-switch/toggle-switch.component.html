@@ -1,0 +1,18 @@
+<div class="custom-toggle-switch">
+  <button
+    *ngFor="let option of options; let i = index"
+    class="toggle-button"
+    [class.active]="selectedOptionValue === option.value"
+    (click)="selectOption(option.value)"
+  >
+    {{ option.label }}
+  </button>
+  <!-- <div
+    class="toggle-indicator"
+    [style.width.%]="100 / options.length"
+    [style.transform]="
+      'translateX(' + selectedOptionIndex * (100 / options.length) + '%)'
+    "
+    *ngIf="options.length > 0"
+  ></div> -->
+</div>

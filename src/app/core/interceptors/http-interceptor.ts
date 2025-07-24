@@ -34,7 +34,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       timeout(DEFAULT_TIMEOUT),
       tap({
         next: (event) => {
-          console.log('✅ Response received');
+          // console.log('✅ Response received');
         },
         error: (error: HttpErrorResponse) => {},
       }),

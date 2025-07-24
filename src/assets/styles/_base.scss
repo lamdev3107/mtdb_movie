@@ -39,13 +39,13 @@ a {
   margin: 150px auto 0;
   display: flex;
   flex-direction: column;
-  gap: 8rem;
+  gap: 4rem;
 
   @include mix.mq-md {
     max-width: 358px;
   }
   @include mix.mq-lg {
-    max-width: 1297px;
+    max-width: 1200px;
   }
   @include mix.mq-xl {
     max-width: 1597px;
@@ -53,17 +53,9 @@ a {
   &-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    &-text {
-      display: flex;
-      flex-direction: column;
-      gap: 1.4rem;
-      &__title {
-        @include mix.font-base(3.8rem, $bold, $white);
-      }
-      &__description {
-        @include mix.font-base(1.8rem, $regular, $grey-60, 1.5);
-      }
+    gap: 2rem;
+    &__title {
+      @include mix.font-base(2.8rem, $bold, $white);
     }
   }
 }

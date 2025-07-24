@@ -1,16 +1,25 @@
-import { SwiperModule } from 'swiper/angular';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeModule } from './features/home/home.module';
-import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
-import { HeaderComponent } from './shared/layouts/header/header.component';
 import { httpInterceptorProviders } from './core/interceptors';
+import { SharedModule } from './shared/shared.module';
+import { MoviesModule } from './features/movies/movies.module';
+import { TvShowsModule } from './features/tv-shows/tv-shows.module';
+import { PeopleModule } from './features/people/people.module';
 
 @NgModule({
-  declarations: [AppComponent, MainLayoutComponent, HeaderComponent],
-  imports: [HomeModule, BrowserModule, AppRoutingModule, SwiperModule],
+  declarations: [AppComponent],
+  imports: [
+    HomeModule,
+    MoviesModule,
+    TvShowsModule,
+    SharedModule,
+    BrowserModule,
+    AppRoutingModule,
+    PeopleModule,
+  ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })

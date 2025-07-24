@@ -4,15 +4,15 @@ export const header_navigation = [
     link: '/',
   },
   {
-    title: 'Movies & Shows',
+    title: 'Movies',
     link: '/movies',
   },
   {
-    title: 'Support',
-    link: '/support',
+    title: 'TV Shows',
+    link: '/tv_shows',
   },
   {
-    title: 'Subscriptions',
-    link: '/subscriptions',
+    title: 'People',
+    link: '/people',
   },
 ];

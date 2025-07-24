@@ -6,11 +6,20 @@ import { components } from './components';
 import { pages } from './pages';
 import { HttpClientModule } from '@angular/common/http';
 import { SwiperModule } from 'swiper/angular';
-import { MovieCarouselComponent } from './components/movie-carousel/movie-carousel.component';
-import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MoviesModule } from '../movies/movies.module';
+import { TvShowsModule } from '../tv-shows/tv-shows.module';
 
 @NgModule({
-  declarations: [...components, ...pages, MovieCarouselComponent, MovieCardComponent],
-  imports: [CommonModule, HomeRoutingModule, HttpClientModule, SwiperModule],
+  declarations: [...components, ...pages],
+  imports: [
+    CommonModule,
+    SharedModule,
+    MoviesModule,
+    TvShowsModule,
+    HomeRoutingModule,
+    HttpClientModule,
+    SwiperModule,
+  ],
 })
 export class HomeModule {}

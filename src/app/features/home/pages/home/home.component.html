@@ -17,17 +17,21 @@
     </button>
   </div>
 </div>
-<div class="section category-section">
-  <app-movie-carousel [movieList]="popularMovieList"></app-movie-carousel>
-  <!-- <div class="section-header">
-    <div class="section-header-text">
-      <h3 class="section-header-text__title">
-        Explore our wide variety of categories
-      </h3>
-      <p class="section-header-text__description">
-        Whether you're looking for a comedy to make you laugh, a drama to make
-        you think, or a documentary to learn something new
-      </p>
-    </div>
-  </div> -->
+<div class="section trending-movie-section">
+  <div class="section-header">
+    <h2 class="section-header__title">Trending Movies</h2>
+    <app-toggle-switch
+      [options]="trendingOptions"
+      [defaultValue]="selectedTimeWindow"
+      (optionChanged)="onTrendingWindowChanged($event)"
+    ></app-toggle-switch>
+  </div>
+  <app-movie-carousel [movieList]="trendingMovieList"> </app-movie-carousel>
+</div>
+
+<div class="section popular-tv-shows-section">
+  <div class="section-header">
+    <h2 class="section-header__title">Popular TV Shows</h2>
+  </div>
+  <app-tv-carousel [tvList]="popularTVShowList"> </app-tv-carousel>
 </div>
