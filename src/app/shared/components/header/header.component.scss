@@ -1,20 +1,23 @@
 @use "../../../../assets/styles/variables" as *;
+@use "../../../../assets/styles/base" as *;
+@use "../../../../assets/styles/mixins" as *;
 
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.4rem 16.2rem;
   background-color: transparent;
   color: $white;
-
-  &__logo img {
-    height: 32px;
+  @include mq-xl {
+    padding: 3rem 16.2rem;
+  }
+  @include mq-lg {
+    padding: 2.4rem 8rem;
   }
 
   &__nav {

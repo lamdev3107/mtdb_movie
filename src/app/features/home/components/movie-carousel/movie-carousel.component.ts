@@ -46,15 +46,15 @@ export class MovieCarouselComponent implements OnInit, AfterViewInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateNavigationState();
+  }
 
   ngAfterViewInit(): void {
     if (this.swiper) {
       this.swiperInstance = this.swiper.swiperRef;
       // Delay update để Swiper có thể tính toán isEnd đúng
-      setTimeout(() => {
-        this.updateNavigationState();
-      }, 0);
+      this.updateNavigationState();
     }
   }
 
@@ -103,7 +103,5 @@ export class MovieCarouselComponent implements OnInit, AfterViewInit {
     if (!this.swiperInstance) return;
     this.isBeginning = this.swiperInstance.isBeginning;
     this.isEnd = this.swiperInstance.isEnd;
-    console.log('Check isEnd', this.isEnd);
-    console.log('Check isBeginning', this.isBeginning);
   }
 }

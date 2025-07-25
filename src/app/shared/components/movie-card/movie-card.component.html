@@ -1,12 +1,12 @@
 <div class="movie-card">
-  <a routerLink="movieLink" class="movie-card__image-wrapper">
+  <a [routerLink]="detailLink" class="movie-card__image-wrapper">
     <img
-      [src]="'https://image.tmdb.org/t/p/w200' + posterUrl"
+      [src]="imageBaseUrl + posterPath"
       class="movie-card__poster"
       [alt]="posterAlt"
     />
     <div class="movie-card__rating">
-      {{ tvRating | number : "1.1-1" }}
+      {{ rating | number : "1.1-1" }}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="yellow"
@@ -24,9 +24,11 @@
     </div>
   </a>
   <div class="movie-card-content">
-    <a href="tvLink" class="movie-card-content__title">{{ tvName }}</a>
+    <a [routerLink]="detailLink" class="movie-card-content__title">{{
+      title
+    }}</a>
     <div class="movie-card-content__releaseDate">
-      {{ tvFirstAirDate | formatDate }}
+      {{ releaseDate | formatDate }}
     </div>
   </div>
 </div>

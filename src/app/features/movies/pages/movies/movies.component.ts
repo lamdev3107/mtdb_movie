@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { GenreService } from 'src/app/features/home/services/genre.service';
 import { finalize, Subject, takeUntil } from 'rxjs';
-import { GenreListResponse } from 'src/app/features/home/models/genre.model';
-import { ListMovieResponse } from '../../models/movie.model';
+import { ListMovieResponse, Movie } from '../../models/movie.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-movies',
@@ -22,9 +22,14 @@ export class MoviesComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private loadingService: LoadingService,
-    private genreService: GenreService
+    private genreService: GenreService,
+    private route: ActivatedRoute
   ) {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      console.log('Chekcfsadfsad params', params);
+    });
+  }
 
   onGenresChange(genres: string[]) {
     this.selectedGenres = genres;

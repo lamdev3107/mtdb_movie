@@ -10,6 +10,7 @@
     <!-- <ng-content select="[swiperSlide],swiperSlide"></ng-content> -->
     <ng-template swiperSlide *ngFor="let tv of tvList">
       <app-movie-card
+        [isMovie]="false"
         [posterPath]="tv.poster_path"
         [posterAlt]="tv.name"
         [rating]="tv.vote_average"

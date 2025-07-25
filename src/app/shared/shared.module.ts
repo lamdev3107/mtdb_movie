@@ -5,10 +5,9 @@ import { SwiperModule } from 'swiper/angular';
 import { RouterModule } from '@angular/router';
 import { components } from './components';
 import { pipes } from './pipes';
-import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
-  declarations: [...components, ...pipes, FooterComponent],
+  declarations: [...components, ...pipes],
   imports: [CommonModule, SwiperModule, RouterModule],
   exports: [[...components, ...pipes]],
 })

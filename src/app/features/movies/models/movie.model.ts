@@ -1,3 +1,16 @@
+import { Genre } from '../../home/models/genre.model';
+export interface company {
+  id: number;
+  logo_path: string;
+  name: string;
+  origin_country: string;
+}
+
+export interface language {
+  english_name: string;
+  iso_639_1: string;
+  name: string;
+}
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -20,4 +33,43 @@ export interface ListMovieResponse {
   results: Movie[];
   total_pages: number;
   total_results: number;
+}
+
+export interface TrailerItem {
+  id: number;
+  title: string;
+  description: string;
+  videoKey: string;
+  youtubeUrl: string;
+  thumbnail: string;
+  backdrop_path: string;
+}
+
+export interface MovieDetail {
+  adult: boolean;
+  backdrop_path: string;
+  belongs_to_collection: any;
+  budget: number;
+  genres: Genre[];
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  origin_country: any[];
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: company[];
+  production_countries: any[];
+  release_date: string;
+  revenue: number;
+  runtime: number;
+  spoken_languages: language[];
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
 }

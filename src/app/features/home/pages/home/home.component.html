@@ -31,8 +31,19 @@
 
 <div class="section popular-tv-shows-section">
   <div class="section-header">
+    <h2 class="section-header__title">Latest Trailer</h2>
+    <app-toggle-switch
+      [options]="trendingOptions"
+      [defaultValue]="selectedTimeWindow"
+      (optionChanged)="onTrendingWindowChanged($event)"
+    ></app-toggle-switch>
+  </div>
+  <app-trailers-carousel [trailerList]="trailerList"> </app-trailers-carousel>
+</div>
+
+<div class="section popular-tv-shows-section">
+  <div class="section-header">
     <h2 class="section-header__title">Popular TV Shows</h2>
   </div>
-
   <app-tv-carousel [tvList]="popularTVShowList"> </app-tv-carousel>
 </div>

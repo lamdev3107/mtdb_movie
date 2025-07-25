@@ -35,20 +35,40 @@ a {
   }
 }
 
-.section {
-  margin: 150px auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
 
+.container {
+  margin: 0 auto;
   @include mix.mq-md {
     max-width: 358px;
   }
   @include mix.mq-lg {
-    max-width: 1200px;
+    max-width: 1280px;
   }
   @include mix.mq-xl {
-    max-width: 1597px;
+    max-width: 1598px;
+  }
+}
+
+.section {
+  margin: 2rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  @extend .container;
+  @include mix.mq-xl {
+    padding: 50px;
+  }
+  @include mix.mq-lg {
+    padding: 40px;
   }
   &-header {
     display: flex;
@@ -58,4 +78,9 @@ a {
       @include mix.font-base(2.8rem, $bold, $white);
     }
   }
+}
+
+//Override default styles for Swiper
+.swiper-slide {
+  height: auto !important;
 }

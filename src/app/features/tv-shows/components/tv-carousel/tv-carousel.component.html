@@ -8,15 +8,16 @@
     (slideChange)="onSlideChange()"
   >
     <ng-template swiperSlide *ngFor="let tv of tvList">
-      <app-tv-card
-        [posterUrl]="tv.poster_path"
+      <app-movie-card
+        [isMovie]="false"
+        [posterPath]="tv.poster_path"
         [posterAlt]="tv.name"
-        [tvRating]="tv.vote_average"
-        [tvRating]="tv.vote_average"
-        [tvName]="tv.name"
-        [tvFirstAirDate]="tv.first_air_date"
-        [tvLink]="tv.id"
-      ></app-tv-card>
+        [rating]="tv.vote_average"
+        [rating]="tv.vote_average"
+        [title]="tv.name"
+        [releaseDate]="tv.first_air_date"
+        [link]="tv.id"
+      ></app-movie-card>
     </ng-template>
   </swiper>
   <button

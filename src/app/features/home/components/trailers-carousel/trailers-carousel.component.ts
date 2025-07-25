@@ -1,33 +1,38 @@
 import {
   Component,
   Input,
-  OnInit,
   ViewChild,
   AfterViewInit,
+  SimpleChanges,
 } from '@angular/core';
 
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import Swiper from 'swiper';
-import { TVShow } from '../../models/tv-show.model';
+import { TrailerItem } from 'src/app/features/movies/models/movie.model';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-tv-carousel',
-  templateUrl: './tv-carousel.component.html',
-  styleUrls: ['./tv-carousel.component.scss'],
+  selector: 'app-trailers-carousel',
+  templateUrl: './trailers-carousel.component.html',
+  styleUrls: ['./trailers-carousel.component.scss'],
 })
-export class TVCarouselComponent implements OnInit, AfterViewInit {
-  @Input() tvList: TVShow[] = [];
+export class TrailersCarouselComponent implements AfterViewInit {
+  @Input() trailerList: TrailerItem[] = [];
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+  selectedTrailer: TrailerItem | null = null;
+  openTrailerModal = false;
+  safeYoutubeUrl: SafeResourceUrl | null = null;
+
   currentPage = 0;
-  slidesPerView = 5;
+  slidesPerView = 4;
 
   swiperInstance!: Swiper;
   isBeginning: boolean = true;
   isEnd: boolean = false;
   config: SwiperOptions = {
     slidesPerView: this.slidesPerView,
-    spaceBetween: 40,
+    spaceBetween: 30,
     navigation: {
       nextEl: '.custom-carousel-btn--next',
       prevEl: '.custom-carousel-btn--prev',
@@ -35,17 +40,40 @@ export class TVCarouselComponent implements OnInit, AfterViewInit {
     loop: false,
     pagination: false,
     scrollbar: false,
+    breakpoints: {
+      320: { slidesPerView: 1, spaceBetween: 10 },
+      640: { slidesPerView: 2, spaceBetween: 20 },
+      1024: { slidesPerView: 3, spaceBetween: 20 },
+      1280: { slidesPerView: 4, spaceBetween: 30 },
+    },
   };
 
   get totalPagesArray(): number[] {
     return Array.from({
-      length: Math.ceil(this.tvList.length / this.slidesPerView),
+      length: Math.ceil(this.trailerList.length / this.slidesPerView),
     }).map((_, i) => i);
   }
 
-  constructor() {}
+  constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {}
+  handleOnPlayTrailer(trailer: TrailerItem): void {
+    this.selectedTrailer = trailer;
+    this.safeYoutubeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      trailer.youtubeUrl
+    );
+
+    this.openTrailerModal = true;
+  }
+
+  closeModal(): void {
+    this.selectedTrailer = null;
+    this.safeYoutubeUrl = null;
+    this.openTrailerModal = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('Check trailer', changes['trailerList']);
+  }
 
   ngAfterViewInit(): void {
     if (this.swiper) {
@@ -82,6 +110,7 @@ export class TVCarouselComponent implements OnInit, AfterViewInit {
     const currentIndex = this.swiperInstance.activeIndex;
     const nextIndex = currentIndex + this.slidesPerView;
     const maxIndex = this.swiperInstance.slides.length - 1;
+
     this.swiperInstance.slideTo(
       Math.min(nextIndex, maxIndex),
       500 // speed

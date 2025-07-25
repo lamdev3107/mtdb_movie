@@ -7,7 +7,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./movie-card.component.scss'],
 })
 export class MovieCardComponent implements OnInit {
+  moviePath = '/movies/detail/';
+  tvPath = '/tv_shows/';
   imageBaseUrl = environment.imageBaseUrl;
+  @Input() isMovie: boolean = true;
   @Input() posterPath: string | null = '';
   @Input() posterAlt: string | null = '';
   @Input() rating: number | null = null;
@@ -15,7 +18,16 @@ export class MovieCardComponent implements OnInit {
   @Input() releaseDate: string | null = '';
   @Input() link: number | null = null;
 
+  detailLink: string = '';
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('Chekc isMovie', this.isMovie);
+    if (this.isMovie) {
+      this.detailLink = this.moviePath + String(this.link);
+    } else {
+      this.detailLink = this.tvPath + String(this.link);
+    }
+  }
 }

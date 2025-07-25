@@ -1,9 +1,9 @@
-@use "../../../../../assets/styles/variables" as *;
-@use "../../../../../assets/styles/mixins" as *;
+@use "../../../../assets/styles/variables" as *;
+@use "../../../../assets/styles/mixins" as *;
 .movie-card {
   display: block;
   border-radius: 1.2rem;
-  padding: 2rem;
+  padding: 1rem;
   border: 1px solid $black-15;
 
   background-color: $black-10;
@@ -25,7 +25,7 @@
     gap: 0.5rem;
     position: absolute;
     top: 0.5rem;
-    right: 0.5rem;
+    left: 0.5rem;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 0.2rem 0.5rem;

@@ -7,8 +7,8 @@ import { MovieService } from 'src/app/features/movies/services/movie.service';
 import {
   ListMovieResponse,
   Movie,
+  TrailerItem,
 } from 'src/app/features/movies/models/movie.model';
-import { SwiperOptions } from 'swiper';
 import { TVShowService } from 'src/app/features/tv-shows/services/tv-shows.service';
 import {
   ListTVShowResponse,
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   movieGenres: Genre[] = [];
   trendingMovieList: Movie[] = [];
   popularTVShowList: TVShow[] = [];
+  trailerList: TrailerItem[] = [];
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
 
   trendingOptions = [
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadMovieGenres();
     this.loadTrendingMovieLists();
     this.loadPopularTVShowLists();
+    this.loadTrailers();
   }
 
   onTrendingWindowChanged(newValue: string) {
@@ -51,8 +53,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadMovieGenres(): void {
     this.loadingService.show();
-    this.genreService
-      .getMovieGenreList()
+    this.genreService.getMovieGenreList();
+  }
+  loadTrailers(): void {
+    this.loadingService.show();
+    this.movieService
+      .getLatestTrailers()
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
@@ -60,11 +66,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        next: (res: GenreListResponse) => {
-          this.movieGenres = res.genres;
+        next: (res) => {
+          this.trailerList = res;
+          console.log('check res', res);
         },
         error: (err) => {
-          console.error('Error fetching movie genres list', err);
+          console.log('Error fetching trailers', err);
         },
       });
   }

@@ -7,6 +7,7 @@
     <a
       [routerLink]="item.link"
       routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="header__nav-item"
       *ngFor="let item of headerNavigation"
     >
