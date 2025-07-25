@@ -7,15 +7,15 @@
     (swiper)="onSwiper($event)"
     (slideChange)="onSlideChange()"
   >
+    <!-- <ng-content select="[swiperSlide],swiperSlide"></ng-content> -->
     <ng-template swiperSlide *ngFor="let movie of movieList">
       <app-movie-card
-        [posterUrl]="movie.poster_path"
+        [posterPath]="movie.poster_path"
         [posterAlt]="movie.title"
-        [movieRating]="movie.vote_average"
-        [movieRating]="movie.vote_average"
-        [movieTitle]="movie.title"
-        [movieReleaseDate]="movie.release_date"
-        [movieLink]="movie.id"
+        [rating]="movie.vote_average"
+        [title]="movie.title"
+        [releaseDate]="movie.release_date"
+        [link]="movie.id"
       ></app-movie-card>
     </ng-template>
   </swiper>

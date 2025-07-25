@@ -1,0 +1,20 @@
+.movies-page {
+  display: flex;
+  gap: 2rem;
+  &__sidebar {
+    width: 280px;
+    flex-shrink: 0;
+  }
+  &__main {
+    flex: 1;
+  }
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+}

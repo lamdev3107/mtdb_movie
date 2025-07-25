@@ -1,0 +1,30 @@
+.movie-filter {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  padding: 1.5rem;
+  .movie-filter__section {
+    margin-bottom: 1.5rem;
+    h4,
+    h5 {
+      margin-bottom: 0.7rem;
+      font-weight: 600;
+    }
+    .movie-filter__genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      button {
+        background: #e3e3e3;
+        border: none;
+        border-radius: 20px;
+        padding: 0.3rem 1rem;
+        cursor: pointer;
+        &.selected {
+          background: #009688;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

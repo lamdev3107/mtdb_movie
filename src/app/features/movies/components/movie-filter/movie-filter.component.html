@@ -1,0 +1,50 @@
+<div class="movie-filter">
+  <div class="movie-filter__section">
+    <h4>Sort</h4>
+    <!-- Nút sort, có thể tách riêng -->
+  </div>
+  <div class="movie-filter__section">
+    <h4>Filters</h4>
+    <div>
+      <label>
+        <input type="radio" name="showMe" value="all" [(ngModel)]="showMe" />
+        Everything
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="showMe"
+          value="notSeen"
+          [(ngModel)]="showMe"
+        />
+        Movies I Haven't Seen
+      </label>
+      <label>
+        <input type="radio" name="showMe" value="seen" [(ngModel)]="showMe" />
+        Movies I Have Seen
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" [(ngModel)]="searchAllReleases" /> Search all
+        releases?
+      </label>
+      <div>
+        <input type="date" [(ngModel)]="dateRange.from" />
+        <input type="date" [(ngModel)]="dateRange.to" />
+      </div>
+    </div>
+    <div>
+      <h5>Genres</h5>
+      <div class="movie-filter__genres">
+        <button
+          *ngFor="let genre of genres"
+          [class.selected]="selectedGenres.includes(genre)"
+          (click)="toggleGenre(genre)"
+        >
+          {{ genre }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

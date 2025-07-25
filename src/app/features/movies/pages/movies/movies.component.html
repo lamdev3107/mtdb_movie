@@ -1,1 +1,27 @@
-<p>movies works!</p>
+<div class="movies-page">
+  <div class="movies-page__sidebar">
+    <app-movie-filter
+      [genres]="genres"
+      [selectedGenres]="selectedGenres"
+      (genresChange)="onGenresChange($event)"
+      [dateRange]="dateRange"
+      (dateRangeChange)="onDateRangeChange($event)"
+      [showMe]="showMe"
+      (showMeChange)="onShowMeChange($event)"
+    ></app-movie-filter>
+  </div>
+  <div class="movies-page__main">
+    <h2 class="movies-page__title">Popular Movies</h2>
+    <div class="movies-page__sort">
+      <!-- Có thể tách thành app-movie-sort nếu muốn -->
+      <button (click)="toggleSortMenu()">Sort</button>
+      <!-- ... menu sort ... -->
+    </div>
+    <div class="movies-page__list">
+      <app-movie-card
+        *ngFor="let movie of filteredMovies"
+        [movie]="movie"
+      ></app-movie-card>
+    </div>
+  </div>
+</div>

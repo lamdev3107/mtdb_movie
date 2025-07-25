@@ -26,13 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   popularTVShowList: TVShow[] = [];
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
 
-  carouselConfig: SwiperOptions = {
-    slidesPerView: 6,
-    loop: true,
-    autoplay: { delay: 3000 },
-    pagination: { clickable: true },
-    navigation: true,
-  };
   trendingOptions = [
     { value: 'day', label: 'Today' },
     { value: 'week', label: 'This Week' },

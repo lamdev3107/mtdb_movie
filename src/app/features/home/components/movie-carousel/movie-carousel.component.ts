@@ -6,10 +6,11 @@ import {
   AfterViewInit,
   SimpleChanges,
 } from '@angular/core';
-import { Movie } from 'src/app/features/movies/models/movie.model';
+
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import Swiper from 'swiper';
+import { Movie } from 'src/app/features/movies/models/movie.model';
 
 @Component({
   selector: 'app-movie-carousel',

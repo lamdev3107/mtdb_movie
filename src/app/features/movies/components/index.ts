@@ -1,4 +1,4 @@
 import { MovieCardComponent } from './movie-card/movie-card.component';
-import { MovieCarouselComponent } from './movie-carousel/movie-carousel.component';
+import { MovieFilterComponent } from './movie-filter/movie-filter.component';
 
-export const components = [MovieCardComponent, MovieCarouselComponent];
+export const components = [MovieCardComponent, MovieFilterComponent];
