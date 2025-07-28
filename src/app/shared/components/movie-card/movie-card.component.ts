@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./movie-card.component.scss'],
 })
 export class MovieCardComponent implements OnInit {
-  moviePath = '/movies/detail/';
+  moviePath = '/movies/';
   tvPath = '/tv_shows/';
   imageBaseUrl = environment.imageBaseUrl;
   @Input() isMovie: boolean = true;
@@ -23,7 +23,6 @@ export class MovieCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('Chekc isMovie', this.isMovie);
     if (this.isMovie) {
       this.detailLink = this.moviePath + String(this.link);
     } else {

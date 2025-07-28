@@ -7,6 +7,12 @@ import {
   MovieDetail,
   TrailerItem,
 } from '../models/movie.model';
+import { Cast, CreditsResponse } from '../models/credit.model';
+import { Keyword, KeywordResponse } from '../models/keyword.model';
+import { Review, ReviewResponse } from '../models/review.model';
+import { environment } from 'src/environments/environment';
+import { MovieImagesResponse } from '../models/images.model';
+import { Video, VideoResponse } from '../models/video.model';
 
 export interface queryListMovie {
   language: string;
@@ -34,8 +40,8 @@ export class MovieService {
   getPopularMovies(): Observable<ListMovieResponse> {
     return this.http.get<ListMovieResponse>(`${this.baseUrl}/popular`, {});
   }
-  getMovieDetails(id: string): Observable<MovieDetail> {
-    return this.http.get<MovieDetail>(`${this.baseUrl}/${id}`, {});
+  getMovieDetails(movieId: number): Observable<MovieDetail> {
+    return this.http.get<MovieDetail>(`${this.baseUrl}/${movieId}`, {});
   }
   getNowPlayingMovies(): Observable<ListMovieResponse> {
     return this.http.get<ListMovieResponse>(`${this.baseUrl}/now_playing`, {});
@@ -62,45 +68,22 @@ export class MovieService {
     return this.http.get<ListMovieResponse>(url).pipe(
       switchMap((res) => {
         const movies = res.results.slice(0, count);
-        console.log('Check videoRes', movies);
-
-        // Mỗi phim gọi tiếp để lấy video
+        // Sử dụng service getMovieTrailer cho từng movie
         const trailerRequests = movies.map((movie: any) =>
-          this.http.get<any>(`${this.baseUrl}/${movie.id}/videos`).pipe(
-            map((videoRes) => {
-              const trailer = videoRes.results.find(
-                (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
-              );
+          this.getMovieTrailer(movie.id).pipe(
+            // Bổ sung backdrop_path từ movie gốc nếu cần
+            map((trailer: TrailerItem | null) => {
               if (!trailer) return null;
-
+              // Nếu trailer.backdrop_path chưa có, gán từ movie
               return {
-                id: movie.id,
-                title: movie.title || movie.name,
-                description: trailer.name,
-                videoKey: trailer.key,
-                youtubeUrl: `https://www.youtube.com/embed/${trailer.key}`,
-                thumbnail: `https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg`,
-                backdrop_path: movie.backdrop_path,
+                ...trailer,
+                backdrop_path: trailer.backdrop_path || movie.backdrop_path,
+                title: movie.title || movie.name || trailer.title,
               } as TrailerItem;
             })
           )
         );
 
-        /*
-
-        forkJoin(trailerRequests):
-          trailerRequests là một mảng các Observable (HTTP request).
-          forkJoin sẽ chạy song song tất cả các Observable này.
-          Khi tất cả đều hoàn thành, nó trả về một Observable phát ra một mảng kết quả (theo thứ tự của mảng đầu vào).
-          .pipe(...):
-
-          Dùng để nối các toán tử RxJS vào Observable trả về từ forkJoin.
-          map(...):
-
-          Toán tử này nhận vào mảng kết quả từ forkJoin.
-          Hàm bên trong sẽ lọc ra các phần tử khác null (loại bỏ các trailer không hợp lệ).
-          Kết quả được ép kiểu về TrailerItem[].
-          */
         return forkJoin(trailerRequests).pipe(
           map(
             (trailers: any) =>
@@ -109,5 +92,78 @@ export class MovieService {
         );
       })
     );
+  }
+
+  getMovieTrailer(id: string): Observable<TrailerItem | null> {
+    const url = `${this.baseUrl}/${id}/videos`;
+    const videos = this.http.get<TrailerItem>(url);
+    return videos.pipe(
+      map((res: any) => {
+        const trailer = res.results.find(
+          (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
+        );
+        if (!trailer) return null;
+        return {
+          id: Number(id), // ép kiểu về number
+          title: trailer.name,
+          description: trailer.name,
+          videoKey: trailer.key,
+          youtubeUrl: `https://www.youtube.com/embed/${trailer.key}`,
+          thumbnail: `https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg`,
+          backdrop_path: trailer.backdrop_path,
+        } as TrailerItem;
+      })
+    );
+  }
+
+  // Hàm lấy danh sách credits dành
+  getMovieCredits(id: string): Observable<CreditsResponse> {
+    const url = `${this.baseUrl}/${id}/credits`; // Sửa URL đúng
+    return this.http.get<CreditsResponse>(url);
+  }
+
+  getTopBilledCast(movieId: number, count = 10): Observable<Cast[]> {
+    const url = `${this.baseUrl}/${movieId}/credits`; // Sửa URL đúng
+
+    return this.http
+      .get<CreditsResponse>(url)
+      .pipe(
+        map((res) => res.cast.sort((a, b) => a.order - b.order).slice(0, count))
+      );
+  }
+
+  getMovieKeywords(movieId: number): Observable<Keyword[]> {
+    const url = `${this.baseUrl}/${movieId}/keywords`;
+    return this.http.get<KeywordResponse>(url).pipe(map((res) => res.keywords));
+  }
+
+  getMovieReviews(
+    movieId: number,
+    page: number = 1
+  ): Observable<ReviewResponse> {
+    const url = `${this.baseUrl}/${movieId}/reviews?page=${page}`;
+    return this.http.get<ReviewResponse>(url);
+  }
+
+  getMovieRecommendations(
+    movieId: number,
+    page: number = 1,
+    count = 10
+  ): Observable<Movie[]> {
+    const url = `${this.baseUrl}/${movieId}/recommendations?page=${page}`;
+
+    return this.http
+      .get<ListMovieResponse>(url)
+      .pipe(map((res) => res.results.slice(0, count)));
+  }
+
+  getMovieImages(movieId: number): Observable<MovieImagesResponse> {
+    const url = `${this.baseUrl}/${movieId}/images`;
+    return this.http.get<MovieImagesResponse>(url);
+  }
+
+  getMovieVideos(movieId: number): Observable<Video[]> {
+    const url = `${this.baseUrl}/${movieId}/videos`;
+    return this.http.get<VideoResponse>(url).pipe(map((res) => res.results));
   }
 }

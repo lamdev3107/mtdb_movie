@@ -3,18 +3,17 @@
 @use "../../../../assets/styles/mixins" as *;
 
 .footer {
-  display: flex;
   margin-top: 8rem;
-  flex-direction: column;
-  gap: 8rem;
   color: #fff;
   background-color: $black-06;
   font-size: 15px;
-  @include mq-xl {
-    padding: 10rem 16.2rem 5rem;
-  }
-  @include mq-lg {
-    padding: 4rem 8rem;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6rem;
+    padding-top: 3rem;
+    padding-bottom: 1.4rem;
+    @extend .container;
   }
   &-navigation {
     display: flex;

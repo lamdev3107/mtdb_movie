@@ -1,93 +1,185 @@
-<div class="movie-details">
-  <div class="movie-details__header">
-    <div class="movie-details__poster">
-      <img src="assets/fantastic4-poster.jpg" alt="Fantastic Four Poster" />
+<app-movie-detail-hero [movie]="movie"></app-movie-detail-hero>
+
+<div class="movie-detail-body">
+  <div class="movie-detail-main-content">
+    <!-- Cast -->
+    <div class="movie-detail-cast movie-detail-section">
+      <h2 class="movie-detail-section__title">Top Billed Cast</h2>
+      <div class="cast-container">
+        <div class="cast-list" *ngIf="!castList || castList.length === 0">
+          <app-skeleton
+            type="cast-item"
+            [count]="8"
+            class="skeleton-container--cast-item"
+          ></app-skeleton>
+        </div>
+
+        <div class="cast-list" *ngIf="castList && castList.length > 0">
+          <div class="cast-item" *ngFor="let cast of castList">
+            <a class="cast-item__photo" routerLink="/people/{{ cast.id }}">
+              <img
+                class="cast-item__photo-img"
+                [src]="
+                  cast.profile_path
+                    ? imageBaseUrl + cast.profile_path
+                    : 'assets/images/default-avatar.png'
+                "
+                [alt]="cast.name"
+                loading="lazy"
+              />
+            </a>
+
+            <div class="cast-item__info">
+              <app-tooltip [text]="cast.name" position="top" [delay]="200">
+                <a
+                  routerLink="/people/{{ cast.id }}"
+                  class="cast-item__info-name"
+                  >{{ cast.name }}</a
+                >
+              </app-tooltip>
+              <p class="cast-item__info-character">{{ cast.character }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="movie-detail-section__more" [routerLink]="['./cast']">
+        Full Cast & Crew
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          class="movie-detail-section__more-icon"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
     </div>
-    <div class="movie-details__info">
-      <h1 class="movie-details__title">
-        Bộ Tứ Siêu Đẳng: Bước Đi Đầu Tiên
-        <span class="movie-details__year">(2025)</span>
-      </h1>
-      <div class="movie-details__meta">
-        <span class="movie-details__rating">PG-13</span>
-        <span class="movie-details__release-date">07/25/2025 (VN)</span>
-        <span class="movie-details__genre"
-          >Phim Khoa Học Viễn Tưởng, Phim Phiêu Lưu</span
+
+    <div class="movie-detail-social movie-detail-section">
+      <h2 class="movie-detail-section__title">Social</h2>
+      <!-- Social content -->
+      <app-movie-detail-social
+        [movieReview]="movieReview"
+      ></app-movie-detail-social>
+    </div>
+
+    <div class="movie-detail-media movie-detail-section">
+      <h2 class="movie-detail-section__title">Media</h2>
+      <!-- Media content -->
+      <app-movie-detail-media [movieId]="movieId"></app-movie-detail-media>
+    </div>
+
+    <div class="movie-detail-recommendations movie-detail-section">
+      <h2 class="movie-detail-section__title">Recommendations</h2>
+      <!-- Recommendations content -->
+      <div class="movie-detail-recommendations-list">
+        <div
+          class="movie-detail-recommendations-item"
+          *ngFor="let recommendation of recommendations"
         >
-        <span class="movie-details__duration">1h 55m</span>
-      </div>
-      <div class="movie-details__user-score">
-        <span class="movie-details__score-circle">73<sup>%</sup></span>
-        <span class="movie-details__score-label">User Score</span>
-        <span class="movie-details__score-emojis">😆😍</span>
-        <span class="movie-details__vibe">What's your Vibe?</span>
-      </div>
-      <div class="movie-details__actions">
-        <button
-          class="movie-details__action-btn movie-details__action-btn--list"
-        ></button>
-        <button
-          class="movie-details__action-btn movie-details__action-btn--favorite"
-        ></button>
-        <button
-          class="movie-details__action-btn movie-details__action-btn--bookmark"
-        ></button>
-        <button
-          class="movie-details__action-btn movie-details__action-btn--trailer"
-        >
-          <span>Play Trailer</span>
-        </button>
+          <a [routerLink]="['/movies', recommendation.id]">
+            <img
+              [src]="
+                recommendation.backdrop_path
+                  ? imageBaseUrl + recommendation.backdrop_path
+                  : imageBaseUrl + recommendation.poster_path
+              "
+              [alt]="recommendation.title"
+              class="movie-detail-recommendations-item__img"
+            />
+          </a>
+          <div class="movie-detail-recommendations-item__info">
+            <a [routerLink]="['/movies', recommendation.id]">
+              <p class="movie-detail-recommendations-item__info-title">
+                {{ recommendation.title }}
+              </p>
+            </a>
+            <p class="movie-detail-recommendations-item__info-rating">
+              {{ recommendation.vote_average | convertPercent }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="movie-details__body">
-    <p class="movie-details__welcome">
-      Chào mừng gia đình siêu anh hùng đầu tiên.
-    </p>
-    <div class="movie-details__overview">
-      <h2 class="movie-details__overview-title">Overview</h2>
-      <p class="movie-details__overview-text">
-        Sau một chuyến bay thám hiểm vũ trụ, bốn phi hành gia bất ngờ sở hữu
-        năng lực siêu nhiên và trở thành gia đình siêu anh hùng đầu tiên của
-        Marvel. The Fantastic Four: First Steps là bộ phim mở đầu Kỷ nguyên anh
-        hùng thứ sáu (Phase Six), đặt nền móng cho siêu bom tấn Avengers:
-        Doomsday trong năm sau.
+
+  <!-- Sidebar content -->
+  <div class="movie-detail-sidebar movie-detail-section">
+    <!--links-->
+    <div class="movie-detail-sidebar-item">
+      <h3 class="movie-detail-sidebar-item__title">Pages</h3>
+
+      <app-tooltip [text]="'Visit HomePage'" position="top" [delay]="200">
+        <a
+          [href]="movie?.homepage"
+          target="_blank"
+          class="movie-page"
+          *ngIf="movie?.homepage"
+        >
+          <svg
+            class="movie-page__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+            />
+          </svg>
+        </a>
+      </app-tooltip>
+    </div>
+
+    <!-- Status -->
+    <div class="movie-detail-sidebar-item">
+      <h3 class="movie-detail-sidebar-item__title">Status</h3>
+      <p class="movie-detail-sidebar-item__content">{{ movie?.status }}</p>
+    </div>
+
+    <div class="movie-detail-sidebar-item">
+      <h3 class="movie-detail-sidebar-item__title">Original Language</h3>
+      <p class="movie-detail-sidebar-item__content">
+        {{ movie?.original_language | uppercase }}
       </p>
     </div>
-    <div class="movie-details__credits">
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Jeff Kaplan</span>
-        <span class="movie-details__credits-role">Screenplay, Story</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Ian Springer</span>
-        <span class="movie-details__credits-role">Screenplay, Story</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Eric Pearson</span>
-        <span class="movie-details__credits-role">Screenplay, Story</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Stan Lee</span>
-        <span class="movie-details__credits-role">Characters</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Jack Kirby</span>
-        <span class="movie-details__credits-role">Characters</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Josh Friedman</span>
-        <span class="movie-details__credits-role">Screenplay</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Kat Wood</span>
-        <span class="movie-details__credits-role">Story</span>
-      </div>
-      <div class="movie-details__credits-group">
-        <span class="movie-details__credits-name">Matt Shakman</span>
-        <span class="movie-details__credits-role">Director</span>
+
+    <div class="movie-detail-sidebar-item">
+      <h3 class="movie-detail-sidebar-item__title">Budget</h3>
+      <p class="movie-detail-sidebar-item__content">
+        {{ movie?.budget | currency : "USD" }}
+      </p>
+    </div>
+
+    <div class="movie-detail-sidebar-item">
+      <h3 class="movie-detail-sidebar-item__title">Revenue</h3>
+      <p class="movie-detail-sidebar-item__content">
+        {{ movie?.revenue | currency : "USD" }}
+      </p>
+    </div>
+
+    <!--Keywords-->
+    <div class="movie-detail-sidebar-item">
+      <h3 class="movie-detail-sidebar-item__title">Keywords</h3>
+      <div class="movie-keywords">
+        <div class="movie-keywords__item" *ngFor="let keyword of keywords">
+          {{ keyword.name }}
+        </div>
+        <!-- Sidebar content -->
       </div>
     </div>
   </div>
 </div>
-p>

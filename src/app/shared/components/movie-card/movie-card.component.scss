@@ -5,6 +5,7 @@
   border-radius: 1.2rem;
   padding: 1rem;
   border: 1px solid $black-15;
+  height: 100%;
 
   background-color: $black-10;
   &__image-wrapper {
@@ -26,10 +27,7 @@
     position: absolute;
     top: 0.5rem;
     left: 0.5rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.6rem;
+    background-color: transparent;
     &-star {
       width: 1.2rem;
       height: 1.2rem;
@@ -45,9 +43,7 @@
       font-size: 1.6rem;
       font-weight: bold;
       color: white;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+
       &:hover {
         text-decoration: underline;
       }

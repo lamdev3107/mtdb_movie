@@ -1,0 +1,22 @@
+<app-tab
+  [tabs]="tabs"
+  [activeTabId]="activeTabId"
+  (tabChange)="onTabChange($event)"
+>
+  <div class="movie-video-list" *ngIf="activeTabId == 'videos'">
+    <div class="movie-video-item" *ngFor="let video of videos">
+      <iframe
+        class="movie-video-item__iframe"
+        [src]="video.key | safeYoutubeUrl"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      ></iframe>
+    </div>
+  </div>
+  <div class="movie-posters" *ngIf="activeTabId == 'posters'">
+    <div class="movie-poster-item" *ngFor="let poster of posters">
+      <img [src]="poster.file_path" alt="poster" />
+    </div>
+  </div>
+  <div class="movie-backdrops" *ngIf="activeTabId == 'backdrops'"></div>
+</app-tab>

@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   AfterViewInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { SwiperOptions } from 'swiper';
@@ -35,25 +36,52 @@ export class TVCarouselComponent implements OnInit, AfterViewInit {
     loop: false,
     pagination: false,
     scrollbar: false,
+    breakpoints: {
+      // khi màn hình >= 320px
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      // khi màn hình >= 480px
+      480: {
+        slidesPerView: 2,
+        spaceBetween: 10,
+      },
+      // khi màn hình >= 768px
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 24,
+      },
+      // khi màn hình >= 1280px
+      1280: {
+        slidesPerView: 5,
+        spaceBetween: 20,
+      },
+      1440: {
+        slidesPerView: 5,
+        spaceBetween: 20,
+      },
+    },
   };
 
   get totalPagesArray(): number[] {
+    const slidesPerView = this.getCurrentSlidesPerView();
     return Array.from({
-      length: Math.ceil(this.tvList.length / this.slidesPerView),
+      length: Math.ceil(this.tvList.length / slidesPerView),
     }).map((_, i) => i);
   }
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateNavigationState();
+  }
 
   ngAfterViewInit(): void {
     if (this.swiper) {
       this.swiperInstance = this.swiper.swiperRef;
       // Delay update để Swiper có thể tính toán isEnd đúng
-      setTimeout(() => {
-        this.updateNavigationState();
-      }, 0);
+      this.updateNavigationState();
     }
   }
 
@@ -69,18 +97,21 @@ export class TVCarouselComponent implements OnInit, AfterViewInit {
     this.updateNavigationState();
     if (this.swiper) {
       const index = this.swiper.swiperRef.activeIndex;
-      this.currentPage = Math.floor(index / this.slidesPerView);
+      const slidesPerView = this.getCurrentSlidesPerView();
+      this.currentPage = Math.floor(index / slidesPerView);
     }
   }
 
   goToSlide(pageIndex: number) {
-    const targetIndex = pageIndex * this.slidesPerView;
+    const slidesPerView = this.getCurrentSlidesPerView();
+    const targetIndex = pageIndex * slidesPerView;
     this.swiper?.swiperRef.slideTo(targetIndex, 300);
   }
 
   slideNext() {
+    const slidesPerView = this.getCurrentSlidesPerView();
     const currentIndex = this.swiperInstance.activeIndex;
-    const nextIndex = currentIndex + this.slidesPerView;
+    const nextIndex = currentIndex + slidesPerView;
     const maxIndex = this.swiperInstance.slides.length - 1;
 
     this.swiperInstance.slideTo(
@@ -91,8 +122,9 @@ export class TVCarouselComponent implements OnInit, AfterViewInit {
   }
 
   slidePrev() {
+    const slidesPerView = this.getCurrentSlidesPerView();
     const currentIndex = this.swiperInstance.activeIndex;
-    const prevIndex = currentIndex - this.slidesPerView;
+    const prevIndex = currentIndex - slidesPerView;
 
     this.swiperInstance.slideTo(Math.max(prevIndex, 0), 500);
     this.updateNavigationState();
@@ -102,7 +134,16 @@ export class TVCarouselComponent implements OnInit, AfterViewInit {
     if (!this.swiperInstance) return;
     this.isBeginning = this.swiperInstance.isBeginning;
     this.isEnd = this.swiperInstance.isEnd;
-    console.log('Check isEnd', this.isEnd);
-    console.log('Check isBeginning', this.isBeginning);
+    this.cdr.detectChanges();
+  }
+
+  getCurrentSlidesPerView(): number {
+    if (this.swiperInstance && this.swiperInstance.params) {
+      const spv = this.swiperInstance.params.slidesPerView;
+      if (typeof spv === 'number') {
+        return spv;
+      }
+    }
+    return this.slidesPerView;
   }
 }

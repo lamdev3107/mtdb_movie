@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Cast } from '../../models/credit.model';
 import { MovieService } from '../../services/movie.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, Observable, Subject, takeUntil } from 'rxjs';
-import { MovieDetail } from '../../models/movie.model';
+import { finalize, Subject, takeUntil } from 'rxjs';
+import { Movie, MovieDetail } from '../../models/movie.model';
+import { Keyword } from '../../models/keyword.model';
+
+import { Review } from '../../models/review.model';
+import { MovieImage } from '@features/movies/models/images.model';
+import { Video } from '@features/movies/models/video.model';
 
 @Component({
   selector: 'app-movie-details',
@@ -11,44 +16,90 @@ import { MovieDetail } from '../../models/movie.model';
   styleUrls: ['./movie-details.component.scss'],
 })
 export class MovieDetailsComponent implements OnInit {
-  id: string | null = null;
+  movieId: string | null = null;
+  castList: Cast[] = [];
+  keywords: Keyword[] = [];
+  imageBaseUrl = 'https://image.tmdb.org/t/p/w500/';
+  private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng
   movie: MovieDetail | null = null;
+
+  movieReview: Review | null = null;
+
+  recommendations: Movie[] = [];
+
   constructor(
     private movieService: MovieService,
-    private loadingService: LoadingService,
     private route: ActivatedRoute
   ) {}
-  private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe((params) => {
-    //   console.log('Chekc params', params);
-    //   this.id = params['id'];
-    // });
-    // this.route.parent?.params.subscribe((params) => {
-    //   console.log('Parent route params:', params);
-    // });
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.loadMovieDetails();
+    this.movieId = this.route.snapshot.paramMap.get('id');
+    this.loadMovieCredits(this.movieId);
+    this.loadMovieDetails(this.movieId);
+    this.loadMovieKeywords(this.movieId);
+    this.loadMovieReview(this.movieId);
+    this.loadMovieRecommendations(this.movieId);
   }
 
-  loadMovieDetails(): void {
-    this.loadingService.show();
+  loadMovieDetails(movieId: string | null): void {
     this.movieService
-      .getMovieDetails(this.id as string)
+      .getMovieDetails(Number(movieId))
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
-          this.loadingService.hide();
+          // this.loadingService.hide();
         })
       )
       .subscribe({
         next: (res) => {
           this.movie = res;
-          console.log('check res', res);
         },
         error: (err) => {
           console.log('Error fetching trailers', err);
+        },
+      });
+  }
+  loadMovieCredits(movieId: string | null) {
+    this.movieService
+      .getTopBilledCast(Number(movieId))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.castList = res;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  loadMovieKeywords(movieId: string | null) {
+    this.movieService
+      .getMovieKeywords(Number(movieId))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.keywords = res;
+        },
+      });
+  }
+
+  loadMovieReview(movieId: string | null) {
+    this.movieService.getMovieReviews(Number(movieId)).subscribe({
+      next: (res) => {
+        this.movieReview = res.results[0] as Review;
+        console.log('check movieReview', this.movieReview);
+      },
+    });
+  }
+
+  loadMovieRecommendations(movieId: string | null) {
+    this.movieService
+      .getMovieRecommendations(Number(movieId))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.recommendations = res;
         },
       });
   }

@@ -1,0 +1,13 @@
+.movie-video-list {
+  display: flex;
+  overflow-x: auto;
+  .movie-video-item {
+    height: 300px;
+    padding: 10px 0;
+    aspect-ratio: 16 / 9;
+    &__iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

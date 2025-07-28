@@ -5,16 +5,15 @@
       <h2 class="hero-text__heading">The Best Streaming Experience</h2>
       <p class="hero-text__description">
         StreamVibe is the best streaming experience for watching your favorite
-        movies and shows on demand, anytime, anywhere. With StreamVibe, you can
-        enjoy a wide variety of content, including the latest blockbusters,
-        classic movies, popular TV shows, and more. You can also create your own
-        watchlists, so you can easily find the content you want to watch.
+        movies and shows on demand, anytime, anywhere.
+        <span>
+          With StreamVibe, you can enjoy a wide variety of content, including
+          the latest blockbusters, classic movies, popular TV shows, and more.
+          You can also create your own watchlists, so you can easily find the
+          content you want to watch.
+        </span>
       </p>
     </div>
-    <button class="hero-btn">
-      <img src="assets/icons/play.svg" alt="play-icon" class="hero-btn__icon" />
-      <span class="hero-btn__text"> Start Watching Now </span>
-    </button>
   </div>
 </div>
 <div class="section trending-movie-section">
@@ -22,7 +21,6 @@
     <h2 class="section-header__title">Trending Movies</h2>
     <app-toggle-switch
       [options]="trendingOptions"
-      [defaultValue]="selectedTimeWindow"
       (optionChanged)="onTrendingWindowChanged($event)"
     ></app-toggle-switch>
   </div>

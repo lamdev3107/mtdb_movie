@@ -7,6 +7,7 @@ import { pages } from './pages';
 import { HttpClientModule } from '@angular/common/http';
 import { SwiperModule } from 'swiper/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MovieCarouselComponent } from './components/movie-carousel/movie-carousel.component';
 
 @NgModule({
   declarations: [...components, ...pages],
@@ -17,5 +18,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HttpClientModule,
     SwiperModule,
   ],
+  exports: [MovieCarouselComponent],
 })
 export class HomeModule {}

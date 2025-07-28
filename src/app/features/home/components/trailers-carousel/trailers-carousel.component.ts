@@ -3,14 +3,13 @@ import {
   Input,
   ViewChild,
   AfterViewInit,
-  SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import Swiper from 'swiper';
 import { TrailerItem } from 'src/app/features/movies/models/movie.model';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-trailers-carousel',
@@ -19,20 +18,18 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class TrailersCarouselComponent implements AfterViewInit {
   @Input() trailerList: TrailerItem[] = [];
-  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   selectedTrailer: TrailerItem | null = null;
   openTrailerModal = false;
-  safeYoutubeUrl: SafeResourceUrl | null = null;
-
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   currentPage = 0;
-  slidesPerView = 4;
+  slidesPerView = 5;
 
   swiperInstance!: Swiper;
   isBeginning: boolean = true;
   isEnd: boolean = false;
   config: SwiperOptions = {
     slidesPerView: this.slidesPerView,
-    spaceBetween: 30,
+    spaceBetween: 40,
     navigation: {
       nextEl: '.custom-carousel-btn--next',
       prevEl: '.custom-carousel-btn--prev',
@@ -41,47 +38,47 @@ export class TrailersCarouselComponent implements AfterViewInit {
     pagination: false,
     scrollbar: false,
     breakpoints: {
-      320: { slidesPerView: 1, spaceBetween: 10 },
-      640: { slidesPerView: 2, spaceBetween: 20 },
-      1024: { slidesPerView: 3, spaceBetween: 20 },
-      1280: { slidesPerView: 4, spaceBetween: 30 },
+      // khi màn hình >= 320px
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      // khi màn hình >= 768px
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 24,
+      },
+      // khi màn hình >= 1024px
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 32,
+      },
+      // khi màn hình >= 1280px
+      1280: {
+        slidesPerView: 4,
+        spaceBetween: 40,
+      },
     },
   };
 
   get totalPagesArray(): number[] {
+    const slidesPerView = this.getCurrentSlidesPerView();
     return Array.from({
-      length: Math.ceil(this.trailerList.length / this.slidesPerView),
+      length: Math.ceil(this.trailerList.length / slidesPerView),
     }).map((_, i) => i);
   }
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
-  handleOnPlayTrailer(trailer: TrailerItem): void {
-    this.selectedTrailer = trailer;
-    this.safeYoutubeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      trailer.youtubeUrl
-    );
-
-    this.openTrailerModal = true;
-  }
-
-  closeModal(): void {
-    this.selectedTrailer = null;
-    this.safeYoutubeUrl = null;
-    this.openTrailerModal = false;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('Check trailer', changes['trailerList']);
+  ngOnInit(): void {
+    this.updateNavigationState();
   }
 
   ngAfterViewInit(): void {
     if (this.swiper) {
       this.swiperInstance = this.swiper.swiperRef;
       // Delay update để Swiper có thể tính toán isEnd đúng
-      setTimeout(() => {
-        this.updateNavigationState();
-      }, 0);
+      this.updateNavigationState();
     }
   }
 
@@ -97,18 +94,21 @@ export class TrailersCarouselComponent implements AfterViewInit {
     this.updateNavigationState();
     if (this.swiper) {
       const index = this.swiper.swiperRef.activeIndex;
-      this.currentPage = Math.floor(index / this.slidesPerView);
+      const slidesPerView = this.getCurrentSlidesPerView();
+      this.currentPage = Math.floor(index / slidesPerView);
     }
   }
 
   goToSlide(pageIndex: number) {
-    const targetIndex = pageIndex * this.slidesPerView;
+    const slidesPerView = this.getCurrentSlidesPerView();
+    const targetIndex = pageIndex * slidesPerView;
     this.swiper?.swiperRef.slideTo(targetIndex, 300);
   }
 
   slideNext() {
+    const slidesPerView = this.getCurrentSlidesPerView();
     const currentIndex = this.swiperInstance.activeIndex;
-    const nextIndex = currentIndex + this.slidesPerView;
+    const nextIndex = currentIndex + slidesPerView;
     const maxIndex = this.swiperInstance.slides.length - 1;
 
     this.swiperInstance.slideTo(
@@ -119,8 +119,9 @@ export class TrailersCarouselComponent implements AfterViewInit {
   }
 
   slidePrev() {
+    const slidesPerView = this.getCurrentSlidesPerView();
     const currentIndex = this.swiperInstance.activeIndex;
-    const prevIndex = currentIndex - this.slidesPerView;
+    const prevIndex = currentIndex - slidesPerView;
 
     this.swiperInstance.slideTo(Math.max(prevIndex, 0), 500);
     this.updateNavigationState();
@@ -130,5 +131,24 @@ export class TrailersCarouselComponent implements AfterViewInit {
     if (!this.swiperInstance) return;
     this.isBeginning = this.swiperInstance.isBeginning;
     this.isEnd = this.swiperInstance.isEnd;
+    this.cdr.detectChanges();
+  }
+
+  getCurrentSlidesPerView(): number {
+    if (this.swiperInstance && this.swiperInstance.params) {
+      const spv = this.swiperInstance.params.slidesPerView;
+      if (typeof spv === 'number') {
+        return spv;
+      }
+    }
+    return this.slidesPerView;
+  }
+  handleOnPlayTrailer(trailer: TrailerItem): void {
+    this.selectedTrailer = trailer;
+    this.openTrailerModal = true;
+  }
+  closeTrailerModal(): void {
+    this.selectedTrailer = null;
+    this.openTrailerModal = false;
   }
 }

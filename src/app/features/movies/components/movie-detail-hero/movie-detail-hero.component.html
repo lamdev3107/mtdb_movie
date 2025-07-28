@@ -1,0 +1,81 @@
+<div
+  class="hero-section"
+  [style.background-image]="
+    'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url(' +
+    imageBaseUrl +
+    movie?.backdrop_path +
+    ')'
+  "
+  [style.background-repeat]="'no-repeat'"
+  [style.background-position]="'center'"
+  [style.background-size]="'cover'"
+>
+  <div class="hero-section__container">
+    <div class="hero-section__poster poster">
+      <img [src]="imageBaseUrl + movie?.poster_path" [alt]="movie?.title" />
+    </div>
+    <div class="hero-section__content">
+      <div class="hero-section__info">
+        <h1 class="hero-section__info-title">
+          {{ movie?.title || "-------" }}
+          <span class="hero-section__info-year"
+            >({{ movie?.release_date | date : "yyyy" }})</span
+          >
+        </h1>
+        <div class="hero-section__meta">
+          <span class="hero-section__meta-age">{{ age }}</span>
+          <span> </span>
+          <span class="hero-section__meta-date">{{
+            movie?.release_date | date : "dd/MM/yyyy"
+          }}</span>
+          <span class="hero-section__meta-genre">{{ genres }}</span>
+          <span class="hero-section__meta-duration">{{
+            movie?.runtime | formatTime
+          }}</span>
+        </div>
+      </div>
+
+      <div class="hero-section__user-score">
+        <app-user-score
+          [size]="'medium'"
+          [score]="movie?.vote_average"
+        ></app-user-score>
+        <span class="hero-section__user-score-label">User Score</span>
+      </div>
+
+      <div class="hero-section__actions">
+        <app-button variant="primary" size="large" (clicked)="onPlayTrailer()">
+          <img class="btn-icon" src="assets/icons/play.svg" alt="play" />
+          Play Trailer
+        </app-button>
+
+        <!-- Icon buttons -->
+        <!-- (clicked)="onAddToList()" -->
+        <app-button variant="icon" size="medium">
+          <img class="btn-icon" src="assets/icons/add.svg" alt="add" />
+        </app-button>
+        <!-- (clicked)="onLike() -->
+        <app-button variant="icon" size="medium">
+          <img class="btn-icon" src="assets/icons/like.svg" alt="like" />
+        </app-button>
+      </div>
+
+      <p class="hero-section__tagline">
+        {{ movie?.tagline }}
+      </p>
+
+      <div class="hero-section__overview">
+        <h2 class="hero-section__overview-text">Overview</h2>
+        <p class="hero-section__overview-content">
+          {{ movie?.overview }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-trailer-modal
+  [openModal]="openTrailerModal"
+  (closeEvent)="onCloseTrailerModal()"
+  [trailer]="trailer"
+></app-trailer-modal>

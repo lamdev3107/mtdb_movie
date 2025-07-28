@@ -1,38 +1,51 @@
 <header class="header">
-  <div class="header__logo">
-    <img src="assets/images/logo-desktop.svg" alt="StreamVibe" />
-  </div>
-
-  <nav class="header__nav">
-    <a
-      [routerLink]="item.link"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="header__nav-item"
-      *ngFor="let item of headerNavigation"
-    >
-      {{ item.title }}
+  <div class="header__container">
+    <a routerLink="/" class="header__logo">
+      <img src="assets/images/logo-mobile.svg" alt="StreamVibe" />
     </a>
-  </nav>
+    <a routerLink="/" class="header__logo header__logo--laptop">
+      <img src="assets/images/logo-tablet.svg" alt="StreamVibe" />
+    </a>
 
-  <div class="header__buttons">
-    <button class="header__buttons-item">
-      <img
-        src="assets/icons/search.svg"
-        class="header__icons-item icon icon--white"
-        alt="Play"
-        width="34"
-        height="34"
-      />
+    <a routerLink="/" class="header__logo header__logo--desktop">
+      <img src="assets/images/logo-desktop.svg" alt="StreamVibe" />
+    </a>
+
+    <button class="header__hamburger" type="button" aria-label="Mở menu">
+      <img src="assets/icons/menu.svg" alt="Menu" />
     </button>
-    <button class="header__buttons-item">
-      <img
-        src="assets/icons/bell.svg"
-        class="header__icons-item icon icon--white"
-        alt="Play"
-        width="34"
-        height="34"
-      />
-    </button>
+
+    <nav class="header__nav">
+      <a
+        [routerLink]="item.link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="header__nav-item"
+        *ngFor="let item of headerNavigation"
+      >
+        {{ item.title }}
+      </a>
+    </nav>
+
+    <div class="header__buttons">
+      <button class="header__buttons-item">
+        <img
+          src="assets/icons/search.svg"
+          class="header__icons-item icon icon--white"
+          alt="Play"
+          width="34"
+          height="34"
+        />
+      </button>
+      <button class="header__buttons-item">
+        <img
+          src="assets/icons/bell.svg"
+          class="header__icons-item icon icon--white"
+          alt="Play"
+          width="34"
+          height="34"
+        />
+      </button>
+    </div>
   </div>
 </header>

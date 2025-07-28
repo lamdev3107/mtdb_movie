@@ -25,10 +25,10 @@
   white-space: nowrap;
   flex: 1;
   text-align: center;
-}
 
-.toggle-button.active {
-  color: white;
-  font-weight: 600;
-  background-color: $red-50;
+  &.active {
+    color: $white;
+    font-weight: 600;
+    background-color: $primary-color;
+  }
 }

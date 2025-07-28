@@ -9,7 +9,15 @@ const routes: Routes = [
     component: MoviesComponent,
   },
   {
-    path: 'detail/:id',
+    path: ':id',
+    component: MovieDetailsComponent,
+  },
+  {
+    path: ':id/cast',
+    component: MovieDetailsComponent,
+  },
+  {
+    path: ':id/reviews',
     component: MovieDetailsComponent,
   },
 ];
