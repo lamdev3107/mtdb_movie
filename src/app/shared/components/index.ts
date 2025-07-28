@@ -2,6 +2,7 @@ import { TrailerModalComponent } from 'src/app/features/components/trailer-modal
 import { ButtonComponent } from './button/button.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { InputRadioGroupComponent } from './input-radio-group/input-radio-group.component';
 import { LoadingComponent } from './loading/loading.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -11,6 +12,7 @@ import { TabComponent } from './tab/tab.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { ToggleSwitchComponent } from './toggle-switch/toggle-switch.component';
 import { UserScoreComponent } from './user-score/user-score.component';
+import { PersonCardComponent } from './person-card/person-card.component';
 
 export const components = [
   LoadingComponent,
@@ -18,6 +20,7 @@ export const components = [
   MainLayoutComponent,
   HeaderComponent,
   FooterComponent,
+  InputRadioGroupComponent,
   MovieCardComponent,
   ReviewCardComponent,
   UserScoreComponent,
@@ -26,4 +29,5 @@ export const components = [
   TabComponent,
   TooltipComponent,
   TrailerModalComponent,
+  PersonCardComponent
 ];

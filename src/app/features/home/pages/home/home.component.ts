@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onTrendingWindowChanged(newValue: string) {
     this.selectedTimeWindow = newValue;
+    this.loadTrendingMovieLists();
   }
 
   loadMovieGenres(): void {
@@ -56,6 +57,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.genreService.getMovieGenreList();
   }
   loadTrailers(): void {
+    console.log('load trailer');
     this.loadingService.show();
     this.movieService
       .getLatestTrailers()

@@ -19,12 +19,15 @@ export class MoviesComponent implements OnInit {
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
   filteredMovies: Movie[] = [];
 
+
   constructor(
     private movieService: MovieService,
     private loadingService: LoadingService,
     private genreService: GenreService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    console.log('MoviesComponent');
+  }
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       console.log('Chekcfsadfsad params', params);

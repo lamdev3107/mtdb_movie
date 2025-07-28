@@ -57,8 +57,8 @@ export class MovieDetailMediaComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.posters = res.posters;
-          this.backdrops = res.backdrops;
+          this.posters = res.posters.slice(0, 5);
+          this.backdrops = res.backdrops.slice(0, 5);
           console.log('Check images', this.posters, this.backdrops);
         },
       });

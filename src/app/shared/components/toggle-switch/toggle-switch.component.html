@@ -2,8 +2,8 @@
   <button
     *ngFor="let option of options; let i = index"
     class="toggle-button"
-    [class.active]="selectedOptionValue === option.value"
-    (click)="selectOption(option.value)"
+    [class.active]="selectedOption?.value === option.value"
+    (click)="selectOption(option)"
   >
     {{ option.label }}
   </button>

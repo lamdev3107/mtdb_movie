@@ -16,6 +16,15 @@ export class MovieFilterComponent {
   @Input() showMe: string | undefined;
   @Output() showMeChange = new EventEmitter<string>();
 
+  categoryOptions = [
+    { value: 'option1', label: 'Tùy chọn 1' },
+    { value: 'option2', label: 'Tùy chọn 2' },
+    { value: 'option3', label: 'Tùy chọn 3', disabled: true },
+  ];
+
+  onChangeCategory(value: string){
+    
+  }
   toggleGenre(genre: string) {
     const idx = this.selectedGenres.indexOf(genre);
     if (idx > -1) {
@@ -25,4 +34,6 @@ export class MovieFilterComponent {
     }
     this.genresChange.emit(this.selectedGenres);
   }
+
+  loadPopularMovies()
 }

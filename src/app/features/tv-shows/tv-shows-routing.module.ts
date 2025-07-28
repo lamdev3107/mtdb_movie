@@ -1,4 +1,3 @@
-import { TVShow } from './models/tv-show.model';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TvShowsComponent } from './pages/tv-shows/tv-shows.component';
@@ -10,7 +9,7 @@ const routes: Routes = [
     component: TvShowsComponent,
   },
   {
-    path: ':id',
+    path: 'detail/:id',
     component: TvShowDetailComponent,
   },
 ];

@@ -22,13 +22,12 @@ export class TrailersCarouselComponent implements AfterViewInit {
   openTrailerModal = false;
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   currentPage = 0;
-  slidesPerView = 5;
+  slidesPerView = 4;
 
   swiperInstance!: Swiper;
   isBeginning: boolean = true;
   isEnd: boolean = false;
   config: SwiperOptions = {
-    slidesPerView: this.slidesPerView,
     spaceBetween: 40,
     navigation: {
       nextEl: '.custom-carousel-btn--next',
@@ -43,7 +42,7 @@ export class TrailersCarouselComponent implements AfterViewInit {
         slidesPerView: 1,
         spaceBetween: 10,
       },
-      // khi màn hình >= 768px
+      // khi màn hình >= 640px
       640: {
         slidesPerView: 2,
         spaceBetween: 24,
@@ -71,13 +70,12 @@ export class TrailersCarouselComponent implements AfterViewInit {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.updateNavigationState();
+    // this.updateNavigationState();
   }
 
   ngAfterViewInit(): void {
     if (this.swiper) {
       this.swiperInstance = this.swiper.swiperRef;
-      // Delay update để Swiper có thể tính toán isEnd đúng
       this.updateNavigationState();
     }
   }
@@ -143,10 +141,12 @@ export class TrailersCarouselComponent implements AfterViewInit {
     }
     return this.slidesPerView;
   }
+
   handleOnPlayTrailer(trailer: TrailerItem): void {
     this.selectedTrailer = trailer;
     this.openTrailerModal = true;
   }
+
   closeTrailerModal(): void {
     this.selectedTrailer = null;
     this.openTrailerModal = false;

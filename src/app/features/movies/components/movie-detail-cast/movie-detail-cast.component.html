@@ -1,0 +1,19 @@
+<div class="movie-detail-cast">
+  <div class="cast-container">
+    <div class="cast-list" *ngIf="!castList || castList.length === 0">
+      <app-skeleton
+        type="cast-item"
+        [count]="8"
+        class="skeleton-container--cast-item"
+      ></app-skeleton>
+    </div>
+
+    <div class="cast-list" *ngIf="castList && castList.length > 0">
+      <app-person-card
+        *ngFor="let cast of castList"
+        [cast]="cast"
+      ></app-person-card>
+    </div>
+    
+  </div>
+</div>

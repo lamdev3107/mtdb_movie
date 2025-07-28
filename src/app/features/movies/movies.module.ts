@@ -17,6 +17,5 @@ import { SwiperModule } from 'swiper/angular';
     SharedModule,
     SwiperModule,
   ],
-  exports: [...pages, ...components],
 })
 export class MoviesModule {}

@@ -48,6 +48,9 @@ button {
   background: $black-20;
   border-radius: 8px;
 }
+*::-webkit-scrollbar-track {
+  background: transparent !important;
+}
 *::-webkit-scrollbar-thumb:hover {
   background: $black-30;
 }

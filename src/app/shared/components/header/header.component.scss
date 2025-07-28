@@ -8,8 +8,14 @@
   left: 0;
   right: 0;
   z-index: 20;
-  // background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   color: $white;
+  transition: transform 0.3s ease-in-out;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
+
   &__container {
     display: flex;
     align-items: center;

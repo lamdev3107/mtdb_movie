@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
+import { ReviewComponent } from './pages/review/review.component';
+import { CastComponent } from './pages/cast/cast.component';
 
 const routes: Routes = [
   {
@@ -9,16 +11,18 @@ const routes: Routes = [
     component: MoviesComponent,
   },
   {
-    path: ':id',
+    path: 'details/:id',
     component: MovieDetailsComponent,
-  },
-  {
-    path: ':id/cast',
-    component: MovieDetailsComponent,
-  },
-  {
-    path: ':id/reviews',
-    component: MovieDetailsComponent,
+    children: [
+      {
+        path: 'cast',
+        component: CastComponent,
+      },
+      {
+        path: 'reviews',
+        component: ReviewComponent,
+      },
+    ],
   },
 ];
 

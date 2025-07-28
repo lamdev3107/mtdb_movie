@@ -19,6 +19,12 @@ export interface queryListMovie {
   page: number;
   region: string;
 }
+export enum MovieCategoryEnum {
+  POPULAR = 'popular',
+  NOW_PLAYING = 'now_playing',
+  TOP_RATED = 'top_rated',
+  UPCOMING = 'upcoming',
+}
 export enum queryListMovieEnum {
   language = 'en-US',
   page = 1,
@@ -40,9 +46,6 @@ export class MovieService {
   getPopularMovies(): Observable<ListMovieResponse> {
     return this.http.get<ListMovieResponse>(`${this.baseUrl}/popular`, {});
   }
-  getMovieDetails(movieId: number): Observable<MovieDetail> {
-    return this.http.get<MovieDetail>(`${this.baseUrl}/${movieId}`, {});
-  }
   getNowPlayingMovies(): Observable<ListMovieResponse> {
     return this.http.get<ListMovieResponse>(`${this.baseUrl}/now_playing`, {});
   }
@@ -52,6 +55,10 @@ export class MovieService {
   getUpcomingMovies(): Observable<ListMovieResponse> {
     return this.http.get<ListMovieResponse>(`${this.baseUrl}/upcoming`, {});
   }
+  getMovieDetails(movieId: number): Observable<MovieDetail> {
+    return this.http.get<MovieDetail>(`${this.baseUrl}/${movieId}`, {});
+  }
+
   getTrendingMovies(
     time_window: string = 'day'
   ): Observable<ListMovieResponse> {

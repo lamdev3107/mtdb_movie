@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./movie-card.component.scss'],
 })
 export class MovieCardComponent implements OnInit {
-  moviePath = '/movies/';
-  tvPath = '/tv_shows/';
+  moviePath = '/movies/details/';
+  tvPath = '/tv_shows/details';
   imageBaseUrl = environment.imageBaseUrl;
   @Input() isMovie: boolean = true;
   @Input() posterPath: string | null = '';

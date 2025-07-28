@@ -1,0 +1,21 @@
+<div class="cast-item">
+  <a class="cast-item__photo" routerLink="/people/{{ cast.id }}">
+    <img
+      class="cast-item__photo-img"
+      [src]="
+        cast.profile_path
+          ? (cast.profile_path | imageUrl : 500 : false)
+          : 'assets/images/default-avatar.png'
+      "
+      [alt]="cast.name"
+      loading="lazy"
+    />
+  </a>
+  <div class="cast-item__info">
+    <a routerLink="/people/{{ cast.id }}" class="cast-item__info-name">{{
+      cast.name
+    }}</a>
+    <p class="cast-item__info-character">{{ cast.character }}</p>
+  </div>
+</div>
+s

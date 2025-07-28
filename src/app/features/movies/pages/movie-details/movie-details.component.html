@@ -5,82 +5,26 @@
     <!-- Cast -->
     <div class="movie-detail-cast movie-detail-section">
       <h2 class="movie-detail-section__title">Top Billed Cast</h2>
-      <div class="cast-container">
-        <div class="cast-list" *ngIf="!castList || castList.length === 0">
-          <app-skeleton
-            type="cast-item"
-            [count]="8"
-            class="skeleton-container--cast-item"
-          ></app-skeleton>
-        </div>
-
-        <div class="cast-list" *ngIf="castList && castList.length > 0">
-          <div class="cast-item" *ngFor="let cast of castList">
-            <a class="cast-item__photo" routerLink="/people/{{ cast.id }}">
-              <img
-                class="cast-item__photo-img"
-                [src]="
-                  cast.profile_path
-                    ? imageBaseUrl + cast.profile_path
-                    : 'assets/images/default-avatar.png'
-                "
-                [alt]="cast.name"
-                loading="lazy"
-              />
-            </a>
-
-            <div class="cast-item__info">
-              <app-tooltip [text]="cast.name" position="top" [delay]="200">
-                <a
-                  routerLink="/people/{{ cast.id }}"
-                  class="cast-item__info-name"
-                  >{{ cast.name }}</a
-                >
-              </app-tooltip>
-              <p class="cast-item__info-character">{{ cast.character }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <a class="movie-detail-section__more" [routerLink]="['./cast']">
-        Full Cast & Crew
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="movie-detail-section__more-icon"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </a>
+      <app-movie-detail-cast [castList]="castList"></app-movie-detail-cast>
     </div>
 
+    <!-- Social content -->
     <div class="movie-detail-social movie-detail-section">
       <h2 class="movie-detail-section__title">Social</h2>
-      <!-- Social content -->
       <app-movie-detail-social
         [movieReview]="movieReview"
       ></app-movie-detail-social>
     </div>
 
+    <!-- Media content -->
     <div class="movie-detail-media movie-detail-section">
       <h2 class="movie-detail-section__title">Media</h2>
-      <!-- Media content -->
       <app-movie-detail-media [movieId]="movieId"></app-movie-detail-media>
     </div>
 
+    <!-- Recommendations content -->
     <div class="movie-detail-recommendations movie-detail-section">
       <h2 class="movie-detail-section__title">Recommendations</h2>
-      <!-- Recommendations content -->
       <div class="movie-detail-recommendations-list">
         <div
           class="movie-detail-recommendations-item"
@@ -90,8 +34,8 @@
             <img
               [src]="
                 recommendation.backdrop_path
-                  ? imageBaseUrl + recommendation.backdrop_path
-                  : imageBaseUrl + recommendation.poster_path
+                  ? (recommendation.backdrop_path | imageUrl : 500 : false)
+                  : (recommendation.poster_path | imageUrl : 500 : false)
               "
               [alt]="recommendation.title"
               class="movie-detail-recommendations-item__img"
@@ -113,73 +57,10 @@
   </div>
 
   <!-- Sidebar content -->
-  <div class="movie-detail-sidebar movie-detail-section">
-    <!--links-->
-    <div class="movie-detail-sidebar-item">
-      <h3 class="movie-detail-sidebar-item__title">Pages</h3>
-
-      <app-tooltip [text]="'Visit HomePage'" position="top" [delay]="200">
-        <a
-          [href]="movie?.homepage"
-          target="_blank"
-          class="movie-page"
-          *ngIf="movie?.homepage"
-        >
-          <svg
-            class="movie-page__icon"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
-            />
-          </svg>
-        </a>
-      </app-tooltip>
-    </div>
-
-    <!-- Status -->
-    <div class="movie-detail-sidebar-item">
-      <h3 class="movie-detail-sidebar-item__title">Status</h3>
-      <p class="movie-detail-sidebar-item__content">{{ movie?.status }}</p>
-    </div>
-
-    <div class="movie-detail-sidebar-item">
-      <h3 class="movie-detail-sidebar-item__title">Original Language</h3>
-      <p class="movie-detail-sidebar-item__content">
-        {{ movie?.original_language | uppercase }}
-      </p>
-    </div>
-
-    <div class="movie-detail-sidebar-item">
-      <h3 class="movie-detail-sidebar-item__title">Budget</h3>
-      <p class="movie-detail-sidebar-item__content">
-        {{ movie?.budget | currency : "USD" }}
-      </p>
-    </div>
-
-    <div class="movie-detail-sidebar-item">
-      <h3 class="movie-detail-sidebar-item__title">Revenue</h3>
-      <p class="movie-detail-sidebar-item__content">
-        {{ movie?.revenue | currency : "USD" }}
-      </p>
-    </div>
-
-    <!--Keywords-->
-    <div class="movie-detail-sidebar-item">
-      <h3 class="movie-detail-sidebar-item__title">Keywords</h3>
-      <div class="movie-keywords">
-        <div class="movie-keywords__item" *ngFor="let keyword of keywords">
-          {{ keyword.name }}
-        </div>
-        <!-- Sidebar content -->
-      </div>
-    </div>
+  <div class="movie-detail-section">
+    <app-movie-detail-sidebar
+      [movie]="movie"
+      [keywords]="keywords"
+    ></app-movie-detail-sidebar>
   </div>
 </div>

@@ -3,20 +3,93 @@
   [activeTabId]="activeTabId"
   (tabChange)="onTabChange($event)"
 >
-  <div class="movie-video-list" *ngIf="activeTabId == 'videos'">
-    <div class="movie-video-item" *ngFor="let video of videos">
-      <iframe
-        class="movie-video-item__iframe"
-        [src]="video.key | safeYoutubeUrl"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      ></iframe>
+  <div class="movie-video-list-container" *ngIf="activeTabId == 'videos'">
+    <div class="movie-video-list">
+      <div class="movie-video-item" *ngFor="let video of videos">
+        <iframe
+          class="movie-video-item__iframe"
+          [src]="video.key | safeYoutubeUrl"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        ></iframe>
+      </div>
     </div>
+    <a class="more" [routerLink]="['./videos']">
+      View all video
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        class="movie-detail-cast__more-icon"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
   </div>
-  <div class="movie-posters" *ngIf="activeTabId == 'posters'">
-    <div class="movie-poster-item" *ngFor="let poster of posters">
-      <img [src]="poster.file_path" alt="poster" />
+  <div class="movie-posters-list-container" *ngIf="activeTabId == 'posters'">
+    <div class="movie-poster-list">
+      <div class="movie-poster-item" *ngFor="let poster of posters">
+        <img [src]="poster.file_path | imageUrl : 500 : false" alt="poster" />
+      </div>
     </div>
+    <a class="more" [routerLink]="['./videos']">
+      View all postera
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        class="movie-detail-cast__more-icon"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
   </div>
-  <div class="movie-backdrops" *ngIf="activeTabId == 'backdrops'"></div>
+  <div
+    class="movie-backdrops-list-container"
+    *ngIf="activeTabId == 'backdrops'"
+  >
+    <div class="movie-backdrop-list">
+      <div class="movie-backdrop-item" *ngFor="let backdrop of backdrops">
+        <img
+          [src]="backdrop.file_path | imageUrl : 500 : false"
+          alt="backdrop"
+        />
+      </div>
+    </div>
+    <a class="more" [routerLink]="['./videos']">
+      View all backdrops
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        class="movie-detail-cast__more-icon"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+  </div>
 </app-tab>

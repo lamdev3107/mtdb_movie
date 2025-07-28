@@ -5,10 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { Movie, MovieDetail } from '../../models/movie.model';
 import { Keyword } from '../../models/keyword.model';
-
 import { Review } from '../../models/review.model';
-import { MovieImage } from '@features/movies/models/images.model';
-import { Video } from '@features/movies/models/video.model';
 
 @Component({
   selector: 'app-movie-details',
@@ -30,7 +27,9 @@ export class MovieDetailsComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    console.log('MovieDetailsComponent');
+  }
 
   ngOnInit(): void {
     this.movieId = this.route.snapshot.paramMap.get('id');
@@ -102,5 +101,9 @@ export class MovieDetailsComponent implements OnInit {
           this.recommendations = res;
         },
       });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(); // Phát ra giá trị để thông báo takeUntil
+    this.destroy$.complete(); // Hoàn thành Subject để giải phóng tài nguyên
   }
 }
