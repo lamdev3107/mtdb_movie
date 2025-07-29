@@ -6,8 +6,8 @@
   >
     <input
       type="radio"
-      [id]="name + '-' + option.value"
-      [name]="name"
+      [id]="option.value"
+      [name]="option.value"
       [value]="option.value"
       [checked]="selectedValue === option.value"
       [disabled]="isOptionDisabled(option)"
@@ -15,7 +15,7 @@
       class="radio-option__input"
     />
     <label
-      [for]="name + '-' + option.value"
+      [for]="option.value"
       class="radio-option__label"
       [class.radio-option__label--disabled]="isOptionDisabled(option)"
     >

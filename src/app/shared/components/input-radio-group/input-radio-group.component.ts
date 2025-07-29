@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-interface RadioOption {
+export interface RadioOption {
   value: string;
   label: string;
   disabled?: boolean;
@@ -20,14 +20,13 @@ interface RadioOption {
 })
 export class InputRadioGroupComponent implements OnInit {
   @Input() options: RadioOption[] = [];
-  @Input() name: string = 'radio-group';
-  @Input() defaultValue: string | null = null;
+  @Input() defaultValue: string | '' = '';
   @Input() disabled: boolean = false;
   @Input() inline: boolean = false;
 
   selectedValue: string | null = null;
 
-  @Output() valueChanged = new EventEmitter<string>();
+  @Output() onChangeValue = new EventEmitter<string>();
 
   constructor() {}
 
@@ -46,7 +45,7 @@ export class InputRadioGroupComponent implements OnInit {
   onRadioChange(value: string): void {
     if (!this.disabled && this.selectedValue !== value) {
       this.selectedValue = value;
-      this.valueChanged.emit(value);
+      this.onChangeValue.emit(value);
     }
   }
 

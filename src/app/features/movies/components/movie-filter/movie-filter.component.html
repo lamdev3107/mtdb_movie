@@ -1,20 +1,28 @@
 <div class="movie-filter">
-  <div class="movie-filter__section">
-    <h4>Sort</h4>
+  <div class="filter-section">
+    <h4 class="filter-section__title">Sort</h4>
+    <div class="filter-item">
+      <p class="filter-item__title">Genres</p>
+    </div>
   </div>
-  <div class="movie-filter__section">
-    <h4>Filters</h4>
+  <div class="filter-section">
+    <h4 class="filter-section__title">Filters</h4>
     <app-input-radio-group
-      [options]="[
-        { value: 'option1', label: 'Tùy chọn 1' },
-        { value: 'option2', label: 'Tùy chọn 2' },
-        { value: 'option3', label: 'Tùy chọn 3', disabled: true }
-      ]"
-      name="my-radio-group"
-      [defaultValue]="'option1'"
+      [options]="categoryOptions"
+      [defaultValue]="selectedCategoryValue"
       [inline]="true"
-      (valueChanged)="onChangeCategory($event)"
+      (onChangeValue)="onChangeCategory($event)"
     ></app-input-radio-group>
+
+    <div class="filter-item">
+      <h4 class="filter-item__title">Genres</h4>
+      <app-select
+        [optionList]="movieGenres"
+        [selectedOption]="selectedGenre"
+        (onSelectChange)="onSelectGenre($event)"
+      ></app-select>
+    </div>
+
     <!-- <div>
       <label>
         <input type="radio" name="showMe" value="all" [(ngModel)]="showMe" />

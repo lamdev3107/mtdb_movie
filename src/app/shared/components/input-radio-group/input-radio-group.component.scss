@@ -1,3 +1,7 @@
+@use "../../../../assets/styles/base" as *;
+@use "../../../../assets/styles/mixins" as *;
+@use "../../../../assets/styles/variables" as *;
+
 .radio-group {
   display: flex;
   flex-direction: column;
@@ -6,26 +10,32 @@
   &--inline {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.2rem;
   }
 }
-
 .radio-option {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
-
   &:hover:not(.radio-option--disabled) {
     .radio-option__label {
-      color: var(--primary-color, #007bff);
+      @include font-base(1.4, $regular, $white);
     }
   }
-
   &--disabled {
     cursor: not-allowed;
     opacity: 0.6;
+  }
+  &__label {
+    @include font-base(1.4, $regular, $grey-65);
+    user-select: none;
+    transition: color 0.2s ease;
+    &--disabled {
+      cursor: not-allowed;
+      color: var(--text-muted, #9ca3af);
+    }
   }
 }
 
@@ -65,20 +75,6 @@
   &:disabled {
     cursor: not-allowed;
     opacity: 0.6;
-  }
-}
-
-.radio-option__label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-color, #374151);
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s ease;
-
-  &--disabled {
-    cursor: not-allowed;
-    color: var(--text-muted, #9ca3af);
   }
 }
 

@@ -9,15 +9,7 @@
   >
     <!-- <ng-content select="[swiperSlide],swiperSlide"></ng-content> -->
     <ng-template swiperSlide *ngFor="let movie of movieList">
-      <app-movie-card
-        [isMovie]="true"
-        [posterPath]="movie.poster_path"
-        [posterAlt]="movie.title"
-        [rating]="movie.vote_average"
-        [title]="movie.title"
-        [releaseDate]="movie.release_date"
-        [link]="movie.id"
-      ></app-movie-card>
+      <app-movie-card [movie]="movie"></app-movie-card>
     </ng-template>
   </swiper>
   <button

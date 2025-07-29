@@ -1,0 +1,46 @@
+<div class="select-container" [class.disabled]="disabled">
+  <div
+    class="select-trigger"
+    (click)="toggleDropdown()"
+    [class.open]="isOpen"
+    [class.disabled]="disabled"
+  >
+    <span class="select-value">{{ getDisplayValue() }}</span>
+
+    <svg
+      class="select-arrow"
+      [class.rotated]="isOpen"
+      width="12"
+      height="8"
+      viewBox="0 0 12 8"
+      fill="none"
+    >
+      <path
+        d="M1 1L6 6L11 1"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <div
+    class="select-dropdown"
+    [class.open]="isOpen"
+    (click)="$event.stopPropagation()"
+  >
+    <div
+      class="select-option"
+      *ngFor="let option of optionList"
+      (click)="selectOption(option)"
+      [class.selected]="selectedOption?.value === option.value"
+    >
+      {{ option.label }}
+    </div>
+
+    <div class="select-option empty" *ngIf="optionList.length === 0">
+      Không có tùy chọn nào
+    </div>
+  </div>
+</div>

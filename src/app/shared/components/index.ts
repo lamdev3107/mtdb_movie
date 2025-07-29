@@ -13,6 +13,8 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 import { ToggleSwitchComponent } from './toggle-switch/toggle-switch.component';
 import { UserScoreComponent } from './user-score/user-score.component';
 import { PersonCardComponent } from './person-card/person-card.component';
+import { SelectComponent } from './select/select.component';
+import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 
 export const components = [
   LoadingComponent,
@@ -29,5 +31,7 @@ export const components = [
   TabComponent,
   TooltipComponent,
   TrailerModalComponent,
-  PersonCardComponent
+  PersonCardComponent,
+  SelectComponent,
+  CheckboxGroupComponent,
 ];

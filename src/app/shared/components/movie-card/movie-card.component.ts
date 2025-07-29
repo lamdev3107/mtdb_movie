@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Movie } from '@features/movies/models/movie.model';
+import { TVShow } from '@features/tv-shows/models/tv-show.model';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,23 +12,18 @@ export class MovieCardComponent implements OnInit {
   moviePath = '/movies/details/';
   tvPath = '/tv_shows/details';
   imageBaseUrl = environment.imageBaseUrl;
-  @Input() isMovie: boolean = true;
-  @Input() posterPath: string | null = '';
-  @Input() posterAlt: string | null = '';
-  @Input() rating: number | null = null;
-  @Input() title: string | null = '';
-  @Input() releaseDate: string | null = '';
-  @Input() link: number | null = null;
+  @Input() movie!: Movie;
+  @Input() tvShow!: TVShow;
 
   detailLink: string = '';
 
   constructor() {}
 
   ngOnInit(): void {
-    if (this.isMovie) {
-      this.detailLink = this.moviePath + String(this.link);
+    if (this.movie) {
+      this.detailLink = this.moviePath + String(this.movie.id);
     } else {
-      this.detailLink = this.tvPath + String(this.link);
+      this.detailLink = this.tvPath + String(this.tvShow.id);
     }
   }
 }

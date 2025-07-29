@@ -1,20 +1,27 @@
 <div class="movie-card">
   <a [routerLink]="detailLink" class="movie-card__image-wrapper">
     <img
-      [src]="imageBaseUrl + posterPath"
+      [src]="
+        movie
+          ? (movie.poster_path | imageUrl : 500 : false)
+          : (tvShow.poster_path | imageUrl : 500 : false)
+      "
       class="movie-card__poster"
-      [alt]="posterAlt"
+      [alt]="movie ? movie.title : tvShow.name"
     />
     <div class="movie-card__rating">
-      <app-user-score [size]="'small'" [score]="rating"></app-user-score>
+      <app-user-score
+        [size]="'small'"
+        [score]="movie ? movie.vote_average : tvShow.vote_average"
+      ></app-user-score>
     </div>
   </a>
   <div class="movie-card-content">
     <a [routerLink]="detailLink" class="movie-card-content__title">{{
-      title
+      movie ? movie.title : tvShow.name
     }}</a>
     <div class="movie-card-content__releaseDate">
-      {{ releaseDate | formatDate }}
+      {{ movie ? movie.release_date : (tvShow.first_air_date | formatDate) }}
     </div>
   </div>
 </div>

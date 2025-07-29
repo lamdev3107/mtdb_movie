@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import {
@@ -43,18 +43,12 @@ export class MovieService {
   };
   constructor(private http: HttpClient) {}
 
-  getPopularMovies(): Observable<ListMovieResponse> {
-    return this.http.get<ListMovieResponse>(`${this.baseUrl}/popular`, {});
+  getMoviesByCategory(
+    category: MovieCategoryEnum
+  ): Observable<ListMovieResponse> {
+    return this.http.get<ListMovieResponse>(`${this.baseUrl}/${category}`, {});
   }
-  getNowPlayingMovies(): Observable<ListMovieResponse> {
-    return this.http.get<ListMovieResponse>(`${this.baseUrl}/now_playing`, {});
-  }
-  getNowTopRatedMovies(): Observable<ListMovieResponse> {
-    return this.http.get<ListMovieResponse>(`${this.baseUrl}/top_rated`, {});
-  }
-  getUpcomingMovies(): Observable<ListMovieResponse> {
-    return this.http.get<ListMovieResponse>(`${this.baseUrl}/upcoming`, {});
-  }
+
   getMovieDetails(movieId: number): Observable<MovieDetail> {
     return this.http.get<MovieDetail>(`${this.baseUrl}/${movieId}`, {});
   }
@@ -172,5 +166,48 @@ export class MovieService {
   getMovieVideos(movieId: number): Observable<Video[]> {
     const url = `${this.baseUrl}/${movieId}/videos`;
     return this.http.get<VideoResponse>(url).pipe(map((res) => res.results));
+  }
+
+  discoverMovie(filters: {
+    sort_by?: string;
+    with_genres?: string; // VD: "28,12"
+    primary_release_date_gte?: string; // YYYY-MM-DD
+    primary_release_date_lte?: string;
+    with_original_language?: string;
+    certification_country?: string;
+    certification?: string;
+    page?: number;
+  }): Observable<any> {
+    const url = `${this.baseUrl}/discover/movie`;
+    let params = new HttpParams();
+
+    if (filters.sort_by) params = params.set('sort_by', filters.sort_by);
+    if (filters.with_genres)
+      params = params.set('with_genres', filters.with_genres);
+    if (filters.primary_release_date_gte)
+      params = params.set(
+        'primary_release_date.gte',
+        filters.primary_release_date_gte
+      );
+    if (filters.primary_release_date_lte)
+      params = params.set(
+        'primary_release_date.lte',
+        filters.primary_release_date_lte
+      );
+    if (filters.with_original_language)
+      params = params.set(
+        'with_original_language',
+        filters.with_original_language
+      );
+    if (filters.certification_country)
+      params = params.set(
+        'certification_country',
+        filters.certification_country
+      );
+    if (filters.certification)
+      params = params.set('certification', filters.certification);
+    if (filters.page) params = params.set('page', filters.page.toString());
+
+    return this.http.get(url, { params });
   }
 }
