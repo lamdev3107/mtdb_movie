@@ -15,6 +15,8 @@ import { UserScoreComponent } from './user-score/user-score.component';
 import { PersonCardComponent } from './person-card/person-card.component';
 import { SelectComponent } from './select/select.component';
 import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
+import { ToggleSelectBoxListComponent } from './toggle-select-box-list/toggle-select-box-list.component';
+import { InputRangeComponent } from './input-range/input-range.component';
 
 export const components = [
   LoadingComponent,
@@ -34,4 +36,6 @@ export const components = [
   PersonCardComponent,
   SelectComponent,
   CheckboxGroupComponent,
+  ToggleSelectBoxListComponent,
+  InputRangeComponent,
 ];

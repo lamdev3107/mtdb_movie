@@ -12,17 +12,23 @@
   @extend .container;
 
   .movies-page__sidebar {
-    min-width: 200px;
-    width: 200px;
-    @include mq-md {
-      width: 250px;
-    }
+    min-width: 250px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
     @include mq-lg {
       width: 300px;
     }
   }
   .movies-page__main {
     flex: 1;
+    .movies-page__pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.6rem;
+    }6775849944444
   }
 }
 
@@ -30,6 +36,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
   gap: 1rem;
+
   @include mq-md {
     grid-template-columns: repeat(4, minmax(200px, 1fr));
   }

@@ -1,16 +1,24 @@
 <div class="movies-page">
   <div class="movies-page__sidebar">
     <app-movie-filter
-      [movieGenres]="movieGenres"
-      [selectedCategoryValue]="selectedCategory"
       (onCategoryChange)="handleCategoryChange($event)"
+      (onToggleGenre)="handleToggleGenre($event)"
+      (onSelectSortOption)="handleSelectSortOption($event)"
     ></app-movie-filter>
+    <app-button class="movies-page__sidebar-button" [size]="'full-width'">
+      Search
+    </app-button>
   </div>
   <div class="movies-page__main">
     <div class="movies-list">
       <ng-container class="" *ngFor="let movie of movies">
         <app-movie-card class="list-item" [movie]="movie"></app-movie-card>
       </ng-container>
+    </div>
+    <div class="movies-page__pagination">
+      <app-button class="movies-page__pagination-button" [size]="'full-width'">
+        Load More
+      </app-button>
     </div>
   </div>
 </div>

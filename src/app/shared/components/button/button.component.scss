@@ -46,10 +46,6 @@
     }
   }
 
-  &--full-width {
-    width: 100%;
-  }
-
   // Icon button
   &--icon {
     background-color: $black-10;
@@ -78,6 +74,15 @@
     padding: 1.4rem 2.4rem;
     @include font-base(1.8rem, $semi-bold, $white, 1.5);
 
+    &.btn--icon {
+      padding: 1.4rem;
+    }
+  }
+
+  &--full-width {
+    padding: 1.4rem 2.4rem;
+    width: 100%;
+    @include font-base(1.6rem, $semi-bold, $white, 1.5);
     &.btn--icon {
       padding: 1.4rem;
     }

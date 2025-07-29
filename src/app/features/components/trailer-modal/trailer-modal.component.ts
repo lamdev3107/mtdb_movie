@@ -35,6 +35,13 @@ export class TrailerModalComponent implements OnInit {
       trailer.youtubeUrl
     );
   }
+  handleClickOutside = (event: MouseEvent) => {
+    const hostElement = (event.target as HTMLElement).closest('.trailer-video');
+    if (!hostElement) {
+      this.closeModal();
+      document.removeEventListener('click', this.handleClickOutside, true);
+    }
+  };
 
   closeModal(): void {
     console.log('check closeModal');

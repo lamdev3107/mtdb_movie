@@ -27,7 +27,7 @@ export enum MovieCategoryEnum {
 }
 export enum queryListMovieEnum {
   language = 'en-US',
-  page = 1,
+  page = 1, 
   region = '',
 }
 
@@ -46,7 +46,9 @@ export class MovieService {
   getMoviesByCategory(
     category: MovieCategoryEnum
   ): Observable<ListMovieResponse> {
-    return this.http.get<ListMovieResponse>(`${this.baseUrl}/${category}`, {});
+    return this.http.get<ListMovieResponse>(`${this.baseUrl}/${category}`, {
+      params: this.params,
+    });
   }
 
   getMovieDetails(movieId: number): Observable<MovieDetail> {
@@ -172,10 +174,13 @@ export class MovieService {
     sort_by?: string;
     with_genres?: string; // VD: "28,12"
     primary_release_date_gte?: string; // YYYY-MM-DD
+    with_runtime_lte?: number;
+    with_runtime_gte?: number;
     primary_release_date_lte?: string;
     with_original_language?: string;
     certification_country?: string;
     certification?: string;
+    release_country?: string;
     page?: number;
   }): Observable<any> {
     const url = `${this.baseUrl}/discover/movie`;

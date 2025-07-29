@@ -15,24 +15,30 @@ import { Genre, GenreListResponse } from '@features/home/models/genre.model';
 export class MoviesComponent implements OnInit {
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
   movies: Movie[] = [];
-  movieGenres: Genre[] = [];
-
-  selectedCategory: string = 'trending';
+  selectedCategory: string = 'popular';
+  sortBy: string = '';
 
   constructor(
     private movieService: MovieService,
     private loadingService: LoadingService,
-    private genreService: GenreService,
+
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
     this.loadCategoryMovies(this.selectedCategory as MovieCategoryEnum);
-    this.loadGenres();
   }
 
   handleCategoryChange(category: string) {
     this.selectedCategory = category;
     this.loadCategoryMovies(this.selectedCategory as MovieCategoryEnum);
+  }
+
+  handleToggleGenre(genreIdList: number[]) {
+    console.log('check genreIdList', genreIdList);
+  }
+
+  handleSelectSortOption(sortOptionValue: string) {
+    console.log('Check sortOptionValue', sortOptionValue);
   }
 
   // onDateRangeChange(range: { from: string; to: string }) {
@@ -101,14 +107,6 @@ export class MoviesComponent implements OnInit {
       });
   }
 
-  loadGenres() {
-    this.genreService.getMovieGenreList().subscribe({
-      next: (res: GenreListResponse) => {
-        this.movieGenres = res.genres;
-        console.log('check movieGenres', this.movieGenres);
-      },
-    });
-  }
   // filterMovies() {
   //   // Lọc phim theo selectedGenres, dateRange, showMe...
   //   this.filteredMovies = this.movies; // Thay bằng logic lọc thực tế

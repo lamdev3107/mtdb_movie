@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { SwiperModule } from 'swiper/angular';
 import { RouterModule } from '@angular/router';
@@ -8,7 +9,7 @@ import { pipes } from './pipes';
 
 @NgModule({
   declarations: [...components, ...pipes],
-  imports: [CommonModule, SwiperModule, RouterModule],
+  imports: [CommonModule, FormsModule, SwiperModule, RouterModule],
   exports: [[...components, ...pipes]],
 })
 export class SharedModule {}

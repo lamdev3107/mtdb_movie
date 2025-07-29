@@ -1,16 +1,17 @@
+import { Language } from '@core/services/configuration.service';
 import { Genre } from '../../home/models/genre.model';
+
 export interface company {
   id: number;
   logo_path: string;
   name: string;
   origin_country: string;
 }
-
-export interface language {
-  english_name: string;
-  iso_639_1: string;
+export interface releaseType {
+  id: number;
   name: string;
 }
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -65,7 +66,7 @@ export interface MovieDetail {
   release_date: string;
   revenue: number;
   runtime: number;
-  spoken_languages: language[];
+  spoken_languages: Language[];
   status: string;
   tagline: string;
   title: string;
