@@ -27,13 +27,10 @@ export class MovieDetailsComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute
-  ) {
-    console.log('MovieDetailsComponent');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.movieId = this.route.snapshot.paramMap.get('id');
-    this.loadMovieCredits(this.movieId);
     this.loadMovieDetails(this.movieId);
     this.loadMovieKeywords(this.movieId);
     this.loadMovieReview(this.movieId);
@@ -55,19 +52,6 @@ export class MovieDetailsComponent implements OnInit {
         },
         error: (err) => {
           console.log('Error fetching trailers', err);
-        },
-      });
-  }
-  loadMovieCredits(movieId: string | null) {
-    this.movieService
-      .getTopBilledCast(Number(movieId))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          this.castList = res;
-        },
-        error: (err) => {
-          console.log(err);
         },
       });
   }

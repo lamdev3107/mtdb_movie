@@ -1,11 +1,9 @@
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { Component, OnInit } from '@angular/core';
 import { MovieCategoryEnum, MovieService } from '../../services/movie.service';
-import { GenreService } from 'src/app/features/home/services/genre.service';
+
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { ListMovieResponse, Movie } from '../../models/movie.model';
-import { ActivatedRoute } from '@angular/router';
-import { Genre, GenreListResponse } from '@features/home/models/genre.model';
 
 @Component({
   selector: 'app-movies',
@@ -15,64 +13,59 @@ import { Genre, GenreListResponse } from '@features/home/models/genre.model';
 export class MoviesComponent implements OnInit {
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
   movies: Movie[] = [];
-  selectedCategory: string = 'popular';
+  category: string = MovieCategoryEnum.POPULAR;
+  page = 1;
   sortBy: string = '';
+
+  filterObj: any = {};
 
   constructor(
     private movieService: MovieService,
-    private loadingService: LoadingService,
-
-    private route: ActivatedRoute
+    public loadingService: LoadingService
   ) {}
   ngOnInit() {
-    this.loadCategoryMovies(this.selectedCategory as MovieCategoryEnum);
+    this.loadCategoryMovies(this.category as MovieCategoryEnum, this.page);
   }
 
   handleCategoryChange(category: string) {
-    this.selectedCategory = category;
-    this.loadCategoryMovies(this.selectedCategory as MovieCategoryEnum);
+    this.resetMovies();
+    this.category = category;
+    this.loadCategoryMovies(this.category as MovieCategoryEnum, this.page);
+    this.filterObj = {};
   }
 
   handleToggleGenre(genreIdList: number[]) {
-    console.log('check genreIdList', genreIdList);
+    const paramString = genreIdList.join(',');
+    console.log('chekc genreIdList', genreIdList);
+    this.filterObj.with_genres = paramString;
   }
 
   handleSelectSortOption(sortOptionValue: string) {
-    console.log('Check sortOptionValue', sortOptionValue);
+    console.log('chekc sortOption', sortOptionValue);
+    this.filterObj.sort_by = sortOptionValue;
   }
 
-  // onDateRangeChange(range: { from: string; to: string }) {
-  //   this.dateRange = range;
-  //   // this.filterMovies();
-  // }
+  handleLoadMore() {
+    this.page += 1;
+    if (Object.keys(this.filterObj).length === 0) {
+      this.loadCategoryMovies(this.category as MovieCategoryEnum, this.page);
+      return;
+    }
+    this.handleFilter();
+  }
 
-  // onShowMeChange(showMe: string) {
-  //   this.showMe = showMe;
-  //   // this.filterMovies();
-  // }
-  // loadMovieGenres(): void {
-  //   this.loadingService.show();
-  //   this.genreService
-  //     .getMovieGenreList()
-  //     .pipe(
-  //       takeUntil(this.destroy$),
-  //       finalize(() => {
-  //         this.loadingService.hide();
-  //       })
-  //     )
-  //     .subscribe({
-  //       next: (res: GenreListResponse) => {
-  //         this.movieGenres = res.genres;
-  //       },
-  //       error: (err) => {
-  //         console.error('Error fetching movie genres list', err);
-  //       },
-  //     });
-  // }
-  loadCategoryMovies(category: MovieCategoryEnum): void {
+  handleFilter() {
+    this.loadFilterMovies();
+  }
+
+  resetMovies() {
+    this.movies = [];
+    this.page = 1;
+  }
+  loadCategoryMovies(category: MovieCategoryEnum, page: number): void {
     this.loadingService.show();
     this.movieService
-      .getMoviesByCategory(category)
+      .getMoviesByCategory(category, page)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
@@ -81,18 +74,17 @@ export class MoviesComponent implements OnInit {
       )
       .subscribe({
         next: (res: ListMovieResponse) => {
-          this.movies = res.results;
-          console.log('check trendingMovieList', this.movies);
+          this.movies = [...this.movies, ...res.results];
         },
         error: (err) => {
           console.error('Error fetching trending movie list', err);
         },
       });
   }
-  loadFilterMovies(filterObj: any) {
+  loadFilterMovies() {
     this.loadingService.show();
     this.movieService
-      .discoverMovie(filterObj)
+      .discoverMovie(this.filterObj, this.page)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
@@ -101,14 +93,8 @@ export class MoviesComponent implements OnInit {
       )
       .subscribe({
         next: (res: ListMovieResponse) => {
-          this.movies = res.results;
-          console.log('check trendingMovieList', this.movies);
+          this.movies = [...this.movies, ...res.results];
         },
       });
   }
-
-  // filterMovies() {
-  //   // Lọc phim theo selectedGenres, dateRange, showMe...
-  //   this.filteredMovies = this.movies; // Thay bằng logic lọc thực tế
-  // }
 }

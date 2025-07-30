@@ -20,7 +20,7 @@
 
   // Primary button (Play Now style)
   &--primary {
-    background: $primary-color;
+    background: $primary;
     color: $white;
     &:hover:not(:disabled) {
       background-color: $red-50;

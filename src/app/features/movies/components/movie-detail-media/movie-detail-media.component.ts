@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { MovieImage } from '@features/movies/models/images.model';
 import { Video } from '@features/movies/models/video.model';
@@ -11,7 +12,7 @@ import { map, Subject, takeUntil } from 'rxjs';
   styleUrls: ['./movie-detail-media.component.scss'],
 })
 export class MovieDetailMediaComponent implements OnInit {
-  @Input() movieId: string | null = null;
+  movieId: string | null = null;
 
   tabs: TabItem[] = [
     { id: 'videos', label: 'Videos' },
@@ -24,10 +25,14 @@ export class MovieDetailMediaComponent implements OnInit {
   posters: MovieImage[] = [];
   backdrops: MovieImage[] = [];
   activeTabId = 'videos';
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.loadMovieVideos(this.movieId);
+    this.movieId = this.route.snapshot.paramMap.get('id');
+    this.loadMovieVideos();
   }
 
   onTabChange(tabId: string) {
@@ -37,9 +42,9 @@ export class MovieDetailMediaComponent implements OnInit {
     }
   }
 
-  loadMovieVideos(movieId: string | null) {
+  loadMovieVideos() {
     this.movieService
-      .getMovieVideos(Number(movieId))
+      .getMovieVideos(Number(this.movieId))
       .pipe(
         takeUntil(this.destroy$),
         map((res: Video[]) => res.slice(0, 3))

@@ -2,45 +2,23 @@
 @use "../../../../../assets/styles/mixins" as *;
 @use "../../../../../assets/styles/base" as *;
 
-.movies-page {
+// Styles cho sidebar
+.sidebar {
   display: flex;
+  flex-direction: column;
   gap: 1.6rem;
-  margin-top: 9rem;
-  @include mq-md {
-    margin-top: 12rem;
-  }
-  @extend .container;
-
-  .movies-page__sidebar {
-    min-width: 250px;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
-
-    @include mq-lg {
-      width: 300px;
-    }
-  }
-  .movies-page__main {
-    flex: 1;
-    .movies-page__pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 1.6rem;
-    }6775849944444
-  }
 }
 
-.movies-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(200px, 1fr));
-  gap: 1rem;
+// Styles cho main content
+.main {
+  display: contents; // Để nội dung được render trực tiếp vào grid
+}
 
-  @include mq-md {
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
-  }
-  @include mq-lg {
-    grid-template-columns: repeat(5, minmax(200px, 1fr));
-  }
+// Styles cho load-more
+.load-more {
+  display: contents; // Để nội dung được render trực tiếp vào load-more-btn
+}
+
+.movies-page__pagination-button {
+  width: 100%;
 }

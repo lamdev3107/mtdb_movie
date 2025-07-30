@@ -38,7 +38,7 @@
         @include font-base(1.5rem, $bold, $white);
       }
       &:hover {
-        color: $primary-color;
+        color: $primary;
         text-decoration: underline;
       }
     }

@@ -2,8 +2,15 @@
   <!--links-->
   <div class="movie-detail-sidebar-item">
     <h2 class="movie-detail-sidebar-item__title">Pages</h2>
-
-    <app-tooltip [text]="'Visit HomePage'" position="top" [delay]="200">
+    <div *ngIf="movie?.homepage === ''">
+      <p class="movie-detail-sidebar-item__content">No homepage</p>
+    </div>
+    <app-tooltip
+      [text]="'Visit HomePage'"
+      position="top"
+      [delay]="200"
+      *ngIf="movie?.homepage !== ''"
+    >
       <a
         [href]="movie?.homepage"
         target="_blank"
@@ -60,9 +67,16 @@
   <div class="movie-detail-sidebar-item">
     <h3 class="movie-detail-sidebar-item__title">Keywords</h3>
     <div class="movie-keywords">
-      <div class="movie-keywords__item" *ngFor="let keyword of keywords">
-        {{ keyword.name }}
+      <div *ngIf="keywords?.length === 0">
+        <p class="movie-detail-sidebar-item__content">
+          No keywords have been added.
+        </p>
       </div>
+      <!-- <div *ngIf="keywords.length > 0">
+        <div class="movie-keywords__item" *ngFor="let keyword of keywords">
+          {{ keyword.name }}
+        </div>
+      </div> -->
       <!-- Sidebar content -->
     </div>
   </div>

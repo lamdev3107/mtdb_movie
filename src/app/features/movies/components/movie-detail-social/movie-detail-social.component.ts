@@ -17,6 +17,5 @@ export class MovieDetailSocialComponent implements OnInit {
 
   onTabChange(tabId: string) {
     this.activeTabId = tabId;
-    console.log('check tabId', tabId);
   }
 }

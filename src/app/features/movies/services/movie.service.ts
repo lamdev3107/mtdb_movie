@@ -27,7 +27,7 @@ export enum MovieCategoryEnum {
 }
 export enum queryListMovieEnum {
   language = 'en-US',
-  page = 1, 
+  page = 1,
   region = '',
 }
 
@@ -44,21 +44,27 @@ export class MovieService {
   constructor(private http: HttpClient) {}
 
   getMoviesByCategory(
-    category: MovieCategoryEnum
+    category: MovieCategoryEnum,
+    page: number = 1
   ): Observable<ListMovieResponse> {
+    this.params.page = page;
     return this.http.get<ListMovieResponse>(`${this.baseUrl}/${category}`, {
       params: this.params,
     });
   }
 
   getMovieDetails(movieId: number): Observable<MovieDetail> {
-    return this.http.get<MovieDetail>(`${this.baseUrl}/${movieId}`, {});
+    return this.http.get<MovieDetail>(`${this.baseUrl}/${movieId}`, {
+      params: this.params,
+    });
   }
 
   getTrendingMovies(
     time_window: string = 'day'
   ): Observable<ListMovieResponse> {
-    return this.http.get<ListMovieResponse>(`trending/movie/${time_window}`);
+    return this.http.get<ListMovieResponse>(`trending/movie/${time_window}`, {
+      params: this.params,
+    });
   }
 
   // Load trailer từ popular hoặc now_playing
@@ -68,7 +74,7 @@ export class MovieService {
   ): Observable<TrailerItem[]> {
     const url = `${this.baseUrl}/${source}`;
 
-    return this.http.get<ListMovieResponse>(url).pipe(
+    return this.http.get<ListMovieResponse>(url, { params: this.params }).pipe(
       switchMap((res) => {
         const movies = res.results.slice(0, count);
         // Sử dụng service getMovieTrailer cho từng movie
@@ -99,7 +105,7 @@ export class MovieService {
 
   getMovieTrailer(id: string): Observable<TrailerItem | null> {
     const url = `${this.baseUrl}/${id}/videos`;
-    const videos = this.http.get<TrailerItem>(url);
+    const videos = this.http.get<TrailerItem>(url, { params: this.params });
     return videos.pipe(
       map((res: any) => {
         const trailer = res.results.find(
@@ -122,14 +128,14 @@ export class MovieService {
   // Hàm lấy danh sách credits dành
   getMovieCredits(id: string): Observable<CreditsResponse> {
     const url = `${this.baseUrl}/${id}/credits`; // Sửa URL đúng
-    return this.http.get<CreditsResponse>(url);
+    return this.http.get<CreditsResponse>(url, { params: this.params });
   }
 
   getTopBilledCast(movieId: number, count = 10): Observable<Cast[]> {
     const url = `${this.baseUrl}/${movieId}/credits`; // Sửa URL đúng
 
     return this.http
-      .get<CreditsResponse>(url)
+      .get<CreditsResponse>(url, { params: this.params })
       .pipe(
         map((res) => res.cast.sort((a, b) => a.order - b.order).slice(0, count))
       );
@@ -137,15 +143,18 @@ export class MovieService {
 
   getMovieKeywords(movieId: number): Observable<Keyword[]> {
     const url = `${this.baseUrl}/${movieId}/keywords`;
-    return this.http.get<KeywordResponse>(url).pipe(map((res) => res.keywords));
+    return this.http
+      .get<KeywordResponse>(url, { params: this.params })
+      .pipe(map((res) => res.keywords));
   }
 
   getMovieReviews(
     movieId: number,
     page: number = 1
   ): Observable<ReviewResponse> {
-    const url = `${this.baseUrl}/${movieId}/reviews?page=${page}`;
-    return this.http.get<ReviewResponse>(url);
+    const url = `${this.baseUrl}/${movieId}/reviews`;
+    const params = { ...this.params, page };
+    return this.http.get<ReviewResponse>(url, { params });
   }
 
   getMovieRecommendations(
@@ -153,66 +162,36 @@ export class MovieService {
     page: number = 1,
     count = 10
   ): Observable<Movie[]> {
-    const url = `${this.baseUrl}/${movieId}/recommendations?page=${page}`;
+    const url = `${this.baseUrl}/${movieId}/recommendations`;
+    const params = { ...this.params, page };
 
     return this.http
-      .get<ListMovieResponse>(url)
+      .get<ListMovieResponse>(url, { params })
       .pipe(map((res) => res.results.slice(0, count)));
   }
 
   getMovieImages(movieId: number): Observable<MovieImagesResponse> {
     const url = `${this.baseUrl}/${movieId}/images`;
-    return this.http.get<MovieImagesResponse>(url);
+    return this.http.get<MovieImagesResponse>(url, { params: this.params });
   }
 
   getMovieVideos(movieId: number): Observable<Video[]> {
     const url = `${this.baseUrl}/${movieId}/videos`;
-    return this.http.get<VideoResponse>(url).pipe(map((res) => res.results));
+    return this.http
+      .get<VideoResponse>(url, { params: this.params })
+      .pipe(map((res) => res.results));
   }
 
-  discoverMovie(filters: {
-    sort_by?: string;
-    with_genres?: string; // VD: "28,12"
-    primary_release_date_gte?: string; // YYYY-MM-DD
-    with_runtime_lte?: number;
-    with_runtime_gte?: number;
-    primary_release_date_lte?: string;
-    with_original_language?: string;
-    certification_country?: string;
-    certification?: string;
-    release_country?: string;
-    page?: number;
-  }): Observable<any> {
-    const url = `${this.baseUrl}/discover/movie`;
+  discoverMovie(filters: any, page: number): Observable<any> {
+    const url = `discover/movie`;
     let params = new HttpParams();
 
-    if (filters.sort_by) params = params.set('sort_by', filters.sort_by);
-    if (filters.with_genres)
-      params = params.set('with_genres', filters.with_genres);
-    if (filters.primary_release_date_gte)
-      params = params.set(
-        'primary_release_date.gte',
-        filters.primary_release_date_gte
-      );
-    if (filters.primary_release_date_lte)
-      params = params.set(
-        'primary_release_date.lte',
-        filters.primary_release_date_lte
-      );
-    if (filters.with_original_language)
-      params = params.set(
-        'with_original_language',
-        filters.with_original_language
-      );
-    if (filters.certification_country)
-      params = params.set(
-        'certification_country',
-        filters.certification_country
-      );
-    if (filters.certification)
-      params = params.set('certification', filters.certification);
-    if (filters.page) params = params.set('page', filters.page.toString());
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        params = params.set(key, filters[key]);
+      }
+    });
 
-    return this.http.get(url, { params });
+    return this.http.get(url, { params: params });
   }
 }

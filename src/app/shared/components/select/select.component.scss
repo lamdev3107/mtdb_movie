@@ -20,8 +20,8 @@
   min-height: 4rem;
 
   &--open {
-    border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
   }
 
   &--disabled {
@@ -113,7 +113,7 @@
   }
 
   &--selected {
-    background-color: $primary-color;
+    background-color: $primary;
     color: $white;
     font-weight: $medium;
   }

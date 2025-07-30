@@ -5,7 +5,7 @@
     <!-- Cast -->
     <div class="movie-detail-cast movie-detail-section">
       <h2 class="movie-detail-section__title">Top Billed Cast</h2>
-      <app-movie-detail-cast [castList]="castList"></app-movie-detail-cast>
+      <app-movie-detail-cast></app-movie-detail-cast>
     </div>
 
     <!-- Social content -->
@@ -19,40 +19,15 @@
     <!-- Media content -->
     <div class="movie-detail-media movie-detail-section">
       <h2 class="movie-detail-section__title">Media</h2>
-      <app-movie-detail-media [movieId]="movieId"></app-movie-detail-media>
+      <app-movie-detail-media></app-movie-detail-media>
     </div>
 
     <!-- Recommendations content -->
     <div class="movie-detail-recommendations movie-detail-section">
       <h2 class="movie-detail-section__title">Recommendations</h2>
-      <div class="movie-detail-recommendations-list">
-        <div
-          class="movie-detail-recommendations-item"
-          *ngFor="let recommendation of recommendations"
-        >
-          <a [routerLink]="['/movies', recommendation.id]">
-            <img
-              [src]="
-                recommendation.backdrop_path
-                  ? (recommendation.backdrop_path | imageUrl : 500 : false)
-                  : (recommendation.poster_path | imageUrl : 500 : false)
-              "
-              [alt]="recommendation.title"
-              class="movie-detail-recommendations-item__img"
-            />
-          </a>
-          <div class="movie-detail-recommendations-item__info">
-            <a [routerLink]="['/movies', recommendation.id]">
-              <p class="movie-detail-recommendations-item__info-title">
-                {{ recommendation.title }}
-              </p>
-            </a>
-            <p class="movie-detail-recommendations-item__info-rating">
-              {{ recommendation.vote_average | convertPercent }}
-            </p>
-          </div>
-        </div>
-      </div>
+      <app-movie-detail-recommendations-list
+        [recommendations]="recommendations"
+      ></app-movie-detail-recommendations-list>
     </div>
   </div>
 

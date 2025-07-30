@@ -6,7 +6,8 @@ import {
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Genre, GenreListResponse } from '@features/home/models/genre.model';
 import { GenreService } from '@features/home/services/genre.service';
-import { MovieService } from '@features/movies/services/movie.service';
+import { MovieCategoryEnum } from '@features/movies/services/movie.service';
+
 import { RadioOption } from '@shared/components/input-radio-group/input-radio-group.component';
 import { SelectOption } from '@shared/components/select/select.component';
 import { ToggleSelectBox } from '@shared/components/toggle-select-box-list/toggle-select-box-list.component';
@@ -62,7 +63,6 @@ export class MovieFilterComponent implements OnInit {
   movieGenres: ToggleSelectBox[] = [];
   selectedCountryValue: string = 'US';
   selectedLanguageValue: string = 'en';
-
   selectedGenres: ToggleSelectBox[] = [];
   selectedReleaseType: [] = [];
   countryOptions: SelectOption[] = [];
@@ -72,9 +72,12 @@ export class MovieFilterComponent implements OnInit {
     from: '',
     to: '',
   };
+  keyword: string = '';
 
   languageOptions: SelectOption[] = [];
 
+  @Input() filterObject = {};
+  @Input() category = {};
   @Output() onCategoryChange = new EventEmitter<string>();
   @Output() onSelectSortOption = new EventEmitter<string>();
   @Output() onToggleGenre = new EventEmitter<number[]>();
@@ -93,7 +96,7 @@ export class MovieFilterComponent implements OnInit {
   }
 
   onChangeCategory(value: string) {
-    this.onCategoryChange.emit(value);
+    this.onCategoryChange.emit(value as MovieCategoryEnum);
   }
   handleSelectSortOptin(value: string) {
     this.onSelectSortOption.emit(value);
@@ -114,6 +117,13 @@ export class MovieFilterComponent implements OnInit {
     this.onToggleReleaseType.emit(emitedValues);
   }
 
+  handleUserScoreMinChange(value: number) {
+    console.log('Check min', value);
+  }
+
+  handleUserScoreMaxChange(value: number) {
+    console.log('Check max', value);
+  }
   loadGenres() {
     this.genreService.getMovieGenreList().subscribe({
       next: (res: GenreListResponse) => {

@@ -10,6 +10,6 @@ import { pipes } from './pipes';
 @NgModule({
   declarations: [...components, ...pipes],
   imports: [CommonModule, FormsModule, SwiperModule, RouterModule],
-  exports: [[...components, ...pipes]],
+  exports: [...components, ...pipes],
 })
 export class SharedModule {}

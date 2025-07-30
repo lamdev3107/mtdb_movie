@@ -11,8 +11,29 @@
   [style.background-size]="'cover'"
 >
   <div class="hero-section__container">
-    <div class="hero-section__poster poster">
-      <img [src]="imageBaseUrl + movie?.poster_path" [alt]="movie?.title" />
+    <div class="hero-section__poster" *ngIf="movie?.poster_path">
+      <img
+        class="hero-section__poster-image"
+        [src]="
+          movie?.poster_path
+            ? (movie?.poster_path | imageUrl : 500 : false)
+            : 'assets/images/no-picture.png'
+        "
+        [alt]="movie?.title"
+      />
+    </div>
+    <div
+      class="hero-section__poster hero-section__poster--no-image"
+      *ngIf="!movie?.poster_path"
+    >
+      <img
+        class="hero-section__poster-image--no-image"
+        src="assets/icons/picture.svg"
+        alt="No poster"
+        class="hero-section__poster-image--no-image"
+        width="100"
+        height="100"
+      />
     </div>
     <div class="hero-section__content">
       <div class="hero-section__info">
@@ -44,7 +65,12 @@
       </div>
 
       <div class="hero-section__actions">
-        <app-button variant="primary" size="large" (clicked)="onPlayTrailer()">
+        <app-button
+          [disabled]="!trailer"
+          variant="primary"
+          size="large"
+          (clicked)="onPlayTrailer()"
+        >
           <img class="btn-icon" src="assets/icons/play.svg" alt="play" />
           Play Trailer
         </app-button>

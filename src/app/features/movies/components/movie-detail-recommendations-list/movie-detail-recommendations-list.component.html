@@ -1,0 +1,33 @@
+<div class="movie-detail-recommendations-list">
+  <ng-container *ngIf="recommendations.length > 0">
+    <div
+      class="movie-detail-recommendations-item"
+      *ngFor="let recommendation of recommendations"
+    >
+      <a [routerLink]="['/movies', recommendation.id]">
+        <img
+          [src]="
+            recommendation.backdrop_path
+              ? (recommendation.backdrop_path | imageUrl : 500 : false)
+              : (recommendation.poster_path | imageUrl : 500 : false)
+          "
+          [alt]="recommendation.title"
+          class="movie-detail-recommendations-item__img"
+        />
+      </a>
+      <div class="movie-detail-recommendations-item__info">
+        <a [routerLink]="['/movies', recommendation.id]">
+          <p class="movie-detail-recommendations-item__info-title">
+            {{ recommendation.title }}
+          </p>
+        </a>
+        <p class="movie-detail-recommendations-item__info-rating">
+          {{ recommendation.vote_average | convertPercent }}
+        </p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<p *ngIf="recommendations.length === 0" class="no-data-text">
+  No recommendations have been added.
+</p>

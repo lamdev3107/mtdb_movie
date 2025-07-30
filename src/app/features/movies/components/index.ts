@@ -4,6 +4,7 @@ import { MovieDetailSocialComponent } from './movie-detail-social/movie-detail-s
 import { MovieDetailMediaComponent } from './movie-detail-media/movie-detail-media.component';
 import { MovieDetailCastComponent } from './movie-detail-cast/movie-detail-cast.component';
 import { MovieDetailSidebarComponent } from './movie-detail-sidebar/movie-detail-sidebar.component';
+import { MovieDetailRecommendationsListComponent } from './movie-detail-recommendations-list/movie-detail-recommendations-list.component';
 
 export const components = [
   MovieFilterComponent,
@@ -12,4 +13,5 @@ export const components = [
   MovieDetailMediaComponent,
   MovieDetailCastComponent,
   MovieDetailSidebarComponent,
+  MovieDetailRecommendationsListComponent,
 ];

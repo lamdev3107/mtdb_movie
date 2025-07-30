@@ -17,6 +17,9 @@ import { SelectComponent } from './select/select.component';
 import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 import { ToggleSelectBoxListComponent } from './toggle-select-box-list/toggle-select-box-list.component';
 import { InputRangeComponent } from './input-range/input-range.component';
+import { ListPageLayoutComponent } from './list-page-layout/list-page-layout.component';
+import { InputTextComponent } from './input-text/input-text.component';
+import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 
 export const components = [
   LoadingComponent,
@@ -38,4 +41,7 @@ export const components = [
   CheckboxGroupComponent,
   ToggleSelectBoxListComponent,
   InputRangeComponent,
+  ListPageLayoutComponent,
+  InputTextComponent,
+  ScrollToTopComponent,
 ];

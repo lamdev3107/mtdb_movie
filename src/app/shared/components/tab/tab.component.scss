@@ -31,7 +31,7 @@
       color: $white;
     }
     &--active {
-      border-bottom: 2px solid $primary-color;
+      border-bottom: 2px solid $primary;
       @include font-base(1.4rem, $bold, $white);
     }
   }

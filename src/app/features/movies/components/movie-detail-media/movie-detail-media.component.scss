@@ -8,12 +8,12 @@
   margin-top: 1rem;
   @include font-base(1.5rem, $regular, $grey-65);
   &:hover {
-    color: $primary-color;
+    color: $primary;
     text-decoration: underline;
   }
   &:hover svg {
-    fill: $primary-color;
-    stroke: $primary-color;
+    fill: $primary;
+    stroke: $primary;
   }
   svg {
     width: 1.5rem;
@@ -27,6 +27,7 @@
   gap: 1rem;
   .movie-video-list {
     display: flex;
+    width: 100%;
     overflow-x: auto;
     .movie-video-item {
       height: 300px;
@@ -45,6 +46,7 @@
   gap: 1rem;
   .movie-poster-list {
     display: flex;
+    width: 100%;
     overflow-x: auto;
     .movie-poster-item {
       flex-shrink: 0;
@@ -68,6 +70,8 @@
   .movie-backdrop-list {
     display: flex;
     overflow-x: auto;
+    width: 100%;
+
     .movie-backdrop-item {
       flex-shrink: 0;
       height: 30rem;
@@ -79,4 +83,11 @@
       }
     }
   }
+}
+
+.no-data-text {
+  width: 100%;
+  @include font-base(1.5rem, $regular, $grey-65);
+  text-align: center;
+  font-style: italic;
 }

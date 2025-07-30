@@ -5,13 +5,18 @@
 >
   <div class="movie-video-list-container" *ngIf="activeTabId == 'videos'">
     <div class="movie-video-list">
-      <div class="movie-video-item" *ngFor="let video of videos">
-        <iframe
-          class="movie-video-item__iframe"
-          [src]="video.key | safeYoutubeUrl"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        ></iframe>
+      <p *ngIf="videos.length === 0" class="no-data-text">
+        No videos have been added.
+      </p>
+      <div *ngIf="videos.length > 0">
+        <div class="movie-video-item" *ngFor="let video of videos">
+          <iframe
+            class="movie-video-item__iframe"
+            [src]="video.key | safeYoutubeUrl"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
+        </div>
       </div>
     </div>
     <a class="more" [routerLink]="['./videos']">
@@ -36,12 +41,17 @@
   </div>
   <div class="movie-posters-list-container" *ngIf="activeTabId == 'posters'">
     <div class="movie-poster-list">
-      <div class="movie-poster-item" *ngFor="let poster of posters">
-        <img [src]="poster.file_path | imageUrl : 500 : false" alt="poster" />
+      <p *ngIf="videos.length === 0" class="no-data-text">
+        No videos have been added.
+      </p>
+      <div *ngIf="posters.length > 0">
+        <div class="movie-poster-item" *ngFor="let poster of posters">
+          <img [src]="poster.file_path | imageUrl : 500 : false" alt="poster" />
+        </div>
       </div>
     </div>
     <a class="more" [routerLink]="['./videos']">
-      View all postera
+      View all posters
       <svg
         width="24"
         height="24"
@@ -65,11 +75,16 @@
     *ngIf="activeTabId == 'backdrops'"
   >
     <div class="movie-backdrop-list">
-      <div class="movie-backdrop-item" *ngFor="let backdrop of backdrops">
-        <img
-          [src]="backdrop.file_path | imageUrl : 500 : false"
-          alt="backdrop"
-        />
+      <p *ngIf="videos.length === 0" class="no-data-text">
+        No videos have been added.
+      </p>
+      <div *ngIf="backdrops.length > 0">
+        <div class="movie-backdrop-item" *ngFor="let backdrop of backdrops">
+          <img
+            [src]="backdrop.file_path | imageUrl : 500 : false"
+            alt="backdrop"
+          />
+        </div>
       </div>
     </div>
     <a class="more" [routerLink]="['./videos']">

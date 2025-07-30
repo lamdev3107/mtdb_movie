@@ -8,7 +8,6 @@ import { SharedModule } from './shared/shared.module';
 import { MoviesModule } from './features/movies/movies.module';
 import { TvShowsModule } from './features/tv-shows/tv-shows.module';
 import { PeopleModule } from './features/people/people.module';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [

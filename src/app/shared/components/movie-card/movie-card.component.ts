@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Movie } from '@features/movies/models/movie.model';
 import { TVShow } from '@features/tv-shows/models/tv-show.model';
 import { environment } from 'src/environments/environment';
@@ -14,6 +20,7 @@ export class MovieCardComponent implements OnInit {
   imageBaseUrl = environment.imageBaseUrl;
   @Input() movie!: Movie;
   @Input() tvShow!: TVShow;
+  @Input() isLoading: boolean = false;
 
   detailLink: string = '';
 

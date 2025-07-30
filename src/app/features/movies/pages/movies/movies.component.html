@@ -1,24 +1,33 @@
-<div class="movies-page">
-  <div class="movies-page__sidebar">
+<app-list-page-layout>
+  <div class="sidebar">
     <app-movie-filter
+      [filterObject]="filterObj"
+      [category]="category"
       (onCategoryChange)="handleCategoryChange($event)"
       (onToggleGenre)="handleToggleGenre($event)"
       (onSelectSortOption)="handleSelectSortOption($event)"
     ></app-movie-filter>
-    <app-button class="movies-page__sidebar-button" [size]="'full-width'">
-      Search
+    <app-button
+      class="movies-page__sidebar-button"
+      [size]="'full-width'"
+      (click)="handleFilter()"
+    >
+      Filter
     </app-button>
   </div>
-  <div class="movies-page__main">
-    <div class="movies-list">
-      <ng-container class="" *ngFor="let movie of movies">
-        <app-movie-card class="list-item" [movie]="movie"></app-movie-card>
-      </ng-container>
-    </div>
-    <div class="movies-page__pagination">
-      <app-button class="movies-page__pagination-button" [size]="'full-width'">
-        Load More
-      </app-button>
-    </div>
+
+  <div class="main">
+    <ng-container *ngFor="let movie of movies">
+      <app-movie-card
+        [movie]="movie"
+        [isLoading]="(loadingService.loading$ | async) ?? false"
+      ></app-movie-card>
+    </ng-container>
   </div>
-</div>
+
+  <div class="load-more">
+    <app-button [size]="'full-width'" (click)="handleLoadMore()">
+      Load More
+    </app-button>
+  </div>
+</app-list-page-layout>

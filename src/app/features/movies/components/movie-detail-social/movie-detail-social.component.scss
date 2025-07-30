@@ -9,12 +9,12 @@
     margin-top: 1rem;
     @include font-base(1.5rem, $regular, $grey-65);
     &:hover {
-      color: $primary-color;
+      color: $primary;
       text-decoration: underline;
     }
     &:hover svg {
-      fill: $primary-color;
-      stroke: $primary-color;
+      fill: $primary;
+      stroke: $primary;
     }
     &-icon {
       width: 1.5rem;
@@ -22,4 +22,10 @@
       fill: $grey-65;
     }
   }
+}
+.no-data-text {
+  width: 100%;
+  @include font-base(1.5rem, $regular, $grey-65);
+  text-align: center;
+  font-style: italic;
 }

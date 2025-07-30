@@ -1,33 +1,37 @@
 <div class="input-range-container">
-  <label class="input-range-label">{{ label || "Input Range" }}</label>
   <div class="input-range-wrapper">
-    <div class="input-range-tooltip" *ngIf="showTooltip">
-      {{ tooltipText || minValue + " - " + maxValue }}
+    <div class="input-range-tooltip" *ngIf="isShowTooltip">
+      {{ tooltipText + " " + minValue + " - " + maxValue }}
     </div>
-    <div class="input-range-track">
-      <!-- <input
-        type="range"
-        [attr.min]="minValue"
-        [attr.max]="maxValue - 1"
-        [(ngModel)]="minValue"
-        [attr.step]="step"
-        class="input-range input-range--min"
-      /> -->
-      <input
-        type="range"
-        [attr.min]="minValue + 1"
-        [attr.max]="maxValue"
-        [(ngModel)]="maxValue"
-        [attr.step]="step"
-        class="input-range input-range--max"
-      />
-      <div class="input-range-bar"></div>
-      <div class="input-range-ticks">
-        <span *ngFor="let tick of ticks" class="input-range-tick"></span>
-      </div>
+
+    <div #sliderTrack class="input-range-track"></div>
+    <input
+      class="input-range input-range--min"
+      type="range"
+      [attr.min]="initMinValue"
+      [attr.max]="initMaxValue"
+      [ngModel]="minValue"
+      [attr.step]="step"
+      #sliderOne
+      (input)="onMinValueChange()"
+    />
+    <input
+      class="input-range input-range--max"
+      type="range"
+      [attr.min]="initMinValue"
+      [attr.max]="initMaxValue"
+      [ngModel]="maxValue"
+      [attr.step]="step"
+      #sliderTwo
+      (input)="onMaxValueChange()"
+    />
+    <div class="input-range-ticks">
+      <span *ngFor="let tick of ticks" class="input-range-ticks__item"></span>
     </div>
-    <div class="input-range-labels">
-      <span *ngFor="let label of labels">{{ label }}</span>
-    </div>
+  </div>
+  <div class="input-range-labels">
+    <span *ngFor="let label of labels" class="input-range-labels__item">{{
+      label
+    }}</span>
   </div>
 </div>

@@ -15,6 +15,6 @@ export class FormatTimePipe implements PipeTransform {
     if (mins > 0) {
       result += (result ? ' ' : '') + `${mins}m`;
     }
-    return result || '00m';
+    return result || '0m';
   }
 }
