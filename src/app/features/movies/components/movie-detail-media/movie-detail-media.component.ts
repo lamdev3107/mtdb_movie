@@ -4,7 +4,8 @@ import { MovieImage } from '@features/movies/models/images.model';
 import { Video } from '@features/movies/models/video.model';
 import { MovieService } from '@features/movies/services/movie.service';
 import { TabItem } from '@shared/components/tab/tab.component';
-import { map, Subject, takeUntil } from 'rxjs';
+import { finalize, map, Subject, takeUntil } from 'rxjs';
+import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-movie-detail-media',
@@ -27,7 +28,8 @@ export class MovieDetailMediaComponent implements OnInit {
   activeTabId = 'videos';
   constructor(
     private movieService: MovieService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -57,14 +59,20 @@ export class MovieDetailMediaComponent implements OnInit {
   }
 
   loadMovieImages(movieId: string | null) {
+    this.loadingService.show();
     this.movieService
       .getMovieImages(Number(movieId))
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      )
       .subscribe({
         next: (res) => {
           this.posters = res.posters.slice(0, 5);
           this.backdrops = res.backdrops.slice(0, 5);
-          console.log('Check images', this.posters, this.backdrops);
+          console.log('Check imgage', this.posters, this.backdrops);
         },
       });
   }

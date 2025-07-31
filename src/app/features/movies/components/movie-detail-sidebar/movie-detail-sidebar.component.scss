@@ -2,7 +2,6 @@
 @use "../../../../../assets/styles/mixins" as *;
 // Sidebar styles
 .movie-detail-sidebar {
-  grid-area: sidebar;
   background: $black-10;
   border-radius: 8px;
   display: flex;
@@ -11,7 +10,6 @@
   margin-top: 1rem;
   position: static;
   height: fit-content;
-
   &__title {
     margin-bottom: 1rem;
     @include font-base(1.8rem, $bold, $white);

@@ -1,12 +1,30 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ListTVShowResponse, TVShow } from '../models/tv-show.model';
+import { map, Observable } from 'rxjs';
+import {
+  ListTVShowResponse,
+  TVShow,
+  TVShowDetail,
+} from '../models/tv-show.model';
+import { Cast, CreditsResponse } from '@features/movies/models/credit.model';
+import { ReviewResponse } from '@features/movies/models/review.model';
+import { Video, VideoResponse } from '@features/movies/models/video.model';
+import { MovieImagesResponse } from '@features/movies/models/images.model';
+import {
+  Keyword,
+  KeywordResponse,
+} from '@features/movies/models/keyword.model';
 
 export interface queryListTVShow {
   language: string;
   page: number;
   region: string;
+}
+export enum TVShowCategoryEnum {
+  POPULAR = 'popular',
+  NOW_PLAYING = 'now_playing',
+  TOP_RATED = 'top_rated',
+  UPCOMING = 'upcoming',
 }
 export enum queryListTVShowEnum {
   language = 'en-US',
@@ -26,21 +44,96 @@ export class TVShowService {
   };
   constructor(private http: HttpClient) {}
 
-  getPopularTVShows(): Observable<ListTVShowResponse> {
-    return this.http.get<ListTVShowResponse>(`${this.baseUrl}/popular`, {});
+  getTVShowsByCategory(
+    category: TVShowCategoryEnum,
+    page: number = 1
+  ): Observable<ListTVShowResponse> {
+    this.params.page = page;
+    return this.http.get<ListTVShowResponse>(`${this.baseUrl}/${category}`, {
+      params: this.params,
+    });
   }
-  getNowPlayingTVShows(): Observable<ListTVShowResponse> {
-    return this.http.get<ListTVShowResponse>(`${this.baseUrl}/now_playing`, {});
+
+  getTVShowDetails(tvId: number): Observable<TVShowDetail> {
+    return this.http.get<TVShowDetail>(`${this.baseUrl}/${tvId}`, {
+      params: this.params,
+    });
   }
-  getNowTopRatedTVShows(): Observable<ListTVShowResponse> {
-    return this.http.get<ListTVShowResponse>(`${this.baseUrl}/top_rated`, {});
-  }
-  getUpcomingTVShows(): Observable<ListTVShowResponse> {
-    return this.http.get<ListTVShowResponse>(`${this.baseUrl}/upcoming`, {});
-  }
-  getTrendingTVShows(
+
+  getTrendingMovies(
     time_window: string = 'day'
   ): Observable<ListTVShowResponse> {
-    return this.http.get<ListTVShowResponse>(`trending/tv/${time_window}`);
+    return this.http.get<ListTVShowResponse>(`trending/tv/${time_window}`, {
+      params: this.params,
+    });
+  }
+
+  // Hàm lấy danh sách credits dành
+  getTVShowCredits(id: string): Observable<CreditsResponse> {
+    const url = `${this.baseUrl}/${id}/credits`; // Sửa URL đúng
+    return this.http.get<CreditsResponse>(url, { params: this.params });
+  }
+
+  getTopBilledCast(tvId: number, count = 10): Observable<Cast[]> {
+    const url = `${this.baseUrl}/${tvId}/credits`; // Sửa URL đúng
+
+    return this.http
+      .get<CreditsResponse>(url, { params: this.params })
+      .pipe(
+        map((res) =>
+          res.cast.sort((a: Cast, b: Cast) => a.order - b.order).slice(0, count)
+        )
+      );
+  }
+
+  getTVShowKeywords(tvId: number): Observable<Keyword[]> {
+    const url = `${this.baseUrl}/${tvId}/keywords`;
+    return this.http
+      .get<KeywordResponse>(url, { params: this.params })
+      .pipe(map((res) => res.keywords));
+  }
+
+  getTVShowReviews(tvId: number, page: number = 1): Observable<ReviewResponse> {
+    const url = `${this.baseUrl}/${tvId}/reviews`;
+    const params = { ...this.params, page };
+    return this.http.get<ReviewResponse>(url, { params });
+  }
+
+  getTVShowRecommendations(
+    tvId: number,
+    page: number = 1,
+    count = 10
+  ): Observable<TVShow[]> {
+    const url = `${this.baseUrl}/${tvId}/recommendations`;
+    const params = { ...this.params, page };
+
+    return this.http
+      .get<ListTVShowResponse>(url, { params })
+      .pipe(map((res) => res.results.slice(0, count)));
+  }
+
+  getTVShowImages(tvId: number): Observable<MovieImagesResponse> {
+    const url = `${this.baseUrl}/${tvId}/images`;
+    return this.http.get<MovieImagesResponse>(url);
+  }
+
+  getTVShowVideos(tvId: number): Observable<Video[]> {
+    const url = `${this.baseUrl}/${tvId}/videos`;
+    return this.http
+      .get<VideoResponse>(url, { params: this.params })
+      .pipe(map((res) => res.results));
+  }
+
+  discoverTVShow(filters: any, page: number): Observable<any> {
+    const url = `discover/tv`;
+    let params = new HttpParams();
+
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        params = params.set(key, filters[key]);
+      }
+    });
+
+    return this.http.get(url, { params: params });
   }
 }

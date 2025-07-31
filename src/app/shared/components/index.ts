@@ -20,6 +20,7 @@ import { InputRangeComponent } from './input-range/input-range.component';
 import { ListPageLayoutComponent } from './list-page-layout/list-page-layout.component';
 import { InputTextComponent } from './input-text/input-text.component';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
+import { MovieDetailLayoutComponent } from './movie-detail-layout/movie-detail-layout.component';
 
 export const components = [
   LoadingComponent,
@@ -44,4 +45,5 @@ export const components = [
   ListPageLayoutComponent,
   InputTextComponent,
   ScrollToTopComponent,
+  MovieDetailLayoutComponent,
 ];

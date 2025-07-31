@@ -24,8 +24,7 @@ export class TrailerModalComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['trailer'].currentValue) {
-      console.log('openModal', this.openModal);
+    if (changes['trailer'].currentValue && changes['openModal'].currentValue) {
       this.handleOnPlayTrailer(changes['trailer'].currentValue);
     }
   }
@@ -35,16 +34,8 @@ export class TrailerModalComponent implements OnInit {
       trailer.youtubeUrl
     );
   }
-  handleClickOutside = (event: MouseEvent) => {
-    const hostElement = (event.target as HTMLElement).closest('.trailer-video');
-    if (!hostElement) {
-      this.closeModal();
-      document.removeEventListener('click', this.handleClickOutside, true);
-    }
-  };
 
   closeModal(): void {
-    console.log('check closeModal');
     this.safeYoutubeUrl = null;
     this.closeEvent.emit();
   }

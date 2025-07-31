@@ -103,7 +103,7 @@ export class MovieService {
     );
   }
 
-  getMovieTrailer(id: string): Observable<TrailerItem | null> {
+  getMovieTrailer(id: number): Observable<TrailerItem | null> {
     const url = `${this.baseUrl}/${id}/videos`;
     const videos = this.http.get<TrailerItem>(url, { params: this.params });
     return videos.pipe(
@@ -172,7 +172,7 @@ export class MovieService {
 
   getMovieImages(movieId: number): Observable<MovieImagesResponse> {
     const url = `${this.baseUrl}/${movieId}/images`;
-    return this.http.get<MovieImagesResponse>(url, { params: this.params });
+    return this.http.get<MovieImagesResponse>(url);
   }
 
   getMovieVideos(movieId: number): Observable<Video[]> {

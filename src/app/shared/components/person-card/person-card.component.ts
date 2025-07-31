@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Cast } from '@features/movies/models/credit.model';
 
 @Component({
@@ -6,9 +12,13 @@ import { Cast } from '@features/movies/models/credit.model';
   templateUrl: './person-card.component.html',
   styleUrls: ['./person-card.component.scss'],
 })
-export class PersonCardComponent implements OnInit {
+export class PersonCardComponent implements OnInit, OnChanges {
   @Input() cast!: Cast;
+  @Input() isLoading!: boolean | null;
   constructor() {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('check changes', changes);
+  }
   ngOnInit(): void {}
 }

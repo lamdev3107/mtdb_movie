@@ -9,7 +9,7 @@ const routes: Routes = [
     component: TvShowsComponent,
   },
   {
-    path: 'detail/:id',
+    path: 'details/:id',
     component: TvShowDetailComponent,
   },
 ];

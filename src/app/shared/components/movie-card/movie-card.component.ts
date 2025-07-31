@@ -22,9 +22,21 @@ export class MovieCardComponent implements OnInit {
   @Input() tvShow!: TVShow;
   @Input() isLoading: boolean = false;
 
+  posterPath: string = '';
+
   detailLink: string = '';
 
   constructor() {}
+
+  getPosterPath() {
+    if (this.movie && this.movie.poster_path) {
+      return this.imageBaseUrl + this.movie.poster_path;
+    } else if (this.tvShow && this.tvShow.poster_path) {
+      return this.imageBaseUrl + this.tvShow.poster_path;
+    } else {
+      return 'assets/icons/picture.svg';
+    }
+  }
 
   ngOnInit(): void {
     if (this.movie) {

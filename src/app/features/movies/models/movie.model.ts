@@ -1,7 +1,7 @@
 import { Language } from '@core/services/configuration.service';
 import { Genre } from '../../home/models/genre.model';
 
-export interface company {
+export interface Company {
   id: number;
   logo_path: string;
   name: string;
@@ -61,7 +61,7 @@ export interface MovieDetail {
   overview: string;
   popularity: number;
   poster_path: string;
-  production_companies: company[];
+  production_companies: Company[];
   production_countries: any[];
   release_date: string;
   revenue: number;

@@ -1,7 +1,8 @@
-<app-movie-detail-hero [movie]="movie"></app-movie-detail-hero>
-
-<div class="movie-detail-body">
-  <div class="movie-detail-main-content">
+<app-movie-detail-layout>
+  <div class="hero-section">
+    <app-movie-detail-hero [movie]="movie"></app-movie-detail-hero>
+  </div>
+  <div class="main-content">
     <!-- Cast -->
     <div class="movie-detail-cast movie-detail-section">
       <h2 class="movie-detail-section__title">Top Billed Cast</h2>
@@ -30,12 +31,10 @@
       ></app-movie-detail-recommendations-list>
     </div>
   </div>
-
-  <!-- Sidebar content -->
-  <div class="movie-detail-section">
+  <div class="sidebar movie-detail-section">
     <app-movie-detail-sidebar
       [movie]="movie"
       [keywords]="keywords"
     ></app-movie-detail-sidebar>
   </div>
-</div>
+</app-movie-detail-layout>

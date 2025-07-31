@@ -74,6 +74,7 @@ export class MoviesComponent implements OnInit {
       )
       .subscribe({
         next: (res: ListMovieResponse) => {
+          console.log('check res', res);
           this.movies = [...this.movies, ...res.results];
         },
         error: (err) => {

@@ -1,5 +1,15 @@
 <div class="cast-item">
-  <a class="cast-item__photo" routerLink="/people/{{ cast.id }}">
+  <ng-container *ngIf="isLoading">
+    <app-skeleton
+      type="cast-item"
+      class="skeleton-container--cast-item"
+    ></app-skeleton>
+  </ng-container>
+  <a
+    *ngIf="!isLoading"
+    class="cast-item__photo"
+    routerLink="/people/{{ cast.id }}"
+  >
     <img
       class="cast-item__photo-img"
       [src]="

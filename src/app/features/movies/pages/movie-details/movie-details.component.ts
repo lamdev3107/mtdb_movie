@@ -71,7 +71,6 @@ export class MovieDetailsComponent implements OnInit {
     this.movieService.getMovieReviews(Number(movieId)).subscribe({
       next: (res) => {
         this.movieReview = res.results[0] as Review;
-        console.log('check movieReview', this.movieReview);
       },
     });
   }

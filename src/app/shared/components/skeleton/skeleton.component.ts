@@ -16,8 +16,9 @@ export type SkeletonType =
 export class SkeletonComponent {
   @Input() type: SkeletonType = 'text';
   @Input() width: string = '100%';
-  @Input() height: string = '1rem';
+  @Input() height: string = 'auto';
   @Input() count: number = 1;
+  @Input() aspectRatio: string = '1/1';
   @Input() borderRadius: string = '4px';
   @Input() className: string = '';
 
@@ -29,6 +30,7 @@ export class SkeletonComponent {
     return {
       width: this.width,
       height: this.height,
+      aspectRatio: this.aspectRatio,
       borderRadius: this.borderRadius,
     };
   }

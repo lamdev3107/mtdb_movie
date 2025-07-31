@@ -9,7 +9,10 @@ import {
   Movie,
   TrailerItem,
 } from 'src/app/features/movies/models/movie.model';
-import { TVShowService } from 'src/app/features/tv-shows/services/tv-shows.service';
+import {
+  TVShowCategoryEnum,
+  TVShowService,
+} from 'src/app/features/tv-shows/services/tv-shows.service';
 import {
   ListTVShowResponse,
   TVShow,
@@ -57,7 +60,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.genreService.getMovieGenreList();
   }
   loadTrailers(): void {
-    console.log('load trailer');
     this.loadingService.show();
     this.movieService
       .getLatestTrailers()
@@ -101,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadPopularTVShowLists(): void {
     this.loadingService.show();
     this.tvShowService
-      .getPopularTVShows()
+      .getTVShowsByCategory(TVShowCategoryEnum.POPULAR)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
@@ -111,9 +113,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: ListTVShowResponse) => {
           this.popularTVShowList = res.results;
-          console.log('check popularTVShowList', this.popularTVShowList);
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Error fetching popular tv show list', err);
         },
       });

@@ -3,6 +3,7 @@
     <img
       [src]="imageBaseUrl + trailer?.backdrop_path"
       alt="Trailer thumbnail"
+      loading="lazy"
       class="trailer-thumbnail__image"
     />
     <button class="trailer-thumbnail__play-button" (click)="onClickPlayBtn()">

@@ -3,12 +3,13 @@
   [activeTabId]="activeTabId"
   (tabChange)="onTabChange($event)"
 >
+  <!-- Videos -->
   <div class="movie-video-list-container" *ngIf="activeTabId == 'videos'">
     <div class="movie-video-list">
       <p *ngIf="videos.length === 0" class="no-data-text">
         No videos have been added.
       </p>
-      <div *ngIf="videos.length > 0">
+      <ng-container *ngIf="videos.length > 0">
         <div class="movie-video-item" *ngFor="let video of videos">
           <iframe
             class="movie-video-item__iframe"
@@ -17,7 +18,7 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
         </div>
-      </div>
+      </ng-container>
     </div>
     <a class="more" [routerLink]="['./videos']">
       View all video
@@ -39,16 +40,31 @@
       </svg>
     </a>
   </div>
+
+  <!-- Posters -->
   <div class="movie-posters-list-container" *ngIf="activeTabId == 'posters'">
     <div class="movie-poster-list">
-      <p *ngIf="videos.length === 0" class="no-data-text">
-        No videos have been added.
+      <p *ngIf="posters.length === 0" class="no-data-text">
+        No poster have been added.
       </p>
-      <div *ngIf="posters.length > 0">
+      <ng-container *ngIf="posters.length > 0">
         <div class="movie-poster-item" *ngFor="let poster of posters">
-          <img [src]="poster.file_path | imageUrl : 500 : false" alt="poster" />
+          <ng-container *ngIf="!(loadingService.loading$ | async)">
+            <img
+              [src]="poster.file_path | imageUrl : 500 : false"
+              alt="poster"
+              loading="lazy"
+            />
+          </ng-container>
+          <ng-container *ngIf="loadingService.loading$ | async">
+            <app-skeleton
+              [width]="'100%'"
+              [height]="'100%'"
+              [aspectRatio]="'3/2'"
+            ></app-skeleton>
+          </ng-container>
         </div>
-      </div>
+      </ng-container>
     </div>
     <a class="more" [routerLink]="['./videos']">
       View all posters
@@ -70,22 +86,33 @@
       </svg>
     </a>
   </div>
+
+  <!-- Backdrops -->
   <div
     class="movie-backdrops-list-container"
-    *ngIf="activeTabId == 'backdrops'"
+    *ngIf="activeTabId === 'backdrops'"
   >
     <div class="movie-backdrop-list">
-      <p *ngIf="videos.length === 0" class="no-data-text">
-        No videos have been added.
+      <p
+        *ngIf="backdrops.length === 0 && !(loadingService.loading$ | async)"
+        class="no-data-text"
+      >
+        No backdrops have been added.
       </p>
-      <div *ngIf="backdrops.length > 0">
-        <div class="movie-backdrop-item" *ngFor="let backdrop of backdrops">
+      <!-- <ng-container *ngIf="backdrops.length > 0"> -->
+      <div class="movie-backdrop-item" *ngFor="let backdrop of backdrops">
+        <ng-container *ngIf="!(loadingService.loading$ | async)">
           <img
             [src]="backdrop.file_path | imageUrl : 500 : false"
             alt="backdrop"
+            loading="lazy"
           />
-        </div>
+        </ng-container>
+        <ng-container *ngIf="loadingService.loading$ | async">
+          <app-skeleton [height]="'100%'" [width]="'100%'"></app-skeleton>
+        </ng-container>
       </div>
+      <!-- </ng-container> -->
     </div>
     <a class="more" [routerLink]="['./videos']">
       View all backdrops

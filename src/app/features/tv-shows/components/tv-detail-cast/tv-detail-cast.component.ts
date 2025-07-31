@@ -1,35 +1,35 @@
-import { MovieService } from 'src/app/features/movies/services/movie.service';
 import { Component, OnInit } from '@angular/core';
 import { Cast } from '@features/movies/models/credit.model';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from '@core/services/loading.service';
+import { MovieService } from '@features/tv-shows/services/tv-shows.service';
 
 @Component({
-  selector: 'app-movie-detail-cast',
-  templateUrl: './movie-detail-cast.component.html',
-  styleUrls: ['./movie-detail-cast.component.scss'],
+  selector: 'app-tv-detail-cast',
+  templateUrl: './tv-detail-cast.component.html',
+  styleUrls: ['./tv-detail-cast.component.scss'],
 })
-export class MovieDetailCastComponent implements OnInit {
+export class TvDetailCastComponent implements OnInit {
   castList!: Cast[];
-  movieId: string | null = null;
+  tvId: string | null = null;
   private destroy$ = new Subject<void>();
 
   constructor(
-    private movieService: MovieService,
+    private tvService: MovieService,
     private route: ActivatedRoute,
     public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    this.movieId = this.route.snapshot.paramMap.get('id');
+    this.tvId = this.route.snapshot.paramMap.get('id');
     this.loadMovieCredits();
   }
   loadMovieCredits() {
     this.loadingService.show();
 
-    this.movieService
-      .getTopBilledCast(Number(this.movieId))
+    this.tvService
+      .getTopBilledCast(Number(this.tvId))
       .pipe(
         // Dòng này sử dụng toán tử takeUntil để tự động hủy (unsubscribe) Observable khi destroy$ phát ra giá trị,
         // giúp tránh rò rỉ bộ nhớ khi component bị hủy. Khi gọi destroy$.next(), tất cả các subscription đang lắng nghe sẽ bị dừng lại.
@@ -37,10 +37,10 @@ export class MovieDetailCastComponent implements OnInit {
         finalize(() => this.loadingService.hide()) // luôn hide loading dù success hay error
       )
       .subscribe({
-        next: (res) => {
+        next: (res: Cast[]) => {
           this.castList = res;
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error(err);
         },
       });

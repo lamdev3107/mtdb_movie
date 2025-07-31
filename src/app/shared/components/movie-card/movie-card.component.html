@@ -1,31 +1,10 @@
 <div class="movie-card">
   <ng-container *ngIf="!isLoading">
     <a [routerLink]="detailLink" class="movie-card__image-wrapper">
-      <ng-container *ngIf="movie?.poster_path && tvShow?.poster_path">
-        <img
-          [src]="
-            movie
-              ? (movie.poster_path | imageUrl : 500 : false)
-              : (tvShow.poster_path | imageUrl : 500 : false)
-          "
-          class="movie-card__poster"
-          [alt]="movie ? movie.title : tvShow.name"
-        />
-      </ng-container>
-      <ng-container *ngIf="!movie?.poster_path && !tvShow?.poster_path">
-        <img
-          src="assets/icons/picture.svg"
-          class="movie-card__poster"
-          alt="No image"
-        />
-      </ng-container>
       <img
-        [src]="
-          movie
-            ? (movie.poster_path | imageUrl : 500 : false)
-            : (tvShow.poster_path | imageUrl : 500 : false)
-        "
+        [src]="getPosterPath()"
         class="movie-card__poster"
+        loading="lazy"
         [alt]="movie ? movie.title : tvShow.name"
       />
       <div class="movie-card__rating">
