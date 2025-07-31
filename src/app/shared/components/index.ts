@@ -23,6 +23,7 @@ import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 import { MovieDetailLayoutComponent } from './movie-detail-layout/movie-detail-layout.component';
 import { DetailPageRecommendationComponent } from '@shared/components/detail-page-recommendations-list/detail-page-recommendations.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { CastCardComponent } from './cast-card/cast-card.component';
 
 export const components = [
   LoadingComponent,
@@ -51,4 +52,5 @@ export const components = [
   TrailerModalComponent,
   DetailPageRecommendationComponent,
   PaginationComponent,
+  CastCardComponent,
 ];

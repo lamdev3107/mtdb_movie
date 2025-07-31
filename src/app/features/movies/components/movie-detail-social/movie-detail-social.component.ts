@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Review } from '@features/movies/models/review.model';
+import { Review } from '@features/review/models/review.model';
 import { TabItem } from '@shared/components/tab/tab.component';
 
 @Component({

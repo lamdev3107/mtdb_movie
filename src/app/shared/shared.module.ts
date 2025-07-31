@@ -6,7 +6,6 @@ import { SwiperModule } from 'swiper/angular';
 import { RouterModule } from '@angular/router';
 import { components } from './components';
 import { pipes } from './pipes';
-
 @NgModule({
   declarations: [...components, ...pipes],
   imports: [CommonModule, FormsModule, SwiperModule, RouterModule],

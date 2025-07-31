@@ -4,7 +4,7 @@ import { LoadingService } from '@core/services/loading.service';
 import { Cast } from '@features/movies/models/credit.model';
 import { Image } from '@features/movies/models/images.model';
 import { Keyword } from '@features/movies/models/keyword.model';
-import { Review } from '@features/movies/models/review.model';
+import { Review } from '@features/review/models/review.model';
 import { Video } from '@features/movies/models/video.model';
 import { TVShow, TVShowDetail } from '@features/tv-shows/models/tv-show.model';
 import { TVShowService } from '@features/tv-shows/services/tv-shows.service';

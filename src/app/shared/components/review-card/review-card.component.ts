@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Review } from 'src/app/features/movies/models/review.model';
+import { Review } from '@features/review/models/review.model';
 
 @Component({
   selector: 'app-review-card',

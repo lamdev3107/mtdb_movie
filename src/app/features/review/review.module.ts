@@ -2,16 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReviewRoutingModule } from './review-routing.module';
-import { ReviewDetailComponent } from './review-detail/review-detail.component';
-
+import { ReviewDetailComponent } from './pages/review-detail/review-detail.component';
 
 @NgModule({
-  declarations: [
-    ReviewDetailComponent
-  ],
-  imports: [
-    CommonModule,
-    ReviewRoutingModule
-  ]
+  declarations: [ReviewDetailComponent],
+  imports: [CommonModule, ReviewRoutingModule],
 })
-export class ReviewModule { }
+export class ReviewModule {}

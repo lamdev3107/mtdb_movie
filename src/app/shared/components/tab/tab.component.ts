@@ -39,6 +39,7 @@ export class TabComponent implements AfterContentInit, OnDestroy {
 
   onTabClick(tab: TabItem): void {
     if (tab.disabled) return;
+    if (this.activeTab?.id === tab.id) return;
     this.activeTabId = tab.id;
     this.setActiveTab();
     this.tabChange.emit(tab.id);

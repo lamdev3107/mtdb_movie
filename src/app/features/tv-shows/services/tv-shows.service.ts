@@ -7,7 +7,7 @@ import {
   TVShowDetail,
 } from '../models/tv-show.model';
 import { Cast, CreditsResponse } from '@features/movies/models/credit.model';
-import { ReviewResponse } from '@features/movies/models/review.model';
+import { ReviewResponse } from '@features/review/models/review.model';
 import { Video, VideoResponse } from '@features/movies/models/video.model';
 import { ImagesResponse } from '@features/movies/models/images.model';
 import {

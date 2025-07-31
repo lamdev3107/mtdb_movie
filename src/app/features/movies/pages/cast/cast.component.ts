@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from '@core/services/loading.service';
 import { Cast, Crew } from '@features/movies/models/credit.model';
@@ -15,7 +15,8 @@ export class CastComponent implements OnInit {
   movieId: string | null = null;
   movie: MovieDetail | null = null;
   casts: Cast[] = [];
-  crewByDepartment: Crew[] = [];
+  crew: Crew[] = [];
+  crewByDepartment: Record<string, Crew[]> = {};
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng
 
   constructor(
@@ -30,7 +31,6 @@ export class CastComponent implements OnInit {
       this.loadMovieCredits(this.movieId);
       this.loadMovieDetails(this.movieId);
     });
-    this.loadMovieCredits(this.movieId);
   }
   loadMovieDetails(movieId: string | null): void {
     this.loadingService.show();
@@ -45,7 +45,6 @@ export class CastComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.movie = res;
-          console.log('check movie', this.movie);
         },
         error: (err) => {
           console.log('Error fetching trailers', err);
@@ -65,8 +64,9 @@ export class CastComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.casts = res.cast;
+          this.crew = res.crew;
+          console.log('check crew', this.crew);
           this.groupCrewByDepartment(res.crew);
-          console.log('Check ', this.crewByDepartment);
         },
         error: (err) => {
           console.error(err);
@@ -81,5 +81,6 @@ export class CastComponent implements OnInit {
       acc[dept].push(member);
       return acc;
     }, {});
+    console.log('check crewByDepartment', this.crewByDepartment);
   }
 }

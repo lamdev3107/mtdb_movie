@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize, map, Subject, takeUntil } from 'rxjs';
 import { Movie, MovieDetail } from '../../models/movie.model';
 import { Keyword } from '../../models/keyword.model';
-import { Review } from '../../models/review.model';
+import { Review } from '../../../review/models/review.model';
 import { LoadingService } from '@core/services/loading.service';
 import { TabItem } from '@shared/components/tab/tab.component';
 import { Video } from '@features/movies/models/video.model';
