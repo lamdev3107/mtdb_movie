@@ -30,7 +30,8 @@
       (optionChanged)="onTrendingWindowChanged($event)"
     ></app-toggle-switch>
   </div>
-  <app-movie-carousel [movieList]="trendingMovieList"> </app-movie-carousel>
+  <app-movie-carousel [type]="'movie'" [movieList]="trendingMovieList">
+  </app-movie-carousel>
 </div>
 
 <div class="section popular-tv-shows-section">
@@ -44,5 +45,6 @@
   <div class="section-header">
     <h2 class="section-header__title">Popular TV Shows</h2>
   </div>
-  <app-tv-carousel [tvList]="popularTVShowList"> </app-tv-carousel>
+  <app-movie-carousel [type]="'tv'" [tvShowList]="popularTVShowList">
+  </app-movie-carousel>
 </div>

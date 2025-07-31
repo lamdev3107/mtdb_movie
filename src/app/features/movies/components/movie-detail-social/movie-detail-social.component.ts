@@ -9,7 +9,7 @@ import { TabItem } from '@shared/components/tab/tab.component';
 })
 export class MovieDetailSocialComponent implements OnInit {
   tabs: TabItem[] = [{ id: 'reviews', label: 'Reviews' }];
-  @Input() movieReview: Review | null = null;
+  @Input() review: Review | null = null;
   activeTabId = 'reviews';
   constructor() {}
 

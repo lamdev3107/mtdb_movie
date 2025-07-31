@@ -9,11 +9,13 @@ import {
 import { Cast, CreditsResponse } from '@features/movies/models/credit.model';
 import { ReviewResponse } from '@features/movies/models/review.model';
 import { Video, VideoResponse } from '@features/movies/models/video.model';
-import { MovieImagesResponse } from '@features/movies/models/images.model';
+import { ImagesResponse } from '@features/movies/models/images.model';
 import {
   Keyword,
   KeywordResponse,
 } from '@features/movies/models/keyword.model';
+import { GenreListResponse } from '@features/home/models/genre.model';
+import { TrailerItem } from '@features/movies/models/movie.model';
 
 export interface queryListTVShow {
   language: string;
@@ -89,8 +91,8 @@ export class TVShowService {
   getTVShowKeywords(tvId: number): Observable<Keyword[]> {
     const url = `${this.baseUrl}/${tvId}/keywords`;
     return this.http
-      .get<KeywordResponse>(url, { params: this.params })
-      .pipe(map((res) => res.keywords));
+      .get<any>(url, { params: this.params })
+      .pipe(map((res) => res.results));
   }
 
   getTVShowReviews(tvId: number, page: number = 1): Observable<ReviewResponse> {
@@ -112,9 +114,30 @@ export class TVShowService {
       .pipe(map((res) => res.results.slice(0, count)));
   }
 
-  getTVShowImages(tvId: number): Observable<MovieImagesResponse> {
+  getTVShowTrailer(id: number): Observable<TrailerItem | null> {
+    const url = `${this.baseUrl}/${id}/videos`;
+    const videos = this.http.get<TrailerItem>(url, { params: this.params });
+    return videos.pipe(
+      map((res: any) => {
+        const trailer = res.results.find(
+          (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
+        );
+        if (!trailer) return null;
+        return {
+          id: Number(id), // ép kiểu về number
+          title: trailer.name,
+          description: trailer.name,
+          videoKey: trailer.key,
+          youtubeUrl: `https://www.youtube.com/embed/${trailer.key}`,
+          thumbnail: `https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg`,
+          backdrop_path: trailer.backdrop_path,
+        } as TrailerItem;
+      })
+    );
+  }
+  getTVShowImages(tvId: number): Observable<ImagesResponse> {
     const url = `${this.baseUrl}/${tvId}/images`;
-    return this.http.get<MovieImagesResponse>(url);
+    return this.http.get<ImagesResponse>(url);
   }
 
   getTVShowVideos(tvId: number): Observable<Video[]> {

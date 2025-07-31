@@ -1,4 +1,4 @@
-import { TrailerModalComponent } from 'src/app/features/components/trailer-modal/trailer-modal.component';
+import { TrailerModalComponent } from '@shared/components/trailer-modal/trailer-modal.component';
 import { ButtonComponent } from './button/button.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -21,6 +21,8 @@ import { ListPageLayoutComponent } from './list-page-layout/list-page-layout.com
 import { InputTextComponent } from './input-text/input-text.component';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 import { MovieDetailLayoutComponent } from './movie-detail-layout/movie-detail-layout.component';
+import { DetailPageRecommendationComponent } from '@shared/components/detail-page-recommendations-list/detail-page-recommendations.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 export const components = [
   LoadingComponent,
@@ -46,4 +48,7 @@ export const components = [
   InputTextComponent,
   ScrollToTopComponent,
   MovieDetailLayoutComponent,
+  TrailerModalComponent,
+  DetailPageRecommendationComponent,
+  PaginationComponent,
 ];

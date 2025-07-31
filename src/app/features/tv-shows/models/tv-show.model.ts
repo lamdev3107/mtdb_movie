@@ -35,6 +35,10 @@ export interface Episode {
   still_path: string;
 }
 
+export interface Keyword{
+  
+}
+
 export interface ListTVShowResponse {
   page: number;
   results: TVShow[];
@@ -78,7 +82,7 @@ export interface TVShowDetail {
   number_of_seasons: number;
   origin_country: string[];
   original_language: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;

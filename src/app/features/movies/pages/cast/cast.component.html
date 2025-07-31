@@ -1,1 +1,25 @@
-<p>cast works!</p>
+<div class="cast-page">
+  <div class="cast-page-header">
+    <img
+      class="cast-page-header__image"
+      [src]="movie?.poster_path | imageUrl : 500 : false"
+      [alt]="movie?.title"
+    />
+    <div class="cast-page-header__content">
+      <h1 class="cast-page-header__title">{{ movie?.title }}</h1>
+      <p class="cast-page-header__year">
+        {{ movie?.release_date | date : "yyyy" }}
+      </p>
+    </div>
+  </div>
+
+  <div class="cast-page-content">
+    <div class="cast-page-credits">
+      <h2 class="cast-page-crew__title">Cast</h2>
+    </div>
+
+    <div class="cast-page-credits">
+      <h2 class="cast-page-crew__title">Crew</h2>
+    </div>
+  </div>
+</div>

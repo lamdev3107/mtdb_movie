@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { GenreListResponse } from '../models/genre.model';
 
 @Injectable({
@@ -14,5 +13,8 @@ export class GenreService {
 
   getMovieGenreList(): Observable<GenreListResponse> {
     return this.http.get<GenreListResponse>(`${this.baseUrl}/movie/list`);
+  }
+  getTVGenreList(): Observable<GenreListResponse> {
+    return this.http.get<GenreListResponse>(`${this.baseUrl}/tv/list`);
   }
 }

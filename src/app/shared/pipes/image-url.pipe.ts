@@ -7,7 +7,7 @@ export class ImageUrlPipe implements PipeTransform {
   imageBaseUrl = 'https://image.tmdb.org/t/p';
 
   transform(
-    imagePath: string | undefined,
+    imagePath: string | undefined | null,
     width: number = 500,
     original: false
   ): string {

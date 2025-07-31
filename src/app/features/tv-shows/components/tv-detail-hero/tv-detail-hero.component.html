@@ -3,7 +3,7 @@
   [style.background-image]="
     'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url(' +
     imageBaseUrl +
-    movie?.backdrop_path +
+    tvShow?.backdrop_path +
     ')'
   "
   [style.background-repeat]="'no-repeat'"
@@ -11,21 +11,21 @@
   [style.background-size]="'cover'"
 >
   <div class="hero-section__container">
-    <div class="hero-section__poster" *ngIf="movie?.poster_path">
+    <div class="hero-section__poster" *ngIf="tvShow?.poster_path">
       <img
         class="hero-section__poster-image"
         [src]="
-          movie?.poster_path
-            ? (movie?.poster_path | imageUrl : 500 : false)
+          tvShow?.poster_path
+            ? (tvShow?.poster_path | imageUrl : 500 : false)
             : 'assets/images/no-picture.png'
         "
-        [alt]="movie?.title"
+        [alt]="tvShow?.name"
         loading="lazy"
       />
     </div>
     <div
       class="hero-section__poster hero-section__poster--no-image"
-      *ngIf="!movie?.poster_path"
+      *ngIf="!tvShow?.poster_path"
     >
       <img
         class="hero-section__poster-image--no-image"
@@ -38,28 +38,28 @@
     <div class="hero-section__content">
       <div class="hero-section__info">
         <h1 class="hero-section__info-title">
-          {{ movie?.title || "-------" }}
+          {{ tvShow?.name || "-------" }}
           <span class="hero-section__info-year"
-            >({{ movie?.release_date | date : "yyyy" }})</span
+            >({{ tvShow?.first_air_date | date : "yyyy" }})</span
           >
         </h1>
         <div class="hero-section__meta">
           <span class="hero-section__meta-age">{{ age }}</span>
           <span> </span>
           <span class="hero-section__meta-date">{{
-            movie?.release_date | date : "dd/MM/yyyy"
+            tvShow?.first_air_date | date : "dd/MM/yyyy"
           }}</span>
           <span class="hero-section__meta-genre">{{ genres }}</span>
-          <span class="hero-section__meta-duration">{{
-            movie?.runtime | formatTime
-          }}</span>
+          <!-- <span class="hero-section__meta-duration">{{
+            tvShow?.runtime | formatTime
+          }}</span> -->
         </div>
       </div>
 
       <div class="hero-section__user-score">
         <app-user-score
           [size]="'medium'"
-          [score]="movie?.vote_average"
+          [score]="tvShow?.vote_average"
         ></app-user-score>
         <span class="hero-section__user-score-label">User Score</span>
       </div>
@@ -97,13 +97,13 @@
       </div>
 
       <p class="hero-section__tagline">
-        {{ movie?.tagline }}
+        {{ tvShow?.tagline }}
       </p>
 
       <div class="hero-section__overview">
         <h2 class="hero-section__overview-text">Overview</h2>
         <p class="hero-section__overview-content">
-          {{ movie?.overview }}
+          {{ tvShow?.overview }}
         </p>
       </div>
     </div>

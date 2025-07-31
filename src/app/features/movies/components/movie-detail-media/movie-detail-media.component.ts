@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
-import { MovieImage } from '@features/movies/models/images.model';
+import { Image } from '@features/movies/models/images.model';
 import { Video } from '@features/movies/models/video.model';
 import { MovieService } from '@features/movies/services/movie.service';
 import { TabItem } from '@shared/components/tab/tab.component';
@@ -23,8 +23,8 @@ export class MovieDetailMediaComponent implements OnInit {
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng
 
   videos: Video[] = [];
-  posters: MovieImage[] = [];
-  backdrops: MovieImage[] = [];
+  posters: Image[] = [];
+  backdrops: Image[] = [];
   activeTabId = 'videos';
   constructor(
     private movieService: MovieService,
@@ -40,7 +40,7 @@ export class MovieDetailMediaComponent implements OnInit {
   onTabChange(tabId: string) {
     this.activeTabId = tabId;
     if (tabId !== 'videos') {
-      this.loadMovieImages(this.movieId);
+      this.loadImages(this.movieId);
     }
   }
 
@@ -58,10 +58,10 @@ export class MovieDetailMediaComponent implements OnInit {
       });
   }
 
-  loadMovieImages(movieId: string | null) {
+  loadImages(movieId: string | null) {
     this.loadingService.show();
     this.movieService
-      .getMovieImages(Number(movieId))
+      .getImages(Number(movieId))
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {

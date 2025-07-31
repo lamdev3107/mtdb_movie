@@ -23,26 +23,5 @@ export class MovieDetailCastComponent implements OnInit {
 
   ngOnInit(): void {
     this.movieId = this.route.snapshot.paramMap.get('id');
-    this.loadMovieCredits();
-  }
-  loadMovieCredits() {
-    this.loadingService.show();
-
-    this.movieService
-      .getTopBilledCast(Number(this.movieId))
-      .pipe(
-        // Dòng này sử dụng toán tử takeUntil để tự động hủy (unsubscribe) Observable khi destroy$ phát ra giá trị,
-        // giúp tránh rò rỉ bộ nhớ khi component bị hủy. Khi gọi destroy$.next(), tất cả các subscription đang lắng nghe sẽ bị dừng lại.
-        takeUntil(this.destroy$),
-        finalize(() => this.loadingService.hide()) // luôn hide loading dù success hay error
-      )
-      .subscribe({
-        next: (res) => {
-          this.castList = res;
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
   }
 }

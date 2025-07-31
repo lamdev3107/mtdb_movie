@@ -1,8 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { ActivatedRoute } from '@angular/router';
-import { finalize, Observable, Subject, takeUntil } from 'rxjs';
 import { MovieDetail, TrailerItem } from '../../models/movie.model';
 import { environment } from 'src/environments/environment';
 

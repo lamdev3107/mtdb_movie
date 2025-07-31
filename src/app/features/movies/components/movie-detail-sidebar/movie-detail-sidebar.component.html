@@ -72,11 +72,11 @@
           No keywords have been added.
         </p>
       </div>
-      <!-- <div *ngIf="keywords.length > 0">
+      <ng-container *ngIf="keywords && keywords.length > 0">
         <div class="movie-keywords__item" *ngFor="let keyword of keywords">
           {{ keyword.name }}
         </div>
-      </div> -->
+      </ng-container>
       <!-- Sidebar content -->
     </div>
   </div>

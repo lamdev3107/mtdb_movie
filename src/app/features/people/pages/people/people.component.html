@@ -1,0 +1,16 @@
+<div class="people-page">
+  <div class="people-page__grid">
+    <div *ngFor="let person of people" class="people-page__card">
+      <app-people-card [person]="person"></app-people-card>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="people-page__pagination">
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+</div>

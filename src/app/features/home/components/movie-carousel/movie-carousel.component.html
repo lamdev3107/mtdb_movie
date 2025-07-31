@@ -8,9 +8,16 @@
     (slideChange)="onSlideChange()"
   >
     <!-- <ng-content select="[swiperSlide],swiperSlide"></ng-content> -->
-    <ng-template swiperSlide *ngFor="let movie of movieList">
-      <app-movie-card [movie]="movie"></app-movie-card>
-    </ng-template>
+    <ng-container *ngIf="type === 'movie'">
+      <ng-template swiperSlide *ngFor="let item of movieList">
+        <app-movie-card [movie]="item"> </app-movie-card>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="type === 'tv'">
+      <ng-template swiperSlide *ngFor="let item of tvShowList">
+        <app-movie-card [tvShow]="item"> </app-movie-card>
+      </ng-template>
+    </ng-container>
   </swiper>
   <button
     *ngIf="!isBeginning"

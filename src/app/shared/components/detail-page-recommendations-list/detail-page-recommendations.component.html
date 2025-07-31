@@ -1,28 +1,28 @@
-<div class="movie-detail-recommendations-list">
+<div class="recommendations-list">
   <ng-container *ngIf="recommendations.length > 0">
     <div
-      class="movie-detail-recommendations-item"
+      class="recommendations-item"
       *ngFor="let recommendation of recommendations"
     >
-      <a [routerLink]="['/movies', recommendation.id]">
+      <a [routerLink]="getRouteLink(recommendation.id)">
         <img
           [src]="
             recommendation.backdrop_path
               ? (recommendation.backdrop_path | imageUrl : 500 : false)
               : (recommendation.poster_path | imageUrl : 500 : false)
           "
-          [alt]="recommendation.title"
-          class="movie-detail-recommendations-item__img"
+          [alt]="recommendation.title || recommendation.name"
+          class="recommendations-item__img"
           loading="lazy"
         />
       </a>
-      <div class="movie-detail-recommendations-item__info">
-        <a [routerLink]="['/movies', recommendation.id]">
-          <p class="movie-detail-recommendations-item__info-title">
-            {{ recommendation.title }}
+      <div class="recommendations-item__info">
+        <a [routerLink]="getRouteLink(recommendation.id)">
+          <p class="recommendations-item__info-title">
+            {{ recommendation.title || recommendation.name }}
           </p>
         </a>
-        <p class="movie-detail-recommendations-item__info-rating">
+        <p class="recommendations-item__info-rating">
           {{ recommendation.vote_average | convertPercent }}
         </p>
       </div>

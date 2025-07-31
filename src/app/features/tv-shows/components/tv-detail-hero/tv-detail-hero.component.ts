@@ -1,45 +1,43 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { MovieService } from '../../services/movie.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { ActivatedRoute } from '@angular/router';
-import { finalize, Observable, Subject, takeUntil } from 'rxjs';
-import { MovieDetail, TrailerItem } from '../../models/movie.model';
 import { environment } from 'src/environments/environment';
+import { TVShowService } from '@features/tv-shows/services/tv-shows.service';
+import { TrailerItem } from '@features/movies/models/movie.model';
+import { TVShowDetail } from '@features/tv-shows/models/tv-show.model';
 
 @Component({
-  selector: 'app-movie-detail-hero',
-  templateUrl: './movie-detail-hero.component.html',
-  styleUrls: ['./movie-detail-hero.component.scss'],
+  selector: 'app-tv-detail-hero',
+  templateUrl: './tv-detail-hero.component.html',
+  styleUrls: ['./tv-detail-hero.component.scss'],
 })
-export class MovieDetailHeroComponent implements OnInit {
+export class TVShowDetailHeroComponent implements OnInit {
   imageBaseUrl = environment.imageBaseUrl;
   id: number | null = null;
-  @Input() movie: MovieDetail | null = null;
+  @Input() tvShow: TVShowDetail | null = null;
   age: string = '';
   openTrailerModal = false;
   trailer: TrailerItem | null = null;
-  constructor(private movieService: MovieService) {}
+  constructor(private tvShowService: TVShowService) {}
   genres: string = '';
 
   ngOnInit(): void {
     this.genres =
-      this.movie?.genres.map((genre) => genre.name).join(', ') || '';
+      this.tvShow?.genres.map((genre) => genre.name).join(', ') || '';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['movie'] && changes['movie'].currentValue) {
-      this.movie = changes['movie'].currentValue;
+    if (changes['tvShow'] && changes['tvShow'].currentValue) {
+      this.tvShow = changes['tvShow'].currentValue;
       this.genres =
-        changes['movie'].currentValue.genres
+        changes['tvShow'].currentValue.genres
           .map((genre: any) => genre.name)
           .join(', ') || '';
-      this.age = changes['movie'].currentValue.adult ? 'R' : 'PG-13';
-      this.id = changes['movie'].currentValue.id;
-      console.log('Check movie', this.movie);
+      this.age = changes['tvShow'].currentValue.adult ? 'R' : 'PG-13';
+      this.id = changes['tvShow'].currentValue.id;
+      console.log('Check tvShow', this.tvShow);
     }
   }
   onPlayTrailer(): void {
-    this.movieService.getMovieTrailer(this.id as number).subscribe((res) => {
+    this.tvShowService.getTVShowTrailer(this.id as number).subscribe((res) => {
       this.trailer = res;
       this.openTrailerModal = true;
     });

@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { TrailerItem } from '../../movies/models/movie.model';
+import { TrailerItem } from '../../../features/movies/models/movie.model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({

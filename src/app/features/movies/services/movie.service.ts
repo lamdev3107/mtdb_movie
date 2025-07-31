@@ -10,8 +10,7 @@ import {
 import { Cast, CreditsResponse } from '../models/credit.model';
 import { Keyword, KeywordResponse } from '../models/keyword.model';
 import { Review, ReviewResponse } from '../models/review.model';
-import { environment } from 'src/environments/environment';
-import { MovieImagesResponse } from '../models/images.model';
+import { ImagesResponse } from '../models/images.model';
 import { Video, VideoResponse } from '../models/video.model';
 
 export interface queryListMovie {
@@ -21,9 +20,9 @@ export interface queryListMovie {
 }
 export enum MovieCategoryEnum {
   POPULAR = 'popular',
-  NOW_PLAYING = 'now_playing',
+  AIRING_TODAY = 'airing_today',
+  ON_TV = 'on_tv',
   TOP_RATED = 'top_rated',
-  UPCOMING = 'upcoming',
 }
 export enum queryListMovieEnum {
   language = 'en-US',
@@ -126,8 +125,8 @@ export class MovieService {
   }
 
   // Hàm lấy danh sách credits dành
-  getMovieCredits(id: string): Observable<CreditsResponse> {
-    const url = `${this.baseUrl}/${id}/credits`; // Sửa URL đúng
+  getMovieCredits(movieId: number): Observable<CreditsResponse> {
+    const url = `${this.baseUrl}/${movieId}/credits`; // Sửa URL đúng
     return this.http.get<CreditsResponse>(url, { params: this.params });
   }
 
@@ -170,9 +169,9 @@ export class MovieService {
       .pipe(map((res) => res.results.slice(0, count)));
   }
 
-  getMovieImages(movieId: number): Observable<MovieImagesResponse> {
+  getImages(movieId: number): Observable<ImagesResponse> {
     const url = `${this.baseUrl}/${movieId}/images`;
-    return this.http.get<MovieImagesResponse>(url);
+    return this.http.get<ImagesResponse>(url);
   }
 
   getMovieVideos(movieId: number): Observable<Video[]> {
@@ -191,6 +190,7 @@ export class MovieService {
         params = params.set(key, filters[key]);
       }
     });
+    params = params.set('page', page);
 
     return this.http.get(url, { params: params });
   }

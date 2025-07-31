@@ -12,6 +12,7 @@ import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import Swiper from 'swiper';
 import { Movie } from 'src/app/features/movies/models/movie.model';
+import { TVShow } from '@features/tv-shows/models/tv-show.model';
 
 @Component({
   selector: 'app-movie-carousel',
@@ -19,7 +20,10 @@ import { Movie } from 'src/app/features/movies/models/movie.model';
   styleUrls: ['./movie-carousel.component.scss'],
 })
 export class MovieCarouselComponent implements OnInit, AfterViewInit {
-  @Input() movieList: Movie[] = [];
+  @Input() movieList: Movie[] | undefined = [];
+  @Input() tvShowList: TVShow[] | undefined = [];
+  @Input() type: 'movie' | 'tv' = 'movie';
+
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   currentPage = 0;
   slidesPerView = 5;
@@ -67,9 +71,12 @@ export class MovieCarouselComponent implements OnInit, AfterViewInit {
   };
 
   get totalPagesArray(): number[] {
+    let length = null;
+    if (this.movieList) length = this.movieList.length;
+    if (this.tvShowList) length = this.tvShowList.length;
     const slidesPerView = this.getCurrentSlidesPerView();
     return Array.from({
-      length: Math.ceil(this.movieList.length / slidesPerView),
+      length: Math.ceil((length as number) / slidesPerView),
     }).map((_, i) => i);
   }
 

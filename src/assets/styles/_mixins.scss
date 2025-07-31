@@ -1,5 +1,10 @@
 @use "variables" as var;
 //Mobile first
+@mixin mq-xs {
+  @media (min-width: var.$breakpoint-xs) {
+    @content;
+  }
+}
 @mixin mq-sm {
   @media (min-width: var.$breakpoint-sm) {
     @content;

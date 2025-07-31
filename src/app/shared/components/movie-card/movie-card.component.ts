@@ -16,10 +16,12 @@ import { environment } from 'src/environments/environment';
 })
 export class MovieCardComponent implements OnInit {
   moviePath = '/movies/details/';
-  tvPath = '/tv_shows/details';
+  tvPath = '/tv_shows/details/';
   imageBaseUrl = environment.imageBaseUrl;
   @Input() movie!: Movie;
   @Input() tvShow!: TVShow;
+  @Input() type: 'movie' | 'tv' = 'movie';
+
   @Input() isLoading: boolean = false;
 
   posterPath: string = '';

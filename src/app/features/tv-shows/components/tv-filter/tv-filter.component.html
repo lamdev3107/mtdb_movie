@@ -1,0 +1,125 @@
+<div class="movie-filter">
+  <div class="filter-section">
+    <h4 class="filter-section__title">Sort</h4>
+    <div class="filter-item">
+      <p class="filter-item__title">Sort Result By</p>
+      <app-select
+        [optionList]="sortByOptions"
+        [selectedOptionValue]="selectedSortOptionValue"
+        (onSelectChange)="handleSelectSortOptin($event)"
+        [searchable]="true"
+      ></app-select>
+    </div>
+  </div>
+  <div class="filter-section">
+    <h4 class="filter-section__title">Filters</h4>
+    <app-input-radio-group
+      [options]="categoryOptions"
+      [defaultValue]="selectedCategoryValue"
+      [inline]="true"
+      (onChangeValue)="onChangeCategory($event)"
+    ></app-input-radio-group>
+
+    <div class="filter-item">
+      <h4 class="filter-item__title">Air Dates</h4>
+      <div class="checkbox-select">
+        <input
+          id="searchAllReleases"
+          class="checkbox-select__input"
+          type="checkbox"
+          [(ngModel)]="isSearchAllEpisodes"
+        />
+        <label class="checkbox-select__label" for="searchAllReleases"
+          >Search all releases?</label
+        >
+      </div>
+
+      <div *ngIf="!isSearchAllEpisodes" class="checkbox-select">
+        <input
+          id="searchAllReleases"
+          class="checkbox-select__input"
+          type="checkbox"
+          [(ngModel)]="isSearchFirstAirDate"
+        />
+        <label class="checkbox-select__label" for="isSearchFirstAirDate"
+          >Search first air dates?</label
+        >
+      </div>
+
+      <ng-container *ngIf="!isSearchFirstAirDate">
+        <app-select
+          [optionList]="countryOptions"
+          [selectedOptionValue]="selectedCountryValue"
+          (onSelectChange)="handleSelectCountry($event)"
+          [searchable]="true"
+        ></app-select>
+      </ng-container>
+
+      <app-toggle-select-box-list
+        [list]="releaseTypes"
+        (onChangeSelectList)="onChangeSelectReleaseType($event)"
+      ></app-toggle-select-box-list>
+
+      <div class="movie-release-date">
+        <div class="movie-release-date__item">
+          <p class="movie-release-date__item-title">From</p>
+          <input
+            type="date"
+            [(ngModel)]="dateRange.from"
+            class="movie-release-date__item-input"
+          />
+        </div>
+        <div class="movie-release-date__item">
+          <p class="movie-release-date__item-title">To</p>
+          <input
+            type="date"
+            [(ngModel)]="dateRange.to"
+            class="movie-release-date__item-input"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-item">
+      <h4 class="filter-item__title">Genres</h4>
+      <app-toggle-select-box-list
+        [list]="movieGenres"
+        (onChangeSelectList)="onChangeSelectGenreList($event)"
+      ></app-toggle-select-box-list>
+    </div>
+
+    <div class="filter-item">
+      <app-tooltip
+        [text]="'Filter items based on their original language.'"
+        position="top"
+        [delay]="200"
+      >
+        <p class="filter-item__title">Language</p>
+      </app-tooltip>
+      <app-select
+        [optionList]="languageOptions"
+        [selectedOptionValue]="selectedLanguageValue"
+        (onSelectChange)="handleSelectLanguage($event)"
+        [searchable]="true"
+      ></app-select>
+    </div>
+
+    <div class="filter-item">
+      <h4 class="filter-item__title">User Scrore</h4>
+      <app-input-range
+        [initMinValue]="0"
+        [initMaxValue]="10"
+        [step]="1"
+        (onChangeMinValue)="handleUserScoreMinChange($event)"
+        (onChangeMaxValue)="handleUserScoreMaxChange($event)"
+        [labels]="['0', '2', '4', '6', '8', '10']"
+      ></app-input-range>
+    </div>
+
+    <div class="filter-item">
+      <h4 class="filter-item__title">Keywords</h4>
+      <app-input-text placeholder="Enter keywords" [(ngModel)]="keyword">
+      </app-input-text>
+    </div>
+  </div>
+</div>

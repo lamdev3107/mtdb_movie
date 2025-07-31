@@ -4,11 +4,8 @@
   (tabChange)="onTabChange($event)"
 >
   <div class="movie-reviews" *ngIf="activeTabId == 'reviews'">
-    <app-review-card
-      *ngIf="movieReview"
-      [review]="movieReview"
-    ></app-review-card>
-    <div *ngIf="movieReview">
+    <app-review-card *ngIf="review" [review]="review"></app-review-card>
+    <div *ngIf="review">
       <a class="movie-detail-section__more" [routerLink]="['./reviews']">
         Read All Reviews
         <svg
@@ -29,8 +26,6 @@
         </svg>
       </a>
     </div>
-      <p *ngIf="!movieReview" class="no-data-text">
-        No reviews have been added.
-      </p>
+    <p *ngIf="!review" class="no-data-text">No reviews have been added.</p>
   </div>
 </app-tab>
