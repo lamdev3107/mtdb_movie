@@ -122,6 +122,8 @@ export class TVShowService {
         const trailer = res.results.find(
           (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
         );
+        console.log('dfasdfasdf', res);
+
         if (!trailer) return null;
         return {
           id: Number(id), // ép kiểu về number

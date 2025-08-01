@@ -24,19 +24,20 @@ export class TrailerModalComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['trailer'].currentValue && changes['openModal'].currentValue) {
+    if (changes['trailer'] && changes['trailer'].currentValue) {
       this.handleOnPlayTrailer(changes['trailer'].currentValue);
     }
   }
 
   handleOnPlayTrailer(trailer: TrailerItem): void {
+    console.log('model trailer', trailer);
     this.safeYoutubeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       trailer.youtubeUrl
     );
   }
 
   closeModal(): void {
-    this.safeYoutubeUrl = null;
+    // this.safeYoutubeUrl = null;
     this.closeEvent.emit();
   }
 }

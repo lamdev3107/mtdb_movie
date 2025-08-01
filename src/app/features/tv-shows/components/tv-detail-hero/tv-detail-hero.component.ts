@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { TVShowService } from '@features/tv-shows/services/tv-shows.service';
 import { TrailerItem } from '@features/movies/models/movie.model';
@@ -16,8 +24,10 @@ export class TVShowDetailHeroComponent implements OnInit {
   age: string = '';
   openTrailerModal = false;
   trailer: TrailerItem | null = null;
+  disablePlayTrailer = false;
   constructor(private tvShowService: TVShowService) {}
   genres: string = '';
+  sliderOne!: ElementRef<HTMLButtonElement>;
 
   ngOnInit(): void {
     this.genres =
@@ -33,17 +43,27 @@ export class TVShowDetailHeroComponent implements OnInit {
           .join(', ') || '';
       this.age = changes['tvShow'].currentValue.adult ? 'R' : 'PG-13';
       this.id = changes['tvShow'].currentValue.id;
-      console.log('Check tvShow', this.tvShow);
+      this.loadTraier();
     }
   }
+
   onPlayTrailer(): void {
+    if (this.disablePlayTrailer && !this.trailer) {
+      return;
+    }
+    this.openTrailerModal = true;
+  }
+  loadTraier() {
     this.tvShowService.getTVShowTrailer(this.id as number).subscribe((res) => {
+      if (res === null) {
+        this.disablePlayTrailer = true;
+        return;
+      }
       this.trailer = res;
-      this.openTrailerModal = true;
     });
   }
   onCloseTrailerModal(): void {
-    this.trailer = null;
+    // this.trailer = null;
     this.openTrailerModal = false;
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
 import { PeopleResponse, Person } from '@features/people/models/person.model';
 import { PeopleService } from '@features/people/services/people.service';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-people',
@@ -29,7 +29,7 @@ export class PeopleComponent implements OnInit {
     this.peopleService
       .getPopularPeople(page)
       .pipe(
-        takeUntil(this.destroy$),
+        take(1),
         finalize(() => {
           this.loadingService.hide();
         })
@@ -52,7 +52,6 @@ export class PeopleComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
-    console.log('chek', this.currentPage);
     this.loadPeople(page);
   }
 }

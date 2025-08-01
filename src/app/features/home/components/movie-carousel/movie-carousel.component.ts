@@ -72,8 +72,8 @@ export class MovieCarouselComponent implements OnInit, AfterViewInit {
 
   get totalPagesArray(): number[] {
     let length = null;
-    if (this.movieList) length = this.movieList.length;
-    if (this.tvShowList) length = this.tvShowList.length;
+    if (this.type === 'movie') length = this.movieList?.length;
+    if (this.type === 'tv') length = this.tvShowList?.length;
     const slidesPerView = this.getCurrentSlidesPerView();
     return Array.from({
       length: Math.ceil((length as number) / slidesPerView),

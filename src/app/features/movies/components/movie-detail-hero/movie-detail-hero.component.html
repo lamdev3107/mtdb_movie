@@ -65,7 +65,12 @@
       </div>
 
       <div class="hero-section__actions">
-        <app-button variant="primary" size="large" (clicked)="onPlayTrailer()">
+        <app-button
+          variant="primary"
+          size="large"
+          [disabled]="disablePlayTrailer"
+          (clicked)="onPlayTrailer()"
+        >
           <img
             class="btn-icon"
             src="assets/icons/play.svg"

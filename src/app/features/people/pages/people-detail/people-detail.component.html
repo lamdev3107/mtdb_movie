@@ -34,7 +34,19 @@
           <div class="hero-section__biography">
             <h2 class="hero-section__biography-text">Biography</h2>
             <p class="hero-section__biography-content">
-              {{ person?.biography || "No biography available" }}
+              <ng-container *ngIf="person?.biography; else noBio">
+                <span>
+                  {{ renderBio() }}
+                </span>
+                <button
+                  *ngIf="(person?.biography?.length ?? 0) > 600"
+                  class="read-more-btn"
+                  (click)="onToggleReadMoreBtn()"
+                >
+                  {{ showFullBio ? "Read Less" : "Read More" }}
+                </button>
+              </ng-container>
+              <ng-template #noBio> No biography available </ng-template>
             </p>
           </div>
 

@@ -17,6 +17,7 @@ export class MovieDetailHeroComponent implements OnInit {
   trailer: TrailerItem | null = null;
   constructor(private movieService: MovieService) {}
   genres: string = '';
+  disablePlayTrailer = false;
 
   ngOnInit(): void {
     this.genres =
@@ -32,17 +33,25 @@ export class MovieDetailHeroComponent implements OnInit {
           .join(', ') || '';
       this.age = changes['movie'].currentValue.adult ? 'R' : 'PG-13';
       this.id = changes['movie'].currentValue.id;
-      console.log('Check movie', this.movie);
+      this.loadTraier();
     }
   }
   onPlayTrailer(): void {
+    if (this.disablePlayTrailer && !this.trailer) {
+      return;
+    }
+    this.openTrailerModal = true;
+  }
+  loadTraier() {
     this.movieService.getMovieTrailer(this.id as number).subscribe((res) => {
+      if (res === null) {
+        this.disablePlayTrailer = true;
+        return;
+      }
       this.trailer = res;
-      this.openTrailerModal = true;
     });
   }
   onCloseTrailerModal(): void {
-    this.trailer = null;
     this.openTrailerModal = false;
   }
 }
