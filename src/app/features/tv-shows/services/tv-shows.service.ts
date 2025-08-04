@@ -71,7 +71,7 @@ export class TVShowService {
   }
 
   // Hàm lấy danh sách credits dành
-  getTVShowCredits(id: string): Observable<CreditsResponse> {
+  getTVShowCredits(id: number): Observable<CreditsResponse> {
     const url = `${this.baseUrl}/${id}/credits`; // Sửa URL đúng
     return this.http.get<CreditsResponse>(url, { params: this.params });
   }

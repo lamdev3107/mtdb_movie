@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
-import { MovieDetail, TrailerItem } from '../../models/movie.model';
+import { Movie, MovieDetail, TrailerItem } from '../../models/movie.model';
 import { environment } from 'src/environments/environment';
+import { AccountService } from '@core/services/account.service';
 
 @Component({
   selector: 'app-movie-detail-hero',
@@ -15,9 +16,18 @@ export class MovieDetailHeroComponent implements OnInit {
   age: string = '';
   openTrailerModal = false;
   trailer: TrailerItem | null = null;
-  constructor(private movieService: MovieService) {}
   genres: string = '';
   disablePlayTrailer = false;
+  favoriteMovie: Movie[] = [];
+
+  isFavorite: boolean = false;
+  isAdded: boolean = false;
+  isRated: boolean = false;
+
+  constructor(
+    private movieService: MovieService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.genres =
@@ -34,7 +44,41 @@ export class MovieDetailHeroComponent implements OnInit {
       this.age = changes['movie'].currentValue.adult ? 'R' : 'PG-13';
       this.id = changes['movie'].currentValue.id;
       this.loadTraier();
+      this.loadMovieStatus();
     }
+  }
+
+  handleToggleLikeBtn() {
+    // this.accountService
+    //   .markAsFavorite('movie', Number(this?.movie?.id), !this.isFavorite)
+    //   .subscribe((res) => {
+    //     console.log('check res', res);
+    //   });
+
+    this.isFavorite = !this.isFavorite;
+  }
+
+  handleToggleAddBtn() {
+    this.isAdded = !this.isAdded;
+  }
+
+  loadMovieStatus() {
+    this.movieService
+      .getMovieAccountStates(Number(this.id))
+      .subscribe((res) => {
+        this.isFavorite = res.favorite;
+        this.isAdded = res.watchlist;
+      });
+  }
+
+  checkIsFavorite(): boolean {
+    if (
+      !this.favoriteMovie.find((item) => item.id === Number(this?.movie?.id))
+    ) {
+      return false;
+    }
+
+    return true;
   }
   onPlayTrailer(): void {
     if (this.disablePlayTrailer && !this.trailer) {

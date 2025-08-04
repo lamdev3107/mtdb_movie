@@ -1,11 +1,11 @@
-import { CastComponent } from './cast/cast.component';
+import { MovieCastComponent } from './movie-cast/movie-cast.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { MovieReviewComponent } from './movie-review/movie-review.component';
 import { MoviesComponent } from './movies/movies.component';
-import { ReviewComponent } from './review/review.component';
 
 export const pages = [
   MoviesComponent,
   MovieDetailsComponent,
-  CastComponent,
-  ReviewComponent,
+  MovieCastComponent,
+  MovieReviewComponent,
 ];

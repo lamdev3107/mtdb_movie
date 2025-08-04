@@ -1,106 +1,144 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingService } from '@core/services/loading.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  catchError,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import {
   CastJob,
-  combinedCreditResponse,
   CrewJob,
-  Person,
   PersonDetail,
 } from '@features/people/models/person.model';
 import { PeopleService } from '@features/people/services/people.service';
-import { Observable, Subject, take, takeUntil, finalize } from 'rxjs';
+
+interface ApiState<T> {
+  loading: boolean;
+  data?: T;
+  error?: any;
+}
 
 @Component({
   selector: 'app-people-detail',
   templateUrl: './people-detail.component.html',
   styleUrls: ['./people-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PeopleDetailComponent implements OnInit {
-  person: PersonDetail | null = null;
-  personId: string | null = null;
-  knowForList: any;
-  showFullBio: boolean = false;
-  castJobs: CastJob[] = [];
-  crewJobs: any = null;
-  private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng
+export class PeopleDetailComponent {
+  personState$!: Observable<ApiState<PersonDetail>>;
+  knownForState$!: Observable<ApiState<any>>;
+  creditState$!: Observable<
+    ApiState<{ crewJobs: Record<string, CrewJob[]>; castJobs: CastJob[] }>
+  >;
+  showFullBio = false;
+
   constructor(
     private peopleService: PeopleService,
-    public loadingService: LoadingService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    const personId$ = this.route.paramMap.pipe(
+      map((params) => Number(params.get('id'))),
+      shareReplay(1)
+    );
 
-  ngOnInit(): void {
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.personId = params.get('id');
-      this.loadingPerson();
-    });
-  }
-
-  renderBio(): string {
-    if (!this.person?.biography) {
-      return '';
-    }
-
-    if (!this.showFullBio && this.person.biography.length > 600) {
-      return this.person.biography.slice(0, 600) + '...';
-    }
-    return this.person.biography;
-  }
-
-  onToggleReadMoreBtn() {
-    this.showFullBio = !this.showFullBio;
-    this.renderBio();
-  }
-
-  loadingPerson() {
-    this.loadingService.show();
-    this.peopleService
-      .getPersonDetail(Number(this.personId))
-      .pipe(
-        take(1),
-        finalize(() => {
-          this.loadingService.hide();
-        })
+    // Person detail state
+    this.personState$ = personId$.pipe(
+      switchMap((id) =>
+        this.peopleService.getPersonDetail(id).pipe(
+          map((data) => ({ loading: false, data } as ApiState<PersonDetail>)),
+          startWith({ loading: true } as ApiState<PersonDetail>),
+          catchError((error) =>
+            of({ loading: false, error } as ApiState<PersonDetail>)
+          )
+        )
       )
-      .subscribe({
-        next: (res) => {
-          this.person = res;
-          console.log('Check person', this.person);
-        },
-        error: (err) => {
-          console.log('Error fetching person detail!', err);
-        },
-      });
-  }
+    );
 
-  loadingKnownFor(personId: string){
-    this.loadingService.show();
-    this.peopleService.getKnownFor(Number(personId)).pipe(take(1), finalize(() => {}))
-  }
-
-  loadPersonCombinedCredit(personId: string) {
-    this.loadingService.show();
-    this.peopleService
-      .getPersonCombinedCredit(Number(personId))
-      .pipe(
-        take(1),
-        finalize(() => {
-          this.loadingService.hide();
-        })
+    // Known for state
+    this.knownForState$ = personId$.pipe(
+      switchMap((id) =>
+        this.peopleService.getKnownFor(id).pipe(
+          map((data) => ({ loading: false, data } as ApiState<any>)),
+          startWith({ loading: true } as ApiState<any>),
+          catchError((error) => of({ loading: false, error } as ApiState<any>))
+        )
       )
-      .subscribe((res: combinedCreditResponse) => {
-        this.crewJobs = this.groupCrewByJob(res.crew);
-        this.castJobs = res.cast;
-      });
+    );
+
+    // Combined credit state
+    this.creditState$ = personId$.pipe(
+      switchMap((id) =>
+        this.peopleService.getPersonCombinedCredit(id).pipe(
+          map(
+            (res) =>
+              ({
+                loading: false,
+                data: {
+                  crewJobs: this.groupCrewByJob(res.crew),
+                  castJobs: res.cast,
+                },
+              } as ApiState<{
+                crewJobs: Record<string, CrewJob[]>;
+                castJobs: CastJob[];
+              }>)
+          ),
+          startWith({ loading: true } as ApiState<{
+            crewJobs: Record<string, CrewJob[]>;
+            castJobs: CastJob[];
+          }>),
+          catchError((error) =>
+            of({ loading: false, error } as ApiState<{
+              crewJobs: Record<string, CrewJob[]>;
+              castJobs: CastJob[];
+            }>)
+          )
+        )
+      )
+    );
   }
 
-  private groupCrewByJob(crew: CrewJob[]) {
-    this.crewJobs = crew.reduce((acc: any, item: any) => {
+  renderKnowForLink(knownFor: any) {
+    if (knownFor.media_type === 'movie') {
+      return './movies/details/' + knownFor.id;
+    }
+    return '/tv_shows/details/' + knownFor.id;
+  }
+  renderAlsoKnownAs(alsoKnownAs: string[] | undefined) {
+    if (!alsoKnownAs) return '';
+    return alsoKnownAs.join(', ');
+  }
+  calculateAge(birthday: string | undefined | null) {
+    if (!birthday) return 0;
+    const today = new Date();
+    const birthDate = new Date(birthday);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  renderGender(gender: number | undefined) {
+    if (gender === 1) {
+      return 'Female';
+    }
+    if (gender === 2) {
+      return 'Male';
+    }
+    return 'Others';
+  }
+
+  private groupCrewByJob(crew: CrewJob[]): Record<string, CrewJob[]> {
+    return crew.reduce((acc, item) => {
       const job = item.job;
       if (!acc[job]) acc[job] = [];
       acc[job].push(item);
       return acc;
-    }, {});
+    }, {} as Record<string, CrewJob[]>);
   }
 }

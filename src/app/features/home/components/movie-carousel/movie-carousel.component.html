@@ -10,12 +10,12 @@
     <!-- <ng-content select="[swiperSlide],swiperSlide"></ng-content> -->
     <ng-container *ngIf="type === 'movie'">
       <ng-template swiperSlide *ngFor="let item of movieList">
-        <app-movie-card [movie]="item"> </app-movie-card>
+        <app-card [item]="item" [type]="cardType"> </app-card>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="type === 'tv'">
       <ng-template swiperSlide *ngFor="let item of tvShowList">
-        <app-movie-card [tvShow]="item"> </app-movie-card>
+        <app-card [item]="item" [type]="cardType"> </app-card>
       </ng-template>
     </ng-container>
   </swiper>

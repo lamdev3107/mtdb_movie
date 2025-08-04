@@ -5,7 +5,6 @@ import {
   combinedCreditResponse,
   CrewJob,
   PeopleResponse,
-  Person,
   PersonDetail,
 } from '../models/person.model';
 import { map, Observable, switchMap } from 'rxjs';
@@ -49,14 +48,31 @@ export class PeopleService {
     personId: number,
     language: string = 'en-US'
   ): Observable<any> {
-    return this.http.get<combinedCreditResponse>(
-      `${this.baseUrl}/${personId}/combined_credits`,
-      {
-        params: {
-          language,
-        },
-      }
-    );
+    return this.http
+      .get<combinedCreditResponse>(
+        `${this.baseUrl}/${personId}/combined_credits`,
+        {
+          params: {
+            language,
+          },
+        }
+      )
+      .pipe(
+        map((res: any) => {
+          console.log('res', res);
+
+          const sortedCastJob = res.cast.sort((a: any, b: any) =>
+            a.release_date.localeCompare(b.release_date)
+          );
+          const sortedCrewJob = res.crew.sort((a: any, b: any) =>
+            a.release_date.localeCompare(b.release_date)
+          );
+          return {
+            cast: sortedCastJob.slice(0, 10),
+            crew: res.crew.slice(0, 10),
+          };
+        })
+      );
   }
 
   getKnownFor(personId: number, language: string = 'en-US'): Observable<any> {
@@ -66,16 +82,9 @@ export class PeopleService {
       })
       .pipe(
         map((res) => {
-          // Lấy cast và sort theo popularity
-          const sortedCast = res.cast
-            .sort((a: CastJob, b: CastJob) => b.popularity - a.popularity)
-            .slice(0, 10); //
-          const sortedCrew = res.crew.sort(
-            (a: CrewJob, b: CrewJob) => b.popularity - a.popularity
-          );
           return {
-            cast: sortedCast,
-            crew: sortedCrew,
+            cast: res.cast.slice(0, 10),
+            crew: res.crew.slice(0, 10),
           };
         })
       );

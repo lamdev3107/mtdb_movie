@@ -26,7 +26,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     const clonedRequest = req.clone({
       url: apiUrl,
       setHeaders: {
-        Authorization: `Bearer ${environment.apiKey}`, // giả lập token
+        Authorization: `Bearer ${environment.apiKey}`,
       },
     });
 
@@ -45,7 +45,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
           //   throw error;
           case 400:
             console.log('Check ', error);
-            alert('Đăng nhập thất bại! Vui lòng thử lại');
+            alert('Bad Request: The request was invalid or cannot be served.');
             break;
           case 401:
             // Lỗi 401 Unauthorized: Người dùng chưa được xác thực hoặc token hết hạn/không hợp lệ

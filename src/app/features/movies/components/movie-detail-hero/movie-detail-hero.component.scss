@@ -110,4 +110,12 @@
       @include font-base(1.5rem, $regular, $grey-65, 1.5);
     }
   }
+
+  .action-btn-icon {
+    width: 2.4rem;
+    &--is-favorite {
+      fill: red;
+      stroke: red;
+    }
+  }
 }

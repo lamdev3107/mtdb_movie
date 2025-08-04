@@ -12,6 +12,7 @@ import { Keyword, KeywordResponse } from '../models/keyword.model';
 import { Review, ReviewResponse } from '../../review/models/review.model';
 import { ImagesResponse } from '../models/images.model';
 import { Video, VideoResponse } from '../models/video.model';
+import { Account, AccountStates } from '@core/models/account.model';
 
 export interface queryListMovie {
   language: string;
@@ -181,15 +182,58 @@ export class MovieService {
       .pipe(map((res) => res.results));
   }
 
-  discoverMovie(filters: any, page: number): Observable<any> {
+  getMovieAccountStates(movieId: number): Observable<AccountStates> {
+    const url = `${this.baseUrl}/${movieId}/account_states`;
+    return this.http
+      .get<AccountStates>(url, { params: this.params })
+      .pipe(map((res) => res));
+  }
+
+  discoverMovie(
+    filters: {
+      sort_by?: string;
+      with_genres?: string; // VD: "28,12"
+      primary_release_date_gte?: string; // YYYY-MM-DD
+      primary_release_date_lte?: string;
+      with_original_language?: string;
+      with_original_country?: string;
+      with_release_type?: string; //1,2,3,4,5
+      with_keywords?: string;
+      page?: number;
+    },
+    page: number
+  ): Observable<any> {
     const url = `discover/movie`;
     let params = new HttpParams();
 
-    Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
-        params = params.set(key, filters[key]);
-      }
-    });
+    if (filters.sort_by) params = params.set('sort_by', filters.sort_by);
+    if (filters.with_genres)
+      params = params.set('with_genres', filters.with_genres);
+    if (filters.primary_release_date_gte)
+      params = params.set(
+        'primary_release_date.gte',
+        filters.primary_release_date_gte
+      );
+    if (filters.primary_release_date_lte)
+      params = params.set(
+        'primary_release_date.lte',
+        filters.primary_release_date_lte
+      );
+    // if (filters.keyword) params = params.set('keyword', filters.keyword);
+    if (filters.with_original_language)
+      params = params.set(
+        'with_original_language',
+        filters.with_original_language
+      );
+    if (filters.with_original_country)
+      params = params.set(
+        'with_original_country',
+        filters.with_original_country
+      );
+    if (filters.with_keywords)
+      params = params.set('with_keywords', filters.with_keywords);
+    if (filters.with_release_type)
+      params = params.set('with_release_type', filters.with_release_type);
     params = params.set('page', page);
 
     return this.http.get(url, { params: params });

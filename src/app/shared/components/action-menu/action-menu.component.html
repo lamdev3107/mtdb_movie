@@ -1,0 +1,34 @@
+<div class="action-menu">
+  <!-- Nút 3 chấm -->
+  <button class="action-menu__trigger" (click)="toggleMenu($event)">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="action-menu__icon"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zm0 6a.75.75 0 110-1.5.75.75 0 010 1.5zm0 6a.75.75 0 110-1.5.75.75 0 010 1.5z"
+      />
+    </svg>
+  </button>
+
+  <!-- Menu -->
+  <div *ngIf="isOpen" class="action-menu__dropdown">
+    <ul class="action-menu__list">
+      <li class="action-menu__item" (click)="addToFavorite.emit(); closeMenu()">
+        <span class="action-menu__icon-text"> </span> Favorite
+      </li>
+      <li
+        class="action-menu__item"
+        (click)="addToWatchlist.emit(); closeMenu()"
+      >
+        <span class="action-menu__icon-text">📌</span> Watchlist
+      </li>
+    </ul>
+  </div>
+</div>

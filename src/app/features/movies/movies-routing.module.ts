@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
-import { ReviewComponent } from './pages/review/review.component';
-import { CastComponent } from './pages/cast/cast.component';
+import { MovieReviewComponent } from './pages/movie-review/movie-review.component';
+import { MovieCastComponent } from './pages/movie-cast/movie-cast.component';
 
 // Để di chuyển vào route details/:id/cast, bạn có thể sử dụng routerLink trong template hoặc navigate trong component như sau:
 
@@ -43,12 +43,12 @@ const routes: Routes = [
   },
   {
     path: 'details/:id/casts',
-    component: CastComponent,
+    component: MovieCastComponent,
     pathMatch: 'full',
   },
   {
     path: 'details/:id/reviews',
-    component: ReviewComponent,
+    component: MovieReviewComponent,
   },
 ];
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
+import { CardType } from '@core/utils/enums';
 import { PeopleResponse, Person } from '@features/people/models/person.model';
 import { PeopleService } from '@features/people/services/people.service';
 import { finalize, Subject, take, takeUntil } from 'rxjs';
@@ -13,6 +14,7 @@ export class PeopleComponent implements OnInit {
   people: Person[] = [];
   currentPage: number = 1;
   totalPages = 0;
+  cardType = CardType.CAST;
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
 
   constructor(
@@ -44,10 +46,6 @@ export class PeopleComponent implements OnInit {
           console.log('Error fetching people!');
         },
       });
-  }
-
-  renderKnownForText(person: Person) {
-    return person.known_for.map((item: any) => item.name).join(', ');
   }
 
   onPageChange(page: number) {

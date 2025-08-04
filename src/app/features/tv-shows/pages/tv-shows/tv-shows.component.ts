@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
+import { CardType } from '@core/utils/enums';
 import {
   ListTVShowResponse,
   TVShow,
@@ -21,6 +22,7 @@ export class TvShowsComponent implements OnInit {
   category: string = TVShowCategoryEnum.POPULAR;
   page = 1;
   sortBy: string = '';
+  cardType: CardType = CardType.TV_SHOW;
 
   filterObj: any = {};
 

@@ -30,7 +30,6 @@ export class TrailerModalComponent implements OnInit {
   }
 
   handleOnPlayTrailer(trailer: TrailerItem): void {
-    console.log('model trailer', trailer);
     this.safeYoutubeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       trailer.youtubeUrl
     );

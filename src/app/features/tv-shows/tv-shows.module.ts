@@ -11,7 +11,13 @@ import { components } from './components';
 
 @NgModule({
   declarations: [...components, ...pages],
-  imports: [CommonModule, FormsModule, TvShowsRoutingModule, SwiperModule, SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TvShowsRoutingModule,
+    SwiperModule,
+    SharedModule,
+  ],
   exports: [...components, ...pages],
 })
 export class TvShowsModule {}

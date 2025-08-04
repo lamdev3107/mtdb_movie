@@ -14,7 +14,7 @@ export class ButtonComponent {
   @Input() disabled: boolean = false;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
 
-  @Output() clicked = new EventEmitter<void>();
+  @Output() click = new EventEmitter<void>();
 
   get buttonClasses(): string {
     const classes = ['btn', `btn--${this.variant}`, `btn--${this.size}`];
@@ -28,7 +28,7 @@ export class ButtonComponent {
 
   onClick(): void {
     if (!this.disabled) {
-      this.clicked.emit();
+      this.click.emit();
     }
   }
 }

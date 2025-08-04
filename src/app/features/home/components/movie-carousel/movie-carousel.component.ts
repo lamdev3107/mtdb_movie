@@ -6,6 +6,7 @@ import {
   AfterViewInit,
   SimpleChanges,
   ChangeDetectorRef,
+  OnChanges,
 } from '@angular/core';
 
 import { SwiperOptions } from 'swiper';
@@ -13,16 +14,22 @@ import { SwiperComponent } from 'swiper/angular';
 import Swiper from 'swiper';
 import { Movie } from 'src/app/features/movies/models/movie.model';
 import { TVShow } from '@features/tv-shows/models/tv-show.model';
+import { CardType } from '@core/utils/enums';
 
 @Component({
   selector: 'app-movie-carousel',
   templateUrl: './movie-carousel.component.html',
   styleUrls: ['./movie-carousel.component.scss'],
 })
-export class MovieCarouselComponent implements OnInit, AfterViewInit {
+export class MovieCarouselComponent
+  implements OnInit, OnChanges, AfterViewInit
+{
   @Input() movieList: Movie[] | undefined = [];
   @Input() tvShowList: TVShow[] | undefined = [];
   @Input() type: 'movie' | 'tv' = 'movie';
+
+  // Thêm CardType để có thể sử dụng trong template
+  cardType = CardType.MOVIE;
 
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   currentPage = 0;
@@ -72,8 +79,14 @@ export class MovieCarouselComponent implements OnInit, AfterViewInit {
 
   get totalPagesArray(): number[] {
     let length = null;
-    if (this.type === 'movie') length = this.movieList?.length;
-    if (this.type === 'tv') length = this.tvShowList?.length;
+    if (this.type === 'movie') {
+      {
+        length = this.movieList?.length;
+      }
+    }
+    if (this.type === 'tv') {
+      length = this.tvShowList?.length;
+    }
     const slidesPerView = this.getCurrentSlidesPerView();
     return Array.from({
       length: Math.ceil((length as number) / slidesPerView),
@@ -82,6 +95,21 @@ export class MovieCarouselComponent implements OnInit, AfterViewInit {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
+  // Đây là một setter cho thuộc tính @Input() cardType.
+  // Khi giá trị cardType được truyền từ component cha thay đổi,
+  // setter này sẽ được gọi với giá trị mới (type: CardType).
+  // Bên trong setter, giá trị mới được gán cho thuộc tính _cardType của component,
+  // sau đó gọi this.cdr.detectChanges() để thông báo cho Angular cập nhật lại view nếu cần thiết.
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['type'] && changes['type'].currentValue) {
+      if (changes['type'].currentValue === 'tv') {
+        this.cardType = CardType.TV_SHOW;
+      }
+      if (changes['type'].currentValue === 'tv') {
+        this.cardType = CardType.TV_SHOW;
+      }
+    }
+  }
   ngOnInit(): void {
     this.updateNavigationState();
   }

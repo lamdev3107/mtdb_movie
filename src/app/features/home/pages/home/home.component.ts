@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GenreService } from '../../services/genre.service';
 import { Genre, GenreListResponse } from '../../models/genre.model';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, take, takeUntil } from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { MovieService } from 'src/app/features/movies/services/movie.service';
 import {
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.movieService
       .getLatestTrailers()
       .pipe(
-        takeUntil(this.destroy$),
+        take(1),
         finalize(() => {
           this.loadingService.hide();
         })
