@@ -9,18 +9,22 @@ import {
 } from '@angular/common/http';
 import { catchError, Observable, tap, throwError, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ToastService } from '@core/services/toast.service';
 
 export const DEFAULT_TIMEOUT = 30000;
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector, private router: Router) {}
+  constructor(
+    private injector: Injector,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Thêm baseUrl nếu url là relative (không bắt đầu bằng http hoặc https)
     const apiUrl = environment.apiUrl + req.url;
 
     const clonedRequest = req.clone({
@@ -39,36 +43,74 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         error: (error: HttpErrorResponse) => {},
       }),
       catchError((error: HttpErrorResponse) => {
+        let errorMessage = 'Đã xảy ra lỗi không xác định';
+
         switch (error.status) {
-          // case 401:
-          //   this.router.navigate(['/login']);
-          //   throw error;
           case 400:
-            console.log('Check ', error);
-            alert('Đăng nhập thất bại! Vui lòng thử lại');
+            errorMessage =
+              'Yêu cầu không hợp lệ. Vui lòng kiểm tra lại thông tin.';
+            this.toastService.error(errorMessage);
+            console.log('Bad Request Error:', error);
             break;
+
           case 401:
-            // Lỗi 401 Unauthorized: Người dùng chưa được xác thực hoặc token hết hạn/không hợp lệ
-            alert(
-              'Unauthorized: Your session has expired or is invalid. Please log in again.'
-            );
-            // this.authService.logout(); // Gọi hàm đăng xuất để xóa token, v.v.
-            this.router.navigate(['/login']); // Chuyển hướng về trang đăng nhập
+            errorMessage =
+              'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.';
+            this.toastService.error(errorMessage);
+            this.router.navigate(['/login']);
             break;
+
           case 403:
-            // Lỗi 403 Forbidden: Đã xác thực nhưng không có quyền truy cập tài nguyên
-            alert(
-              'Forbidden: You do not have permission to access this resource.'
-            );
-            this.router.navigate(['/access-denied']); // Chuyển hướng đến trang báo lỗi quyền truy cập
+            errorMessage = 'Bạn không có quyền truy cập tài nguyên này.';
+            this.toastService.warning(errorMessage);
+            this.router.navigate(['/access-denied']);
             break;
+
+          case 404:
+            errorMessage = '404 - Không tìm thấy tài nguyên yêu cầu.';
+            this.toastService.warning(errorMessage);
+            break;
+
+          case 408:
+            errorMessage = 'Yêu cầu bị timeout. Vui lòng thử lại.';
+            this.toastService.warning(errorMessage);
+            break;
+
+          case 429:
+            errorMessage = 'Quá nhiều yêu cầu. Vui lòng thử lại sau.';
+            this.toastService.warning(errorMessage);
+            break;
+
           case 500:
-            // Lỗi 500 Internal Server Error: Lỗi server chung
-            alert('Internal Server Error: Something went wrong on the server.');
+            errorMessage = 'Lỗi máy chủ. Vui lòng thử lại sau.';
+            this.toastService.error(errorMessage);
             break;
+
+          case 502:
+            errorMessage = 'Lỗi gateway. Vui lòng thử lại sau.';
+            this.toastService.error(errorMessage);
+            break;
+
+          case 503:
+            errorMessage =
+              'Dịch vụ tạm thời không khả dụng. Vui lòng thử lại sau.';
+            this.toastService.error(errorMessage);
+            break;
+
+          case 504:
+            errorMessage = 'Gateway timeout. Vui lòng thử lại sau.';
+            this.toastService.error(errorMessage);
+            break;
+
           default:
-            // Các lỗi khác
-            alert('An unexpected error occurred. Please try again.');
+            // Xử lý các lỗi network
+            if (error.status === 0) {
+              errorMessage =
+                'Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng.';
+              this.toastService.error(errorMessage);
+            } else {
+              this.toastService.error(errorMessage);
+            }
             break;
         }
 

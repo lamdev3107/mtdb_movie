@@ -2,6 +2,9 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { MovieDetail, TrailerItem } from '../../models/movie.model';
 import { environment } from 'src/environments/environment';
+import { AccountService } from '@core/services/account.service';
+import { ToastService } from '@core/services/toast.service';
+import { AccountStates } from '@core/models/account.model';
 
 @Component({
   selector: 'app-movie-detail-hero',
@@ -15,8 +18,16 @@ export class MovieDetailHeroComponent implements OnInit {
   age: string = '';
   openTrailerModal = false;
   trailer: TrailerItem | null = null;
-  constructor(private movieService: MovieService) {}
   genres: string = '';
+  disablePlayTrailer = false;
+
+  accountStates: AccountStates | null = null;
+
+  constructor(
+    private movieService: MovieService,
+    private accountService: AccountService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.genres =
@@ -35,12 +46,63 @@ export class MovieDetailHeroComponent implements OnInit {
       console.log('Check movie', this.movie);
     }
   }
+
+  handleToggleLikeBtn() {
+    this.accountService
+      .markAsFavorite(
+        'movie',
+        Number(this?.movie?.id),
+        !this.accountStates?.favorite
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.toastService.success('Thao tác thành công!');
+          if (this.accountStates) {
+            this.accountStates.favorite = !this.accountStates.favorite;
+          }
+        }
+      });
+  }
+
+  handleToggleAddBtn() {
+    this.accountService
+      .addToWatchlist(
+        'movie',
+        Number(this?.movie?.id),
+        !this.accountStates?.watchlist
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.toastService.success('Thao tác thành công!');
+          if (this.accountStates) {
+            this.accountStates.watchlist = !this.accountStates.watchlist;
+          }
+        }
+      });
+  }
+
+  loadMovieStatus() {
+    this.movieService
+      .getMovieAccountStates(Number(this.id))
+      .subscribe((res) => {
+        this.accountStates = res;
+      });
+  }
+
   onPlayTrailer(): void {
+    if (this.disablePlayTrailer && !this.trailer) {
+      return;
+    }
+    this.openTrailerModal = true;
+  }
+
+  loadTraier() {
     this.movieService.getMovieTrailer(this.id as number).subscribe((res) => {
       this.trailer = res;
       this.openTrailerModal = true;
     });
   }
+
   onCloseTrailerModal(): void {
     this.trailer = null;
     this.openTrailerModal = false;

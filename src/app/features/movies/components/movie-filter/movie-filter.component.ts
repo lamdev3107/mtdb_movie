@@ -18,13 +18,13 @@ import { ToggleSelectBox } from '@shared/components/toggle-select-box-list/toggl
   styleUrls: ['./movie-filter.component.scss'],
 })
 export class MovieFilterComponent implements OnInit {
-  categoryOptions: RadioOption[] = [
-    { value: 'popular', label: 'Popular' },
-    { value: 'top_rated', label: 'Top Rated' },
-    { value: 'upcoming', label: 'Upcoming' },
-    { value: 'now_playing', label: 'Now Playing' },
-  ];
-  releaseTypes = [
+  // categoryOptions: RadioOption[] = [
+  //   { value: 'popular', label: 'Popular' },
+  //   { value: 'top_rated', label: 'Top Rated' },
+  //   { value: 'upcoming', label: 'Upcoming' },
+  //   { value: 'now_playing', label: 'Now Playing' },
+  // ];
+  releaseTypesOptions = [
     { value: 1, label: 'Premiere' },
     { value: 2, label: 'Theatrical (limited)' },
     { value: 3, label: 'Theatrical' },
@@ -58,16 +58,26 @@ export class MovieFilterComponent implements OnInit {
       label: 'Release Date Ascending',
     },
   ];
-  selectedSortOptionValue?: string = 'popularity.desc';
-  selectedCategoryValue: string = 'popular';
+
+  // Template-driven form properties
+  sortBy: string = 'popularity.desc';
+  categoryValue: string = 'popular';
+  region: string = '';
+  language: string = 'en';
+  genres: any[] = [];
+  releaseTypes: any[] = [1, 2, 3, 4, 5, 6];
+  dateFrom: string = '';
+  dateTo: string = '';
+  isSearchAllReleases: boolean = true;
+  isSearchAllCountries: boolean = false;
+  selectedKeywords: number[] = [];
+
   movieGenres: ToggleSelectBox[] = [];
   selectedCountryValue: string = 'US';
   selectedLanguageValue: string = 'en';
   selectedGenres: ToggleSelectBox[] = [];
   selectedReleaseType: [] = [];
   countryOptions: SelectOption[] = [];
-  isSearchAllReleases: boolean = true;
-  isSearchAllCountries: boolean = true;
   dateRange = {
     from: '',
     to: '',

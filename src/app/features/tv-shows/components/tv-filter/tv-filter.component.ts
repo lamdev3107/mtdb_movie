@@ -62,32 +62,26 @@ export class TVFilterComponent implements OnInit {
       label: 'First Air Date Ascending',
     },
   ];
-  selectedSortOptionValue?: string = 'popularity.desc';
-  selectedCategoryValue: string = 'popular';
-  movieGenres: ToggleSelectBox[] = [];
-  selectedCountryValue: string = 'US';
-  selectedLanguageValue: string = 'en';
+  sortBy?: string = 'popularity.desc';
+  tvShowGenres: ToggleSelectBox[] = [];
+  categoryValue: string = 'popular';
+  language: string = 'en';
+  genres: any[] = [];
+
   selectedGenres: ToggleSelectBox[] = [];
   selectedReleaseType: [] = [];
-  countryOptions: SelectOption[] = [];
   isSearchAllEpisodes: boolean = true;
   isSearchFirstAirDate: boolean = true;
-  dateRange = {
-    from: '',
-    to: '',
-  };
-  keyword: string = '';
+  selectedKeywords: number[] = [];
+  dateFrom: string = '';
+  dateTo: string = '';
 
   languageOptions: SelectOption[] = [];
 
   @Input() filterObject = {};
   @Input() category = {};
-  @Output() onCategoryChange = new EventEmitter<string>();
-  @Output() onSelectSortOption = new EventEmitter<string>();
-  @Output() onToggleGenre = new EventEmitter<number[]>();
-  @Output() onSelectCountry = new EventEmitter<string>();
-  @Output() onSelectLanguage = new EventEmitter<string>();
-  @Output() onToggleReleaseType = new EventEmitter<number[]>();
+  @Output() onClickFilter = new EventEmitter<any>();
+
   constructor(
     private tvShowService: TVShowService,
     private genreService: GenreService,
@@ -96,59 +90,51 @@ export class TVFilterComponent implements OnInit {
 
   ngOnInit() {
     this.loadGenres();
-    this.loadCountries();
     this.loadLanguages();
   }
 
-  onChangeCategory(value: string) {
-    this.onCategoryChange.emit(value as TVShowCategoryEnum);
-  }
-  handleSelectSortOptin(value: string) {
-    this.onSelectSortOption.emit(value);
-  }
-  handleSelectCountry(value: string) {
-    this.onSelectCountry.emit(value);
-  }
-  handleSelectLanguage(value: string) {
-    this.onSelectLanguage.emit(value);
+  // Method to handle filter button click
+  onFilterClick() {
+    let formData = {
+      sort_by: this.sortBy,
+      with_original_language: this.language,
+      with_genres: this.genres.join(','),
+      with_release_type: this.releaseTypes,
+      with_keywords: this.selectedKeywords.join(','),
+      primary_release_date_gte: this.dateFrom,
+      primary_release_date_lte: this.dateTo,
+    };
+
+    this.onClickFilter.emit(formData);
   }
 
+  // Methods for handling custom component events
   onChangeSelectGenreList(selectedValues: ToggleSelectBox[]) {
-    const emitedValues = selectedValues.map((item: any) => item.value);
-    this.onToggleGenre.emit(emitedValues);
+    this.genres = selectedValues.map((item: any) => item.value);
   }
+
   onChangeSelectReleaseType(selectedValues: ToggleSelectBox[]) {
-    const emitedValues = selectedValues.map((item: any) => item.value);
-    this.onToggleReleaseType.emit(emitedValues);
+    this.releaseTypes = selectedValues.map((item: any) => item.value);
   }
 
-  handleUserScoreMinChange(value: number) {
-    console.log('Check min', value);
+  // Method to handle isSearchAllReleases change
+  onSearchAllReleasesChange() {
+    if (this.isSearchAllEpisodes === false) {
+      this.isSearchFirstAirDate = true;
+    }
   }
 
-  handleUserScoreMaxChange(value: number) {
-    console.log('Check max', value);
+  onKeywordsChange(keywords: number[]) {
+    this.selectedKeywords = keywords;
   }
+
   loadGenres() {
     this.genreService.getTVGenreList().subscribe({
       next: (res: GenreListResponse) => {
-        this.movieGenres = res.genres.map((item) => {
+        this.tvShowGenres = res.genres.map((item) => {
           return {
             value: item.id,
             label: item.name,
-          };
-        });
-      },
-    });
-  }
-
-  loadCountries() {
-    this.configurationService.getCountries().subscribe({
-      next: (res: any) => {
-        this.countryOptions = res.map((item: Country) => {
-          return {
-            value: item.iso_3166_1,
-            label: item.english_name,
           };
         });
       },

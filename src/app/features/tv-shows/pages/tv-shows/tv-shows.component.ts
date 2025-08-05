@@ -39,28 +39,15 @@ export class TvShowsComponent implements OnInit {
     this.filterObj = {};
   }
 
-  handleToggleGenre(genreIdList: number[]) {
-    const paramString = genreIdList.join(',');
-    console.log('chekc genreIdList', genreIdList);
-    this.filterObj.with_genres = paramString;
-  }
-
-  handleSelectSortOption(sortOptionValue: string) {
-    console.log('chekc sortOption', sortOptionValue);
-    this.filterObj.sort_by = sortOptionValue;
-  }
-
   handleLoadMore() {
     this.page += 1;
-    if (Object.keys(this.filterObj).length === 0) {
-      this.loadCategoryTVShows(this.category as TVShowCategoryEnum, this.page);
-      return;
-    }
-    this.handleFilter();
+    this.loadFilterMovies();
   }
-
-  handleFilter() {
-    this.loadFilterTVShows();
+  handleFilter(filterObj: any) {
+    this.filterObj = filterObj;
+    this.page = 1;
+    this.tvShows = [];
+    this.loadFilterMovies();
   }
 
   resetTVShows() {
@@ -88,12 +75,11 @@ export class TvShowsComponent implements OnInit {
         },
       });
   }
-  loadFilterTVShows() {
+  loadFilterMovies() {
     this.loadingService.show();
     this.tvShowService
       .discoverTVShow(this.filterObj, this.page)
       .pipe(
-        takeUntil(this.destroy$),
         finalize(() => {
           this.loadingService.hide();
         })

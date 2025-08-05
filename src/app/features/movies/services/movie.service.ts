@@ -12,6 +12,7 @@ import { Keyword, KeywordResponse } from '../models/keyword.model';
 import { Review, ReviewResponse } from '../../review/models/review.model';
 import { ImagesResponse } from '../models/images.model';
 import { Video, VideoResponse } from '../models/video.model';
+import { AccountStates } from '@core/models/account.model';
 
 export interface queryListMovie {
   language: string;
@@ -41,6 +42,14 @@ export class MovieService {
     region: queryListMovieEnum.region,
   };
   constructor(private http: HttpClient) {}
+
+  ratingMovie(id: number, value: number): Observable<any> {
+    const params = new HttpParams();
+    const body = {
+      value: value,
+    };
+    return this.http.post(`${this.baseUrl}/${id}/rating`, body, { params });
+  }
 
   getMoviesByCategory(
     category: MovieCategoryEnum,
@@ -181,13 +190,33 @@ export class MovieService {
       .pipe(map((res) => res.results));
   }
 
-  discoverMovie(filters: any, page: number): Observable<any> {
+  getMovieAccountStates(movieId: number): Observable<AccountStates> {
+    const url = `${this.baseUrl}/${movieId}/account_states`;
+    return this.http
+      .get<AccountStates>(url, { params: this.params })
+      .pipe(map((res) => res));
+  }
+
+  discoverMovie(
+    filters: {
+      sort_by?: string;
+      with_genres?: string; // VD: "28,12"
+      primary_release_date_gte?: string; // YYYY-MM-DD
+      primary_release_date_lte?: string;
+      with_original_language?: string;
+      with_original_country?: string;
+      with_release_type?: string; //1,2,3,4,5
+      with_keywords?: string;
+    },
+    page: number
+  ): Observable<any> {
     const url = `discover/movie`;
     let params = new HttpParams();
 
     Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
-        params = params.set(key, filters[key]);
+      const value = filters[key as keyof typeof filters];
+      if (value) {
+        params = params.set(key, value);
       }
     });
     params = params.set('page', page);

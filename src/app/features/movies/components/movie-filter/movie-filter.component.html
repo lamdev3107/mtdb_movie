@@ -105,18 +105,6 @@
     </div>
 
     <div class="filter-item">
-      <h4 class="filter-item__title">User Scrore</h4>
-      <app-input-range
-        [initMinValue]="0"
-        [initMaxValue]="10"
-        [step]="1"
-        (onChangeMinValue)="handleUserScoreMinChange($event)"
-        (onChangeMaxValue)="handleUserScoreMaxChange($event)"
-        [labels]="['0', '2', '4', '6', '8', '10']"
-      ></app-input-range>
-    </div>
-
-    <div class="filter-item">
       <h4 class="filter-item__title">Keywords</h4>
       <app-input-text placeholder="Enter keywords" [(ngModel)]="keyword">
       </app-input-text>

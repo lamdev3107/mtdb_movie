@@ -1,0 +1,116 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { CardType } from '@core/utils/enums';
+import { Cast } from '@features/movies/models/credit.model';
+import { Movie } from '@features/movies/models/movie.model';
+import { Person } from '@features/people/models/person.model';
+import { TVShow } from '@features/tv-shows/models/tv-show.model';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.scss'],
+})
+export class CardComponent implements OnInit {
+  moviePath = '/movies/details/';
+  tvPath = '/tv_shows/details/';
+  castPath = '/people/';
+  imageBaseUrl = environment.imageBaseUrl;
+  @Input() item!: any;
+  @Input() type: CardType = CardType.MOVIE;
+
+  @Input() isLoading: boolean = false;
+
+  posterPath: string = '';
+  detailLink: string = '';
+
+  // Expose enum to template
+  CardType = CardType;
+
+  constructor() {}
+
+  getPosterPath() {
+    switch (this.type) {
+      case CardType.MOVIE:
+        if ((this.item as Movie).poster_path) {
+          return this.imageBaseUrl + (this.item as Movie).poster_path;
+        }
+        return 'assets/icons/picture.svg';
+      case CardType.TV_SHOW:
+        if ((this.item as TVShow).poster_path) {
+          return this.imageBaseUrl + (this.item as TVShow).poster_path;
+        }
+        return 'assets/icons/picture.svg';
+      case CardType.CAST:
+        if ((this.item as Cast).profile_path) {
+          return this.imageBaseUrl + (this.item as Cast).profile_path;
+        }
+        return 'assets/icons/picture.svg';
+      default:
+        return 'assets/icons/picture.svg';
+    }
+  }
+
+  renderScore() {
+    switch (this.type) {
+      case CardType.MOVIE:
+        return (this.item as Movie).vote_average;
+      case CardType.TV_SHOW:
+        return (this.item as TVShow).vote_average;
+      default:
+        return 0;
+    }
+  }
+
+  renderDate() {
+    switch (this.type) {
+      case CardType.MOVIE:
+        return (this.item as Movie).release_date;
+      case CardType.TV_SHOW:
+        return (this.item as TVShow).first_air_date;
+      default:
+        return '';
+    }
+  }
+
+  renderTitle() {
+    switch (this.type) {
+      case CardType.MOVIE:
+        return (this.item as Movie).title;
+      case CardType.TV_SHOW:
+        return (this.item as TVShow).name;
+      case CardType.CAST:
+        return (this.item as Cast).name;
+
+      default:
+        return '';
+    }
+  }
+  renderKnownForText(): string {
+    if (
+      !(this.item as Person).known_for ||
+      (this.item as Person).known_for.length === 0
+    ) {
+      return 'Unknown';
+    }
+    return (this.item as Person).known_for
+      .map((item: any) => {
+        if (item.name) return item.name;
+        return item.title;
+      })
+      .join(', ');
+  }
+  renderLink() {
+    switch (this.type) {
+      case CardType.MOVIE:
+        return this.moviePath + String((this.item as Movie).id);
+      case CardType.TV_SHOW:
+        return this.tvPath + String((this.item as TVShow).id);
+      case CardType.CAST:
+        return this.castPath + String((this.item as Cast).id);
+      default:
+        return '';
+    }
+  }
+  ngOnInit(): void {}
+}

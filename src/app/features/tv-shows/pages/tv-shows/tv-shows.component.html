@@ -3,20 +3,17 @@
     <app-tv-filter
       [filterObject]="filterObj"
       [category]="category"
-      (onCategoryChange)="handleCategoryChange($event)"
-      (onToggleGenre)="handleToggleGenre($event)"
-      (onSelectSortOption)="handleSelectSortOption($event)"
+      (onClickFilter)="handleFilter($event)"
     ></app-tv-filter>
-    <app-button
-      class="movies-page__sidebar-button"
-      [size]="'full-width'"
-      (click)="handleFilter()"
-    >
-      Filter
-    </app-button>
   </div>
 
   <div class="main">
+    <p
+      class="no-data"
+      *ngIf="!(loadingService.loading$ | async) && tvShows.length === 0"
+    >
+      Not found any tv show
+    </p>
     <ng-container *ngFor="let tvShow of tvShows">
       <app-movie-card [tvShow]="tvShow"></app-movie-card>
     </ng-container>
@@ -27,7 +24,10 @@
     </ng-container>
   </div>
 
-  <div class="load-more">
+  <div
+    class="load-more"
+    *ngIf="!(loadingService.loading$ | async) && tvShows.length > 0"
+  >
     <app-button [size]="'full-width'" (click)="handleLoadMore()">
       Load More
     </app-button>

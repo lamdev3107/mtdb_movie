@@ -24,6 +24,13 @@ import { MovieDetailLayoutComponent } from './movie-detail-layout/movie-detail-l
 import { DetailPageRecommendationComponent } from '@shared/components/detail-page-recommendations-list/detail-page-recommendations.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { CastCardComponent } from './cast-card/cast-card.component';
+<<<<<<< Updated upstream
+=======
+import { PersonCardComponent } from './person-card/person-card.component';
+import { InputKeywordComponent } from './input-keyword/input-keyword.component';
+import { ToastComponent } from './toast/toast.component';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
+>>>>>>> Stashed changes
 
 export const components = [
   LoadingComponent,
@@ -53,4 +60,11 @@ export const components = [
   DetailPageRecommendationComponent,
   PaginationComponent,
   CastCardComponent,
+<<<<<<< Updated upstream
+=======
+  PersonCardComponent,
+  InputKeywordComponent,
+  ToastComponent,
+  ToastContainerComponent,
+>>>>>>> Stashed changes
 ];
