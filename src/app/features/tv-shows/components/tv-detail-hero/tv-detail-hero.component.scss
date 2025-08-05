@@ -90,6 +90,12 @@
     }
   }
 
+  &__actions {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+  }
+
   &__tagline {
     @include font-base(1.6rem, $regular, $grey-75, 1.5);
     font-style: italic;
@@ -112,10 +118,8 @@
       stroke: $primary;
     }
     &--is-watchlist {
-      path {
-        fill: $green;
-        stroke: $green;
-      }
+      fill: $green;
+      stroke: $green;
     }
   }
 }
