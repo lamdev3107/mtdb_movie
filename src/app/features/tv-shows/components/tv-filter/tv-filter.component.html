@@ -13,12 +13,6 @@
   </div>
   <div class="filter-section">
     <h4 class="filter-section__title">Filters</h4>
-    <!-- <app-input-radio-group
-      [options]="categoryOptions"
-      [defaultValue]="selectedCategoryValue"
-      [inline]="true"
-      (onChangeValue)="onChangeCategory($event)"
-    ></app-input-radio-group> -->
 
     <div class="filter-item">
       <h4 class="filter-item__title">Air Dates</h4>
@@ -94,8 +88,8 @@
 
     <div class="filter-item">
       <h4 class="filter-item__title">Keywords</h4>
-      <!-- <app-input-keyword (keywordsChange)="onKeywordsChange($event)">
-      </app-input-keyword> -->
+      <app-input-keyword (keywordsChange)="onKeywordsChange($event)">
+      </app-input-keyword>
     </div>
   </div>
 

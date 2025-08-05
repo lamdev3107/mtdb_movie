@@ -30,7 +30,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     const clonedRequest = req.clone({
       url: apiUrl,
       setHeaders: {
-        Authorization: `Bearer ${environment.apiKey}`, // giả lập token
+        Authorization: `Bearer ${environment.apiKey}`,
       },
     });
 

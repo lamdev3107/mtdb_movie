@@ -2,40 +2,41 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from '@core/services/loading.service';
 import { Cast, Crew } from '@features/movies/models/credit.model';
-import { Movie, MovieDetail } from '@features/movies/models/movie.model';
-import { MovieService } from '@features/movies/services/movie.service';
+import { TVShowDetail } from '@features/tv-shows/models/tv-show.model';
+import { TVShowService } from '@features/tv-shows/services/tv-shows.service';
+
 import { finalize, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-cast',
-  templateUrl: './cast.component.html',
-  styleUrls: ['./cast.component.scss'],
+  selector: 'app-movie-cast',
+  templateUrl: './tv-show-cast.component.html',
+  styleUrls: ['./tv-show-cast.component.scss'],
 })
-export class CastComponent implements OnInit {
-  movieId: string | null = null;
-  movie: MovieDetail | null = null;
+export class TVShowCastComponent implements OnInit {
+  tvShowId: string | null = null;
+  tvShow: TVShowDetail | null = null;
   casts: Cast[] = [];
   crew: Crew[] = [];
   crewByDepartment: Record<string, Crew[]> = {};
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng
 
   constructor(
-    private movieService: MovieService,
+    private tvShowService: TVShowService,
     public loadingService: LoadingService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.movieId = params.get('id');
-      this.loadMovieCredits(this.movieId);
-      this.loadMovieDetails(this.movieId);
+      this.tvShowId = params.get('id');
+      this.loadTVShowCredits(this.tvShowId);
+      this.loadTVShowDetails(this.tvShowId);
     });
   }
-  loadMovieDetails(movieId: string | null): void {
+  loadTVShowDetails(tvShowId: string | null): void {
     this.loadingService.show();
-    this.movieService
-      .getMovieDetails(Number(movieId))
+    this.tvShowService
+      .getTVShowDetails(Number(tvShowId))
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
@@ -44,7 +45,7 @@ export class CastComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          this.movie = res;
+          this.tvShow = res;
         },
         error: (err) => {
           console.log('Error fetching trailers', err);
@@ -52,11 +53,11 @@ export class CastComponent implements OnInit {
       });
   }
 
-  loadMovieCredits(movieId: string | null) {
+  loadTVShowCredits(tvShowId: string | null) {
     this.loadingService.show();
 
-    this.movieService
-      .getMovieCredits(Number(movieId))
+    this.tvShowService
+      .getTVShowCredits(Number(tvShowId))
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => this.loadingService.hide()) // luôn hide loading dù success hay error

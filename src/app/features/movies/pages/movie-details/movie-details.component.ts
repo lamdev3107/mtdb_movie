@@ -10,6 +10,8 @@ import { LoadingService } from '@core/services/loading.service';
 import { TabItem } from '@shared/components/tab/tab.component';
 import { Video } from '@features/movies/models/video.model';
 import { Image } from '@features/movies/models/images.model';
+import { CardType } from '@core/utils/enums';
+import { AccountService } from '@core/services/account.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -28,6 +30,7 @@ export class MovieDetailsComponent implements OnInit {
   posters: Image[] = [];
   backdrops: Image[] = [];
   recommendations: Movie[] = [];
+  cardType = CardType.CAST;
 
   socialTab: TabItem[] = [{ id: 'reviews', label: 'Reviews' }];
   mediaTabs: TabItem[] = [
@@ -95,7 +98,6 @@ export class MovieDetailsComponent implements OnInit {
         next: (res) => {
           this.posters = res.posters.slice(0, 5);
           this.backdrops = res.backdrops.slice(0, 5);
-          console.log('Check imgage', this.posters, this.backdrops);
         },
       });
   }
@@ -127,7 +129,6 @@ export class MovieDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.keywords = res;
-          console.log('Check res', res);
         },
       });
   }
@@ -157,8 +158,6 @@ export class MovieDetailsComponent implements OnInit {
     this.movieService
       .getTopBilledCast(Number(movieId))
       .pipe(
-        // Dòng này sử dụng toán tử takeUntil để tự động hủy (unsubscribe) Observable khi destroy$ phát ra giá trị,
-        // giúp tránh rò rỉ bộ nhớ khi component bị hủy. Khi gọi destroy$.next(), tất cả các subscription đang lắng nghe sẽ bị dừng lại.
         takeUntil(this.destroy$),
         finalize(() => this.loadingService.hide()) // luôn hide loading dù success hay error
       )

@@ -7,11 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-review',
-  templateUrl: './review.component.html',
-  styleUrls: ['./review.component.scss'],
+  selector: 'app-movie-review',
+  templateUrl: './movie-review.component.html',
+  styleUrls: ['./movie-review.component.scss'],
 })
-export class ReviewComponent implements OnInit {
+export class MovieReviewComponent implements OnInit {
   reviews: Review[] = [];
   movieId: string | null = null;
   movie: MovieDetail | null = null;

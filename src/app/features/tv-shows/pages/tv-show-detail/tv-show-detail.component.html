@@ -24,7 +24,10 @@
               [cast]="cast"
             ></app-person-card>
           </div>
-          <a class="more-btn" [routerLink]="['/cast']">
+          <a
+            class="more-btn"
+            [routerLink]="['/tv_shows/details', tvShow?.id, 'casts']"
+          >
             Full Cast And Crew
             <svg
               width="24"
@@ -58,7 +61,10 @@
         <div class="reviews" *ngIf="activeScocialTabId == 'reviews'">
           <app-review-card *ngIf="review" [review]="review"></app-review-card>
           <div *ngIf="review">
-            <a class="more-btn" [routerLink]="['./reviews']">
+            <a
+              class="more-btn"
+              [routerLink]="['/tv_shows/details', tvShow?.id, 'reviews']"
+            >
               Read All Reviews
               <svg
                 width="24"

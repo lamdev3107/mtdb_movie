@@ -112,7 +112,6 @@ export class TVShowDetailHeroComponent implements OnInit {
     });
   }
   onCloseTrailerModal(): void {
-    // this.trailer = null;
     this.openTrailerModal = false;
   }
 }

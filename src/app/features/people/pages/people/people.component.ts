@@ -48,10 +48,6 @@ export class PeopleComponent implements OnInit {
       });
   }
 
-  renderKnownForText(person: Person) {
-    return person.known_for.map((item: any) => item.name).join(', ');
-  }
-
   onPageChange(page: number) {
     this.currentPage = page;
     this.loadPeople(page);

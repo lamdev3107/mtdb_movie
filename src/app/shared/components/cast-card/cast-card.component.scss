@@ -4,10 +4,13 @@
   display: flex;
   align-items: center;
   gap: 1.6rem;
+  background-color: $black-10;
+  border-radius: 1rem;
+  overflow: hidden;
+
   &__image {
     width: 6.6rem;
     height: 6.6rem;
-    border-radius: 1rem;
     overflow: hidden;
     img {
       width: 100%;

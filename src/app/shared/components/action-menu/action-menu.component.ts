@@ -24,7 +24,7 @@ import { AccountService } from '@core/services/account.service';
 export class ActionMenuComponent implements OnChanges {
   isOpen = false;
   @Input() type: CardType = CardType.MOVIE;
-  @Input() data?: Movie | MovieDetail | TVShow | null = null;
+  @Input() data?: any = null;
 
   id: number | null = null;
 
@@ -44,7 +44,6 @@ export class ActionMenuComponent implements OnChanges {
     event.stopPropagation();
 
     if (!this.isOpen) {
-      // this.loadMovieStatus();
     }
 
     this.isOpen = !this.isOpen;
@@ -95,6 +94,7 @@ export class ActionMenuComponent implements OnChanges {
         this.showRatingModal = true;
         break;
     }
+    // this.loadAccountStatus();
   }
   handleToggleLikeBtn() {
     if (this.type === CardType.MOVIE) {

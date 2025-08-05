@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
-import { MovieDetail, TrailerItem } from '../../models/movie.model';
+import { Movie, MovieDetail, TrailerItem } from '../../models/movie.model';
 import { environment } from 'src/environments/environment';
 import { AccountService } from '@core/services/account.service';
 import { ToastService } from '@core/services/toast.service';
@@ -20,14 +20,19 @@ export class MovieDetailHeroComponent implements OnInit {
   trailer: TrailerItem | null = null;
   genres: string = '';
   disablePlayTrailer = false;
+  favoriteMovie: Movie[] = [];
 
-  accountStates: AccountStates | null = null;
+  isFavorite: boolean = false;
+  isAdded: boolean = false;
+  isRated: boolean = false;
 
   constructor(
     private movieService: MovieService,
     private accountService: AccountService,
     private toastService: ToastService
   ) {}
+
+  accountStates: AccountStates | null = null;
 
   ngOnInit(): void {
     this.genres =
@@ -43,7 +48,8 @@ export class MovieDetailHeroComponent implements OnInit {
           .join(', ') || '';
       this.age = changes['movie'].currentValue.adult ? 'R' : 'PG-13';
       this.id = changes['movie'].currentValue.id;
-      console.log('Check movie', this.movie);
+      this.loadTraier();
+      this.loadMovieStatus();
     }
   }
 

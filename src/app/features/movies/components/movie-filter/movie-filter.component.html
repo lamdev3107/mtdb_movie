@@ -111,22 +111,10 @@
       ></app-select>
     </div>
 
-    <!-- <div class="filter-item">
-      <h4 class="filter-item__title">User Scrore</h4>
-      <app-input-range
-        [initMinValue]="userScoreMinControl?.value || 0"
-        [initMaxValue]="userScoreMaxControl?.value || 10"
-        [step]="1"
-        (onChangeMinValue)="handleUserScoreMinChange($event)"
-        (onChangeMaxValue)="handleUserScoreMaxChange($event)"
-        [labels]="['0', '2', '4', '6', '8', '10']"
-      ></app-input-range>
-    </div> -->
-
     <div class="filter-item">
       <h4 class="filter-item__title">Keywords</h4>
-      <!-- <app-input-keyword (keywordsChange)="onKeywordsChange($event)">
-      </app-input-keyword> -->
+      <app-input-keyword (keywordsChange)="onKeywordsChange($event)">
+      </app-input-keyword>
     </div>
   </div>
 

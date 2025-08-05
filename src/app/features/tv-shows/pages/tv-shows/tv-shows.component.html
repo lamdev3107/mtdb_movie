@@ -15,7 +15,7 @@
       Not found any tv show
     </p>
     <ng-container *ngFor="let tvShow of tvShows">
-      <app-movie-card [tvShow]="tvShow"></app-movie-card>
+      <app-card [data]="tvShow" [type]="cardType"></app-card>
     </ng-container>
     <ng-container *ngIf="loadingService.loading$ | async">
       <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
