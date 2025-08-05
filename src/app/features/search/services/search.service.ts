@@ -5,6 +5,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  map,
   Observable,
 } from 'rxjs';
 
@@ -13,7 +14,7 @@ import {
 })
 export class SearchService {
   private searchSubject = new BehaviorSubject<string>('');
-  
+
   constructor(private http: HttpClient) {
     // Khi search thay đổi → trigger search keyword API
     this.searchSubject
@@ -28,10 +29,16 @@ export class SearchService {
   }
 
   searchMulti(query: string): Observable<any> {
-    return this.http.get(`search/multi`, {
-      params: {
-        query,
-      },
-    });
+    return this.http
+      .get(`search/multi`, {
+        params: {
+          query,
+        },
+      })
+      .pipe(
+        map((res) => {
+          return res;
+        })
+      );
   }
 }

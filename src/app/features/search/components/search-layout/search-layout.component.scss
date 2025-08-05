@@ -4,6 +4,10 @@
 
 .search-layout {
   @extend .container;
+  margin-top: 10rem;
+  @include mq-md {
+    margin-top: 12rem;
+  }
   &__title {
     font-size: 2.4rem;
     font-weight: 600;
@@ -16,6 +20,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  .search-box {
+    @extend .container;
+  }
 }
 .search-input {
   width: 90%;
@@ -55,6 +63,49 @@
     transition: color 0.3s ease;
     &:hover {
       color: $white;
+    }
+  }
+}
+
+.search-results {
+  position: absolute;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  top: 100%;
+  width: 90%;
+  @include mq-md {
+    width: 50%;
+  }
+  right: 0;
+  left: 0;
+  background-color: $black-15;
+  padding: 1.2rem;
+  @extend .container;
+
+  &__item {
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    color: $grey-70;
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid $black-20;
+    &:hover {
+      background-color: $black-20;
+      color: $white;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__trending {
+    background-color: $black-15;
+    border-radius: 1.2rem;
+    &-title {
+      @include font-base(1.8rem, $bold);
+      color: $white;
+      padding: 0rem 1.2rem 1.5rem;
+      border-bottom: 1px solid $black-20;
     }
   }
 }

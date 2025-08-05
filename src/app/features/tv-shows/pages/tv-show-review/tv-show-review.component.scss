@@ -2,14 +2,12 @@
 @use "../../../../../assets/styles/mixins" as *;
 @use "../../../../../assets/styles/base" as *;
 
-.review-page {
-  margin-top: 9rem;
-  @include mq-md {
-    margin-top: 10rem;
-  }
-}
 .header {
   background-color: $black-10;
+  margin-top: 8rem;
+  @include mq-md {
+    margin-top: 9rem;
+  }
 }
 
 .review-page-header {

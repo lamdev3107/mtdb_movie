@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   z-index: 20;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: $black;
   color: $white;
   transition: transform 0.3s ease-in-out;
 
@@ -108,6 +108,7 @@
 
   &__buttons {
     gap: 3rem;
+    display: none;
     @include mq-md {
       display: flex;
     }
@@ -115,11 +116,15 @@
     &-item {
       background: none;
       border: none;
+      display: none;
       color: $white;
       width: 34px;
       height: 34px;
       cursor: pointer;
       transition: all 0.3s ease;
+      @include mq-md {
+        display: block;
+      }
       &:hover {
         opacity: 0.8;
       }
@@ -128,60 +133,5 @@
         height: 100%;
       }
     }
-  }
-}
-
-.search-container {
-  position: absolute;
-  top: 100%;
-  width: 100vw;
-  right: 0;
-  left: 0;
-  background-color: $black-15;
-  .search-input {
-    width: 100%;
-    position: relative;
-    @extend .container;
-    display: flex;
-    align-items: center;
-    &__input {
-      width: 100%;
-      padding: 1.2rem 1.6rem;
-      border-radius: 1.2rem;
-      outline: none;
-      border: none;
-      background-color: $black-15;
-      @include font-base(1.5rem, $regular);
-      &::placeholder {
-        color: $grey-70;
-      }
-    }
-
-    &__button {
-      padding: 0.5rem;
-      background: transparent;
-      border: none;
-      outline: none;
-    }
-    &__icon {
-      width: 2.4rem;
-      height: 2.4rem;
-      color: $grey-70;
-      cursor: pointer;
-      transition: color 0.3s ease;
-      &:hover {
-        color: $white;
-      }
-    }
-  }
-
-  .search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: $black-15;
-    padding: 1.2rem;
-    @extend .container;
   }
 }

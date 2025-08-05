@@ -72,7 +72,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.trailerList = res;
-          console.log('check res', res);
         },
         error: (err) => {
           console.log('Error fetching trailers', err);
@@ -92,7 +91,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: ListMovieResponse) => {
           this.trendingMovieList = res.results;
-          console.log('check trendingMovieList', this.trendingMovieList);
         },
         error: (err) => {
           console.error('Error fetching trending movie list', err);

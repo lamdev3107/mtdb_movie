@@ -5,6 +5,9 @@
       <input
         type="text"
         class="search-input__input"
+        #searchInput
+        (focus)="isShowResult = true"
+        (blur)="isShowResult = false"
         placeholder="Search for a movie, tv show, person..."
       />
       <button class="search-input__button">
@@ -24,5 +27,88 @@
         </svg>
       </button>
     </div>
+    <!-- Search Results -->
+    <!-- <ng-container *ngIf="isShowResult"> -->
+    <div
+      #searchResults
+      class="search-results"
+      *ngIf="searchResults$ | async as searchResults"
+    >
+      <!-- Loading -->
+      <ng-container *ngIf="searchResults.loading; else resultsContent">
+        <div class="search-results__loading">
+          <div class="spinner-loading">
+            <svg class="spinner" width="32" height="32" viewBox="0 0 50 50">
+              <circle
+                class="path"
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke-width="5"
+              ></circle>
+            </svg>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Results -->
+      <ng-template #resultsContent>
+        <ng-container
+          *ngIf="searchResults.data && searchResults.data.length > 0"
+        >
+          <div
+            class="search-results__item"
+            *ngFor="let item of searchResults.data"
+          >
+            <p class="search-results__item-media-type">
+              {{ item.media_type }}
+            </p>
+            <p class="search-results__item-title">
+              {{ getItemTitle(item) }}
+            </p>
+          </div>
+        </ng-container>
+      </ng-template>
+
+      <ng-container *ngIf="trendingResults$ | async as trendingResults">
+        <div
+          class="search-results__loading"
+          *ngIf="trendingResults.loading; else trendingResultsContent"
+        >
+          <div class="spinner-loading">
+            <svg class="spinner" width="32" height="32" viewBox="0 0 50 50">
+              <circle
+                class="path"
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke-width="5"
+              ></circle>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <ng-template #trendingResultsContent>
+          <div
+            class="search-results__trending"
+            *ngIf="trendingResults.data && trendingResults.data.length > 0"
+          >
+            <p class="search-results__trending-title">Trending</p>
+            <div
+              class="search-results__item"
+              *ngFor="let item of trendingResults.data || []"
+            >
+              <p class="search-results__item-title">
+                {{ item.title }}
+              </p>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
+    <!-- </ng-container> -->
   </div>
 </div>

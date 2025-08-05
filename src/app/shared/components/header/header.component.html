@@ -6,7 +6,6 @@
     <a routerLink="/" class="header__logo header__logo--laptop">
       <img src="assets/images/logo-tablet.svg" alt="StreamVibe" />
     </a>
-
     <a routerLink="/" class="header__logo header__logo--desktop">
       <img src="assets/images/logo-desktop.svg" alt="StreamVibe" />
     </a>
@@ -17,81 +16,135 @@
 
     <nav class="header__nav">
       <a
+        *ngFor="let item of headerNavigation"
         [routerLink]="item.link"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         class="header__nav-item"
-        *ngFor="let item of headerNavigation"
       >
         {{ item.title }}
       </a>
     </nav>
 
     <div class="header__buttons">
-      <button routerLink="/search" class="header__buttons-item">
+      <a [routerLink]="['/search']" class="header__buttons-item">
         <img
           src="assets/icons/search.svg"
-          class="header__icons-item icon icon--white"
-          alt="Play"
-          width="34"
-          height="34"
+          class="icon icon--white"
+          alt="Search"
         />
-      </button>
+      </a>
       <button class="header__buttons-item">
         <img
           src="assets/icons/bell.svg"
-          class="header__icons-item icon icon--white"
-          alt="Play"
-          width="34"
-          height="34"
+          class="icon icon--white"
+          alt="Notifications"
         />
       </button>
     </div>
   </div>
 
-  <!-- Search Container -->
-  <div class="search-container" *ngIf="isHeaderVisible">
-    <div class="search-input">
-      <button class="search-input__button">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="search-input__icon"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-          />
-        </svg>
-      </button>
-      <input
-        type="text"
-        [(ngModel)]="searchQuery"
-        (ngModelChange)="onInputChange($event)"
-        class="search-input__input"
-        placeholder="Search for a movie, tv show, person..."
-      />
-    </div>
-    <div class="search-results">
-      <ng-container *ngIf="trendingMovies$ | async as trendingMovies">
-        <ng-container *ngIf="trendingMovies.loading; else content">
-          <div class="search-results__item">
-            <app-skeleton width="100px" height="100px"></app-skeleton>
+  <!-- Search Box -->
+  <!-- <div class="search-container" *ngIf="isHeaderVisible && isSearchVisible">
+    <div class="search-box">
+      <div class="search-input">
+        <button class="search-input__button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="search-input__icon"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+            />
+          </svg>
+        </button>
+        <input
+          type="text"
+          #searchInput
+          class="search-input__input"
+          placeholder="Search for a movie, tv show, person..."
+        />
+      </div>
+
+      <div
+        class="search-results"
+        *ngIf="searchResults$ | async as searchResults"
+      >
+        <ng-container *ngIf="searchResults.loading; else resultsContent">
+          <div class="search-results__loading">
+            <div class="spinner-loading">
+              <svg class="spinner" width="32" height="32" viewBox="0 0 50 50">
+                <circle
+                  class="path"
+                  cx="25"
+                  cy="25"
+                  r="20"
+                  fill="none"
+                  stroke-width="5"
+                ></circle>
+              </svg>
+            </div>
           </div>
         </ng-container>
-        <ng-template #content>
-          <div
-            class="search-results__item"
-            *ngFor="let movie of trendingMovies.data"
+
+        <ng-template #resultsContent>
+          <ng-container
+            *ngIf="searchResults.data && searchResults.data.length > 0"
           >
-            <p class="search-results__item-title">{{ movie.title }}</p>
-          </div>
+            <div
+              class="search-results__item"
+              *ngFor="let item of searchResults.data"
+            >
+              <p class="search-results__item-title">
+                {{ getItemTitle(item) }}
+              </p>
+            </div>
+          </ng-container>
         </ng-template>
-      </ng-container>
+
+        <ng-container *ngIf="trendingResults$ | async as trendingResults">
+          <div
+            class="search-results__loading"
+            *ngIf="trendingResults.loading; else trendingResultsContent"
+          >
+            <div class="spinner-loading">
+              <svg class="spinner" width="32" height="32" viewBox="0 0 50 50">
+                <circle
+                  class="path"
+                  cx="25"
+                  cy="25"
+                  r="20"
+                  fill="none"
+                  stroke-width="5"
+                ></circle>
+              </svg>
+            </div>
+          </div>
+
+          <ng-template #trendingResultsContent>
+            <div
+              class="search-results__trending"
+              *ngIf="trendingResults.data && trendingResults.data.length > 0"
+            >
+              <p class="search-results__trending-title">Trending</p>
+              <div
+                class="search-results__item"
+                *ngFor="let item of trendingResults.data || []"
+              >
+                <p class="search-results__item-title">
+                  {{ item.title }}
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
     </div>
-  </div>
+  </div> -->
 </header>
