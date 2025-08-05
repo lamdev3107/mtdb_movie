@@ -1,3 +1,4 @@
+import { SearchModule } from './features/search/search.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -11,6 +12,11 @@ const routes: Routes = [
     path: 'movies',
     loadChildren: () =>
       import('./features/movies/movies.module').then((m) => m.MoviesModule),
+  },
+  {
+    path: 'search',
+    loadChildren: () =>
+      import('./features/search/search.module').then((m) => m.SearchModule),
   },
   {
     path: 'tv_shows',

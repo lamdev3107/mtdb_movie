@@ -1,6 +1,13 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Movie } from '@features/movies/models/movie.model';
+import { MovieService } from '@features/movies/services/movie.service';
+import { SearchService } from '@features/search/services/search.service';
+import { map, Observable, shareReplay, startWith } from 'rxjs';
 import { header_navigation } from 'src/app/core/utils/constants';
-
+interface ApiState<T> {
+  loading: boolean;
+  data?: T;
+}
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,9 +17,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerNavigation = header_navigation;
   isHeaderVisible = true;
   private lastScrollTop = 0;
+  searchQuery: string = '';
   private scrollThreshold = 10; // Ngưỡng scroll để kích hoạt ẩn/hiện
 
-  constructor() {}
+  trendingMovies$!: Observable<ApiState<Movie[]>>;
+
+  constructor(
+    private movieService: MovieService,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -21,21 +34,43 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const currentScrollTop =
       window.pageYOffset || document.documentElement.scrollTop;
 
-    // Chỉ ẩn header khi scroll xuống và đã scroll đủ xa
     if (currentScrollTop > this.scrollThreshold) {
       if (currentScrollTop > this.lastScrollTop) {
-        // Cuộn xuống - ẩn header
         this.isHeaderVisible = false;
       } else {
-        // Cuộn lên - hiện header
         this.isHeaderVisible = true;
       }
     } else {
-      // Ở đầu trang - luôn hiện header
       this.isHeaderVisible = true;
     }
 
     this.lastScrollTop = currentScrollTop;
+  }
+
+  onClickSearchBtn() {}
+
+  onInputChange(value: string) {
+    if (value == '') {
+      this.trendingMovies$ = this.movieService.getTrendingMovies().pipe(
+        startWith({ loading: true } as ApiState<Movie[]>),
+        map((res) =>
+          'results' in res
+            ? ({ loading: false, data: res.results } as ApiState<Movie[]>)
+            : res
+        )
+      );
+    }
+  }
+  getTrendingMovies(): void {
+    this.trendingMovies$ = this.movieService.getTrendingMovies().pipe(
+      startWith({ loading: true } as ApiState<Movie[]>),
+      map((res) =>
+        'results' in res
+          ? ({ loading: false, data: res.results } as ApiState<Movie[]>)
+          : res
+      ),
+      shareReplay(1) // Giữ lại 1 lần emit gần nhất
+    );
   }
 
   ngOnDestroy(): void {

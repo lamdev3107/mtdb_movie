@@ -1,33 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class SearchRoutingModule { }
+import { MovieComponent } from './pages/movie/movie.component';
+import { TvShowComponent } from './pages/tv-show/tv-show.component';
+import { PersonComponent } from './pages/person/person.component';
+import { SearchLayoutComponent } from './components/search-layout/search-layout.component';
 const routes: Routes = [
   {
     path: '',
+    component: SearchLayoutComponent,
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'movie',
+      },
+      {
         path: 'tv',
-       
+        component: TvShowComponent,
       },
       {
         path: 'movie',
-        loadChildren: () =>
-          import('../movie-search/movie-search.module').then(m => m.MovieSearchModule)
+        component: MovieComponent,
       },
       {
         path: 'person',
-        loadChildren: () =>
-          import('../person-search/person-search.module').then(m => m.PersonSearchModule)
-      }
-    ]
-  }
+        component: PersonComponent,
+      },
+    ],
+  },
 ];
 
-
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class SearchRoutingModule {}

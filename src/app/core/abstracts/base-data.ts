@@ -11,3 +11,4 @@ export abstract class BaseData {
   abstract delete(id: string): Observable<void>;
   abstract exportExcel(fileName: string, params: any): Observable<boolean>;
 }
+

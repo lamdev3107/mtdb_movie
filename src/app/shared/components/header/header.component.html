@@ -28,7 +28,7 @@
     </nav>
 
     <div class="header__buttons">
-      <button class="header__buttons-item">
+      <button routerLink="/search" class="header__buttons-item">
         <img
           src="assets/icons/search.svg"
           class="header__icons-item icon icon--white"
@@ -46,6 +46,52 @@
           height="34"
         />
       </button>
+    </div>
+  </div>
+
+  <!-- Search Container -->
+  <div class="search-container" *ngIf="isHeaderVisible">
+    <div class="search-input">
+      <button class="search-input__button">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="search-input__icon"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+      </button>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onInputChange($event)"
+        class="search-input__input"
+        placeholder="Search for a movie, tv show, person..."
+      />
+    </div>
+    <div class="search-results">
+      <ng-container *ngIf="trendingMovies$ | async as trendingMovies">
+        <ng-container *ngIf="trendingMovies.loading; else content">
+          <div class="search-results__item">
+            <app-skeleton width="100px" height="100px"></app-skeleton>
+          </div>
+        </ng-container>
+        <ng-template #content>
+          <div
+            class="search-results__item"
+            *ngFor="let movie of trendingMovies.data"
+          >
+            <p class="search-results__item-title">{{ movie.title }}</p>
+          </div>
+        </ng-template>
+      </ng-container>
     </div>
   </div>
 </header>
