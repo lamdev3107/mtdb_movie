@@ -4,6 +4,7 @@ import { MovieCategoryEnum, MovieService } from '../../services/movie.service';
 
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { ListMovieResponse, Movie } from '../../models/movie.model';
+import { CardType } from '@core/utils/enums';
 
 @Component({
   selector: 'app-movies',
@@ -16,6 +17,7 @@ export class MoviesComponent implements OnInit {
   category: string = MovieCategoryEnum.POPULAR;
   page = 1;
   sortBy: string = '';
+  cardType: CardType = CardType.MOVIE;
 
   filterObj: any = {};
 
@@ -34,27 +36,15 @@ export class MoviesComponent implements OnInit {
     this.filterObj = {};
   }
 
-  handleToggleGenre(genreIdList: number[]) {
-    const paramString = genreIdList.join(',');
-    console.log('chekc genreIdList', genreIdList);
-    this.filterObj.with_genres = paramString;
-  }
-
-  handleSelectSortOption(sortOptionValue: string) {
-    console.log('chekc sortOption', sortOptionValue);
-    this.filterObj.sort_by = sortOptionValue;
-  }
-
   handleLoadMore() {
     this.page += 1;
-    if (Object.keys(this.filterObj).length === 0) {
-      this.loadCategoryMovies(this.category as MovieCategoryEnum, this.page);
-      return;
-    }
-    this.handleFilter();
+    this.loadFilterMovies();
   }
 
-  handleFilter() {
+  handleFilter(filterObj: any) {
+    this.filterObj = filterObj;
+    this.page = 1;
+    this.movies = [];
     this.loadFilterMovies();
   }
 
@@ -82,11 +72,11 @@ export class MoviesComponent implements OnInit {
       });
   }
   loadFilterMovies() {
+    this.resetMovies();
     this.loadingService.show();
     this.movieService
       .discoverMovie(this.filterObj, this.page)
       .pipe(
-        takeUntil(this.destroy$),
         finalize(() => {
           this.loadingService.hide();
         })

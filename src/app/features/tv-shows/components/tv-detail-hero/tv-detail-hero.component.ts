@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-=======
 import {
   Component,
   ElementRef,
@@ -8,7 +5,6 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
->>>>>>> Stashed changes
 import { environment } from 'src/environments/environment';
 import { TVShowService } from '@features/tv-shows/services/tv-shows.service';
 import { TrailerItem } from '@features/movies/models/movie.model';
@@ -29,11 +25,7 @@ export class TVShowDetailHeroComponent implements OnInit {
   age: string = '';
   openTrailerModal = false;
   trailer: TrailerItem | null = null;
-<<<<<<< Updated upstream
-  constructor(private tvShowService: TVShowService) {}
-=======
   disablePlayTrailer = false;
->>>>>>> Stashed changes
   genres: string = '';
 
   accountStates: AccountStates | null = null;
@@ -57,11 +49,6 @@ export class TVShowDetailHeroComponent implements OnInit {
           .join(', ') || '';
       this.age = changes['tvShow'].currentValue.adult ? 'R' : 'PG-13';
       this.id = changes['tvShow'].currentValue.id;
-<<<<<<< Updated upstream
-      console.log('Check tvShow', this.tvShow);
-    }
-  }
-=======
       this.loadTraier();
       this.loadTVShowStatus();
     }
@@ -109,15 +96,23 @@ export class TVShowDetailHeroComponent implements OnInit {
       });
   }
 
->>>>>>> Stashed changes
   onPlayTrailer(): void {
+    if (this.disablePlayTrailer && !this.trailer) {
+      return;
+    }
+    this.openTrailerModal = true;
+  }
+  loadTraier() {
     this.tvShowService.getTVShowTrailer(this.id as number).subscribe((res) => {
+      if (res === null) {
+        this.disablePlayTrailer = true;
+        return;
+      }
       this.trailer = res;
-      this.openTrailerModal = true;
     });
   }
   onCloseTrailerModal(): void {
-    this.trailer = null;
+    // this.trailer = null;
     this.openTrailerModal = false;
   }
 }

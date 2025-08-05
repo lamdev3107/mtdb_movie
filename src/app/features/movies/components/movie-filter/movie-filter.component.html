@@ -1,33 +1,35 @@
-<div class="movie-filter">
+<form class="movie-filter">
   <div class="filter-section">
     <h4 class="filter-section__title">Sort</h4>
     <div class="filter-item">
       <p class="filter-item__title">Sort Result By</p>
       <app-select
         [optionList]="sortByOptions"
-        [selectedOptionValue]="selectedSortOptionValue"
-        (onSelectChange)="handleSelectSortOptin($event)"
+        [selectedOptionValue]="sortBy"
+        (onSelectChange)="sortBy = $event"
         [searchable]="true"
       ></app-select>
     </div>
   </div>
   <div class="filter-section">
     <h4 class="filter-section__title">Filters</h4>
-    <app-input-radio-group
+    <!-- <app-input-radio-group
       [options]="categoryOptions"
-      [defaultValue]="selectedCategoryValue"
+      [defaultValue]="categoryValue"
       [inline]="true"
-      (onChangeValue)="onChangeCategory($event)"
-    ></app-input-radio-group>
+      (onChangeValue)="categoryValue = $event"
+    ></app-input-radio-group> -->
 
     <div class="filter-item">
       <h4 class="filter-item__title">Release Date</h4>
       <div class="checkbox-select">
         <input
           id="searchAllReleases"
+          name="isSearchAllReleases"
           class="checkbox-select__input"
           type="checkbox"
           [(ngModel)]="isSearchAllReleases"
+          (ngModelChange)="onSearchAllReleasesChange()"
         />
         <label class="checkbox-select__label" for="searchAllReleases"
           >Search all releases?</label
@@ -36,36 +38,40 @@
 
       <div *ngIf="!isSearchAllReleases" class="checkbox-select">
         <input
-          id="searchAllReleases"
+          id="searchAllCountries"
+          name="isSearchAllCountries"
           class="checkbox-select__input"
           type="checkbox"
           [(ngModel)]="isSearchAllCountries"
         />
-        <label class="checkbox-select__label" for="isSearchAllCountries"
+        <label class="checkbox-select__label" for="searchAllCountries"
           >Search all countries?</label
         >
       </div>
 
-      <ng-container *ngIf="!isSearchAllCountries">
+      <ng-container *ngIf="!isSearchAllReleases && !isSearchAllCountries">
         <app-select
           [optionList]="countryOptions"
-          [selectedOptionValue]="selectedCountryValue"
+          [selectedOptionValue]="region"
           (onSelectChange)="handleSelectCountry($event)"
           [searchable]="true"
         ></app-select>
       </ng-container>
 
-      <app-toggle-select-box-list
-        [list]="releaseTypes"
-        (onChangeSelectList)="onChangeSelectReleaseType($event)"
-      ></app-toggle-select-box-list>
+      <ng-container *ngIf="!isSearchAllReleases">
+        <app-toggle-select-box-list
+          [list]="releaseTypesOptions"
+          (onChangeSelectList)="onChangeSelectReleaseType($event)"
+        ></app-toggle-select-box-list>
+      </ng-container>
 
       <div class="movie-release-date">
         <div class="movie-release-date__item">
           <p class="movie-release-date__item-title">From</p>
           <input
             type="date"
-            [(ngModel)]="dateRange.from"
+            name="dateFrom"
+            [(ngModel)]="dateFrom"
             class="movie-release-date__item-input"
           />
         </div>
@@ -73,7 +79,8 @@
           <p class="movie-release-date__item-title">To</p>
           <input
             type="date"
-            [(ngModel)]="dateRange.to"
+            name="dateTo"
+            [(ngModel)]="dateTo"
             class="movie-release-date__item-input"
           />
         </div>
@@ -98,16 +105,36 @@
       </app-tooltip>
       <app-select
         [optionList]="languageOptions"
-        [selectedOptionValue]="selectedLanguageValue"
-        (onSelectChange)="handleSelectLanguage($event)"
+        [selectedOptionValue]="language"
+        (onSelectChange)="language = $event"
         [searchable]="true"
       ></app-select>
     </div>
 
+    <!-- <div class="filter-item">
+      <h4 class="filter-item__title">User Scrore</h4>
+      <app-input-range
+        [initMinValue]="userScoreMinControl?.value || 0"
+        [initMaxValue]="userScoreMaxControl?.value || 10"
+        [step]="1"
+        (onChangeMinValue)="handleUserScoreMinChange($event)"
+        (onChangeMaxValue)="handleUserScoreMaxChange($event)"
+        [labels]="['0', '2', '4', '6', '8', '10']"
+      ></app-input-range>
+    </div> -->
+
     <div class="filter-item">
       <h4 class="filter-item__title">Keywords</h4>
-      <app-input-text placeholder="Enter keywords" [(ngModel)]="keyword">
-      </app-input-text>
+      <!-- <app-input-keyword (keywordsChange)="onKeywordsChange($event)">
+      </app-input-keyword> -->
     </div>
   </div>
-</div>
+
+  <app-button
+    class="movies-page__sidebar-button"
+    [size]="'full-width'"
+    (click)="onFilterClick()"
+  >
+    Filter
+  </app-button>
+</form>

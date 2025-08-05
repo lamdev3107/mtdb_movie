@@ -7,7 +7,8 @@
     </ng-container>
     <ng-template #peopleList>
       <div *ngFor="let person of people" class="people-page__card">
-        <app-people-card [person]="person"></app-people-card>
+        <!-- <app-people-card [person]="person"></app-people-card> -->
+        <app-card [data]="person" [type]="cardType"></app-card>
       </div>
     </ng-template>
   </div>

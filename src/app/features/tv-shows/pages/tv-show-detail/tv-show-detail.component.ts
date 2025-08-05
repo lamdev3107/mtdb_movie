@@ -94,7 +94,6 @@ export class TvShowDetailComponent implements OnInit {
         next: (res) => {
           this.posters = res.posters.slice(0, 5);
           this.backdrops = res.backdrops.slice(0, 5);
-          console.log('Check imgage', this.posters, this.backdrops);
         },
       });
   }
@@ -111,7 +110,6 @@ export class TvShowDetailComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.tvShow = res;
-          console.log('check tvshow detail', res);
         },
         error: (err) => {
           console.log('Error fetching trailers', err);
@@ -126,7 +124,6 @@ export class TvShowDetailComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.keywords = res;
-          console.log('Chek res');
         },
       });
   }

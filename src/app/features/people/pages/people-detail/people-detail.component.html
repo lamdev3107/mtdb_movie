@@ -1,1 +1,69 @@
-<p>people-detail works!</p>
+<div class="detail-section">
+  <div class="main-content">
+    <div class="hero-section">
+      <div class="hero-section__container">
+        <div class="hero-section__poster" *ngIf="person?.profile_path">
+          <img
+            class="hero-section__poster-image"
+            [src]="
+              person?.profile_path
+                ? (person?.profile_path | imageUrl : 500 : false)
+                : 'assets/images/default-avatar.jpg'
+            "
+            [alt]="person?.name"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="hero-section__poster hero-section__poster--no-image"
+          *ngIf="!person?.profile_path"
+        >
+          <img
+            class="hero-section__poster-image--no-image"
+            src="assets/icons/picture.svg"
+            alt="No poster"
+            class="hero-section__poster-image--no-image"
+            loading="lazy"
+          />
+        </div>
+        <div class="hero-section__content">
+          <h1 class="hero-section__name">
+            {{ person?.name || "-------" }}
+          </h1>
+
+          <div class="hero-section__biography">
+            <h2 class="hero-section__biography-text">Biography</h2>
+            <p class="hero-section__biography-content">
+              <ng-container *ngIf="person?.biography; else noBio">
+                <span>
+                  {{ renderBio() }}
+                </span>
+                <button
+                  *ngIf="(person?.biography?.length ?? 0) > 600"
+                  class="read-more-btn"
+                  (click)="onToggleReadMoreBtn()"
+                >
+                  {{ showFullBio ? "Read Less" : "Read More" }}
+                </button>
+              </ng-container>
+              <ng-template #noBio> No biography available </ng-template>
+            </p>
+          </div>
+
+          <div class="hero-section__known-for">
+            <h2 class="hero-section__known-for-text">Known For</h2>
+            <div class="hero-section__known-for-content">
+              <!-- <div class="hero-section__known-for-item" *ngFor="let item of person?.known_for">
+                <img
+                  class="hero-section__known-for-item-image"
+                  [src]="item.poster_path | imageUrl : 500 : false"
+                  [alt]="item.title"
+                />
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,7 +16,7 @@ export class CardComponent implements OnInit {
   tvPath = '/tv_shows/details/';
   castPath = '/people/';
   imageBaseUrl = environment.imageBaseUrl;
-  @Input() item!: any;
+  @Input() data!: any;
   @Input() type: CardType = CardType.MOVIE;
 
   @Input() isLoading: boolean = false;
@@ -32,18 +32,18 @@ export class CardComponent implements OnInit {
   getPosterPath() {
     switch (this.type) {
       case CardType.MOVIE:
-        if ((this.item as Movie).poster_path) {
-          return this.imageBaseUrl + (this.item as Movie).poster_path;
+        if ((this.data as Movie).poster_path) {
+          return this.imageBaseUrl + (this.data as Movie).poster_path;
         }
         return 'assets/icons/picture.svg';
       case CardType.TV_SHOW:
-        if ((this.item as TVShow).poster_path) {
-          return this.imageBaseUrl + (this.item as TVShow).poster_path;
+        if ((this.data as TVShow).poster_path) {
+          return this.imageBaseUrl + (this.data as TVShow).poster_path;
         }
         return 'assets/icons/picture.svg';
       case CardType.CAST:
-        if ((this.item as Cast).profile_path) {
-          return this.imageBaseUrl + (this.item as Cast).profile_path;
+        if ((this.data as Cast).profile_path) {
+          return this.imageBaseUrl + (this.data as Cast).profile_path;
         }
         return 'assets/icons/picture.svg';
       default:
@@ -54,9 +54,9 @@ export class CardComponent implements OnInit {
   renderScore() {
     switch (this.type) {
       case CardType.MOVIE:
-        return (this.item as Movie).vote_average;
+        return (this.data as Movie).vote_average;
       case CardType.TV_SHOW:
-        return (this.item as TVShow).vote_average;
+        return (this.data as TVShow).vote_average;
       default:
         return 0;
     }
@@ -65,9 +65,9 @@ export class CardComponent implements OnInit {
   renderDate() {
     switch (this.type) {
       case CardType.MOVIE:
-        return (this.item as Movie).release_date;
+        return (this.data as Movie).release_date;
       case CardType.TV_SHOW:
-        return (this.item as TVShow).first_air_date;
+        return (this.data as TVShow).first_air_date;
       default:
         return '';
     }
@@ -76,11 +76,11 @@ export class CardComponent implements OnInit {
   renderTitle() {
     switch (this.type) {
       case CardType.MOVIE:
-        return (this.item as Movie).title;
+        return (this.data as Movie).title;
       case CardType.TV_SHOW:
-        return (this.item as TVShow).name;
+        return (this.data as TVShow).name;
       case CardType.CAST:
-        return (this.item as Cast).name;
+        return (this.data as Cast).name;
 
       default:
         return '';
@@ -88,26 +88,26 @@ export class CardComponent implements OnInit {
   }
   renderKnownForText(): string {
     if (
-      !(this.item as Person).known_for ||
-      (this.item as Person).known_for.length === 0
+      !(this.data as Person).known_for ||
+      (this.data as Person).known_for.length === 0
     ) {
       return 'Unknown';
     }
-    return (this.item as Person).known_for
-      .map((item: any) => {
-        if (item.name) return item.name;
-        return item.title;
+    return (this.data as Person).known_for
+      .map((data: any) => {
+        if (data.name) return data.name;
+        return data.title;
       })
       .join(', ');
   }
   renderLink() {
     switch (this.type) {
       case CardType.MOVIE:
-        return this.moviePath + String((this.item as Movie).id);
+        return this.moviePath + String((this.data as Movie).id);
       case CardType.TV_SHOW:
-        return this.tvPath + String((this.item as TVShow).id);
+        return this.tvPath + String((this.data as TVShow).id);
       case CardType.CAST:
-        return this.castPath + String((this.item as Cast).id);
+        return this.castPath + String((this.data as Cast).id);
       default:
         return '';
     }

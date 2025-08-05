@@ -4,10 +4,8 @@ import {
   Language,
 } from './../../../../core/services/configuration.service';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Genre, GenreListResponse } from '@features/home/models/genre.model';
+import { GenreListResponse } from '@features/home/models/genre.model';
 import { GenreService } from '@features/home/services/genre.service';
-import { MovieCategoryEnum } from '@features/movies/services/movie.service';
-
 import { RadioOption } from '@shared/components/input-radio-group/input-radio-group.component';
 import { SelectOption } from '@shared/components/select/select.component';
 import { ToggleSelectBox } from '@shared/components/toggle-select-box-list/toggle-select-box-list.component';
@@ -73,27 +71,13 @@ export class MovieFilterComponent implements OnInit {
   selectedKeywords: number[] = [];
 
   movieGenres: ToggleSelectBox[] = [];
-  selectedCountryValue: string = 'US';
-  selectedLanguageValue: string = 'en';
-  selectedGenres: ToggleSelectBox[] = [];
-  selectedReleaseType: [] = [];
   countryOptions: SelectOption[] = [];
-  dateRange = {
-    from: '',
-    to: '',
-  };
-  keyword: string = '';
-
   languageOptions: SelectOption[] = [];
 
   @Input() filterObject = {};
   @Input() category = {};
-  @Output() onCategoryChange = new EventEmitter<string>();
-  @Output() onSelectSortOption = new EventEmitter<string>();
-  @Output() onToggleGenre = new EventEmitter<number[]>();
-  @Output() onSelectCountry = new EventEmitter<string>();
-  @Output() onSelectLanguage = new EventEmitter<string>();
-  @Output() onToggleReleaseType = new EventEmitter<number[]>();
+  @Output() onClickFilter = new EventEmitter<any>();
+
   constructor(
     private genreService: GenreService,
     private configurationService: ConfigurationService
@@ -105,35 +89,46 @@ export class MovieFilterComponent implements OnInit {
     this.loadLanguages();
   }
 
-  onChangeCategory(value: string) {
-    this.onCategoryChange.emit(value as MovieCategoryEnum);
-  }
-  handleSelectSortOptin(value: string) {
-    this.onSelectSortOption.emit(value);
-  }
-  handleSelectCountry(value: string) {
-    this.onSelectCountry.emit(value);
-  }
-  handleSelectLanguage(value: string) {
-    this.onSelectLanguage.emit(value);
+  // Method to handle filter button click
+  onFilterClick() {
+    let formData = {
+      sort_by: this.sortBy,
+      with_origin_country: this.region,
+      with_original_language: this.language,
+      with_genres: this.genres.join(','),
+      with_release_type: this.releaseTypes,
+      with_keywords: this.selectedKeywords.join(','),
+      primary_release_date_gte: this.dateFrom,
+      primary_release_date_lte: this.dateTo,
+    };
+
+    this.onClickFilter.emit(formData);
   }
 
+  // Methods for handling custom component events
   onChangeSelectGenreList(selectedValues: ToggleSelectBox[]) {
-    const emitedValues = selectedValues.map((item: any) => item.value);
-    this.onToggleGenre.emit(emitedValues);
+    this.genres = selectedValues.map((item: any) => item.value);
   }
+
   onChangeSelectReleaseType(selectedValues: ToggleSelectBox[]) {
-    const emitedValues = selectedValues.map((item: any) => item.value);
-    this.onToggleReleaseType.emit(emitedValues);
+    this.releaseTypes = selectedValues.map((item: any) => item.value);
   }
 
-  handleUserScoreMinChange(value: number) {
-    console.log('Check min', value);
+  handleSelectCountry(value: string) {
+    this.region = value;
   }
 
-  handleUserScoreMaxChange(value: number) {
-    console.log('Check max', value);
+  // Method to handle isSearchAllReleases change
+  onSearchAllReleasesChange() {
+    if (this.isSearchAllReleases === false) {
+      this.isSearchAllCountries = true;
+    }
   }
+
+  onKeywordsChange(keywords: number[]) {
+    this.selectedKeywords = keywords;
+  }
+
   loadGenres() {
     this.genreService.getMovieGenreList().subscribe({
       next: (res: GenreListResponse) => {
@@ -172,4 +167,20 @@ export class MovieFilterComponent implements OnInit {
       },
     });
   }
+
+  // Method to reset form
+  resetForm() {
+    this.sortBy = 'popularity.desc';
+    this.categoryValue = 'popular';
+    this.region = 'US';
+    this.language = 'en';
+    this.genres = [];
+    this.releaseTypes = [1, 2, 3, 4, 5, 6];
+    this.selectedKeywords = [];
+    this.dateTo = '';
+    this.isSearchAllReleases = true;
+    this.isSearchAllCountries = false;
+  }
+
+  // Method to get form values
 }

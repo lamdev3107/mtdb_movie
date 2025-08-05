@@ -98,13 +98,15 @@ export class MovieDetailHeroComponent implements OnInit {
 
   loadTraier() {
     this.movieService.getMovieTrailer(this.id as number).subscribe((res) => {
+      if (res === null) {
+        this.disablePlayTrailer = true;
+        return;
+      }
       this.trailer = res;
-      this.openTrailerModal = true;
     });
   }
 
   onCloseTrailerModal(): void {
-    this.trailer = null;
     this.openTrailerModal = false;
   }
 }

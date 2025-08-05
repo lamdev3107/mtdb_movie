@@ -149,6 +149,12 @@ export enum PaymentMethodCode {
   Cash = 'CASH',
 }
 
+export enum CardType {
+  MOVIE = 'movie',
+  TV_SHOW = 'tv_show',
+  CAST = 'cast',
+}
+
 export const REFRESH_TOKEN_STATE = {
   COMPLETE: 'COMPLETE',
   PENDING: 'PENDING',

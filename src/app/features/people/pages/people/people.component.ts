@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
 import { PeopleResponse, Person } from '@features/people/models/person.model';
 import { PeopleService } from '@features/people/services/people.service';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, take, takeUntil } from 'rxjs';
+import { CardType } from '@core/utils/enums';
 
 @Component({
   selector: 'app-people',
@@ -13,6 +14,7 @@ export class PeopleComponent implements OnInit {
   people: Person[] = [];
   currentPage: number = 1;
   totalPages = 0;
+  cardType = CardType.CAST;
   private destroy$ = new Subject<void>(); // Subject để quản lý hủy đăng ký
 
   constructor(
@@ -29,7 +31,7 @@ export class PeopleComponent implements OnInit {
     this.peopleService
       .getPopularPeople(page)
       .pipe(
-        takeUntil(this.destroy$),
+        take(1),
         finalize(() => {
           this.loadingService.hide();
         })
@@ -52,7 +54,6 @@ export class PeopleComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
-    console.log('chek', this.currentPage);
     this.loadPeople(page);
   }
 }

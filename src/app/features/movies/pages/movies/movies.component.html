@@ -3,17 +3,8 @@
     <app-movie-filter
       [filterObject]="filterObj"
       [category]="category"
-      (onCategoryChange)="handleCategoryChange($event)"
-      (onToggleGenre)="handleToggleGenre($event)"
-      (onSelectSortOption)="handleSelectSortOption($event)"
+      (onClickFilter)="handleFilter($event)"
     ></app-movie-filter>
-    <app-button
-      class="movies-page__sidebar-button"
-      [size]="'full-width'"
-      (click)="handleFilter()"
-    >
-      Filter
-    </app-button>
   </div>
 
   <div class="main">

@@ -81,6 +81,5 @@ export class CastComponent implements OnInit {
       acc[dept].push(member);
       return acc;
     }, {});
-    console.log('check crewByDepartment', this.crewByDepartment);
   }
 }
