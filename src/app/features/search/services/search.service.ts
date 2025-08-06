@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Movie } from '@features/movies/models/movie.model';
+import { Person } from '@features/people/models/person.model';
+import { TVShow } from '@features/tv-shows/models/tv-show.model';
 import {
   BehaviorSubject,
   debounceTime,
@@ -8,6 +11,7 @@ import {
   map,
   Observable,
 } from 'rxjs';
+import { SearchResponse } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +23,7 @@ export class SearchService {
     // Khi search thay đổi → trigger search keyword API
     this.searchSubject
       .pipe(
-        debounceTime(100),
+        debounceTime(500),
         distinctUntilChanged(),
         filter((query) => query.trim().length > 0)
       )
@@ -28,9 +32,51 @@ export class SearchService {
       });
   }
 
-  searchMulti(query: string): Observable<any> {
+  searchMulti(query: string): Observable<SearchResponse> {
     return this.http
-      .get(`search/multi`, {
+      .get<SearchResponse>(`search/multi`, {
+        params: {
+          query,
+        },
+      })
+      .pipe(
+        map((res) => {
+          return res;
+        })
+      );
+  }
+
+  searchMovie(query: string): Observable<SearchResponse> {
+    return this.http
+      .get<SearchResponse>(`search/movie`, {
+        params: {
+          query,
+        },
+      })
+      .pipe(
+        map((res) => {
+          return res;
+        })
+      );
+  }
+
+  searchTV(query: string): Observable<SearchResponse> {
+    return this.http
+      .get<SearchResponse>(`search/tv`, {
+        params: {
+          query,
+        },
+      })
+      .pipe(
+        map((res) => {
+          return res;
+        })
+      );
+  }
+
+  searchPerson(query: string): Observable<SearchResponse> {
+    return this.http
+      .get<SearchResponse>(`search/person`, {
         params: {
           query,
         },

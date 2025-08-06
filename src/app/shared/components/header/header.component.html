@@ -34,13 +34,38 @@
           alt="Search"
         />
       </a>
-      <button class="header__buttons-item">
-        <img
-          src="assets/icons/bell.svg"
-          class="icon icon--white"
-          alt="Notifications"
-        />
-      </button>
+      <div class="header__user-menu-container" #userMenuContainer>
+        <button
+          class="header__buttons-item"
+          (click)="toggleUserMenu($event)"
+          [class.active]="isUserMenuOpen"
+        >
+          <img
+            src="assets/icons/user-solid.svg"
+            class="icon icon--white"
+            alt="User"
+          />
+        </button>
+        <div
+          class="header__user-menu"
+          [class.header__user-menu--open]="isUserMenuOpen"
+        >
+          <div class="header__user-menu-item">
+            <a routerLink="/profile" (click)="closeUserMenu()">
+              <img src="assets/icons/user-solid.svg" alt="User" />
+              <span>Profile</span>
+            </a>
+            <a routerLink="/watchlist" (click)="closeUserMenu()">
+              <img src="assets/icons/bookmark.svg" alt="User" />
+              <span>My Watchlist</span>
+            </a>
+            <a routerLink="/favorite" (click)="closeUserMenu()">
+              <img src="assets/icons/heart-solid.svg" alt="User" />
+              <span>My Favorites</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

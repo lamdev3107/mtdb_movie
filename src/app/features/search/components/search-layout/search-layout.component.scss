@@ -17,19 +17,18 @@
   }
 }
 .search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  width: 90%;
+  margin: 0 auto;
+  @include mq-md {
+    width: 50%;
+  }
+
   .search-box {
     @extend .container;
   }
 }
 .search-input {
-  width: 90%;
-  @include mq-md {
-    width: 50%;
-  }
   position: relative;
   &__input {
     width: 100%;
@@ -72,10 +71,8 @@
   border-radius: 1.2rem;
   overflow: hidden;
   top: 100%;
-  width: 90%;
-  @include mq-md {
-    width: 50%;
-  }
+  width: 100%;
+  border: 1px solid $black-20;
   right: 0;
   left: 0;
   background-color: $black-15;
@@ -85,8 +82,8 @@
   &__item {
     padding: 0.8rem 1.2rem;
     cursor: pointer;
-    color: $grey-70;
     display: flex;
+    align-items: center;
     gap: 2rem;
     border-bottom: 1px solid $black-20;
     &:hover {
@@ -95,6 +92,22 @@
     }
     &:last-child {
       border-bottom: none;
+    }
+    &-media-type {
+      width: 2.4rem;
+      height: 2.4rem;
+      color: $grey-70;
+      cursor: pointer;
+    }
+    &-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      @include font-base(1.5rem, $medium, $grey-70);
+      &-sub {
+        @include font-base(1.3rem, $medium, $grey-65);
+      }
     }
   }
 
@@ -107,5 +120,83 @@
       padding: 0rem 1.2rem 1.5rem;
       border-bottom: 1px solid $black-20;
     }
+  }
+
+  &__not-found {
+    @include font-base(1.5rem, $bold, $white);
+    font-style: italic;
+  }
+
+  &__loading {
+    @include font-base(1.5rem, $bold, $white);
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+.search-results-layout {
+  margin-top: 1.2rem;
+  padding: 2rem;
+  border-radius: 1.2rem;
+  @extend .container;
+
+  &__container {
+    display: flex;
+    gap: 2rem;
+    min-height: 100%;
+  }
+
+  &__sidebar {
+    width: 25rem;
+    background-color: $black-15;
+    border-radius: 1.2rem;
+    padding: 2rem;
+    height: fit-content;
+
+    &-title {
+      @include font-base(1.8rem, $bold, $white);
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $black-20;
+    }
+
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    &-item {
+      @include font-base(1.5rem, $medium, $grey-70);
+      padding: 1.2rem 1.6rem;
+      margin-bottom: 0.8rem;
+      border-radius: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      &:hover {
+        background-color: $black-20;
+        color: $white;
+      }
+
+      &.active {
+        background-color: $primary;
+        color: $white;
+        font-weight: $bold;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__content {
+    flex: 1;
+    background-color: transparent;
+    border-radius: 1.2rem;
   }
 }

@@ -4,9 +4,9 @@ import { TVShow } from '@features/tv-shows/models/tv-show.model';
 
 export type SearchResult = Movie | Person | TVShow;
 
-export interface searchResponse {
+export interface SearchResponse {
   page: number;
   results: SearchResult[];
   total_pages: number;
-  total_result: number;
+  total_results: number;
 }

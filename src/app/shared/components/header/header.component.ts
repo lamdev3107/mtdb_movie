@@ -21,15 +21,39 @@ import { header_navigation } from 'src/app/core/utils/constants';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild('userMenuContainer') userMenuContainer!: ElementRef;
+
   headerNavigation = header_navigation;
   isHeaderVisible = true;
   isSearchVisible = false;
+
+  isOpenUserMenu = false;
+  isUserMenuOpen = false;
   private lastScrollTop = 0;
   private scrollThreshold = 10;
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  toggleUserMenu(event: Event): void {
+    event.stopPropagation();
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  closeUserMenu(): void {
+    this.isUserMenuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    if (
+      this.userMenuContainer &&
+      !this.userMenuContainer.nativeElement.contains(event.target as Node)
+    ) {
+      this.isUserMenuOpen = false;
+    }
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

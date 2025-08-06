@@ -13,7 +13,6 @@ import { SwiperModule } from 'swiper/angular';
   imports: [
     CommonModule,
     FormsModule,
-
     MoviesRoutingModule,
     HttpClientModule,
     SharedModule,

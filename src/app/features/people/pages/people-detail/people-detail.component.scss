@@ -12,6 +12,10 @@
   flex-direction: row;
   padding-top: 3rem;
   padding-bottom: 3rem;
+  margin-top: 8rem;
+  @include mq-md {
+    margin-top: 10rem;
+  }
   @extend .container;
   @include mq-sm {
     flex-wrap: nowrap;

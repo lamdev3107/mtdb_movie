@@ -5,14 +5,6 @@ import { MovieDetailsComponent } from './pages/movie-details/movie-details.compo
 import { MovieReviewComponent } from './pages/movie-review/movie-review.component';
 import { MovieCastComponent } from './pages/movie-cast/movie-cast.component';
 
-// Để di chuyển vào route details/:id/cast, bạn có thể sử dụng routerLink trong template hoặc navigate trong component như sau:
-
-// 1. Sử dụng routerLink trong template HTML:
-// <a [routerLink]="['/movies/details', movieId, 'cast']">Xem dàn diễn viên</a>
-
-// 2. Sử dụng Router trong component TypeScript:
-import { Router } from '@angular/router';
-
 // Cấu hình routes giữ nguyên như sau:
 const routes: Routes = [
   {
