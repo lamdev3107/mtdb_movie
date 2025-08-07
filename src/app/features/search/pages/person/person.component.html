@@ -1,0 +1,9 @@
+<ng-container *ngIf="personResults$ | async as personResults; else loading">
+  <app-search-list
+    [data]="personResults"
+    [activeTabId]="'person'"
+  ></app-search-list>
+</ng-container>
+<ng-template #loading>
+  <div class="loading-spinner">Đang tải dữ liệu...</div>
+</ng-template>

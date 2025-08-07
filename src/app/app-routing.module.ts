@@ -26,6 +26,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'account',
+    loadChildren: () =>
+      import('./features/account/account.module').then((m) => m.AccountModule),
+  },
+  {
     path: 'people',
     loadChildren: () =>
       import('./features/people/people.module').then((m) => m.PeopleModule),

@@ -1,6 +1,6 @@
 <div class="search-layout">
   <div class="search-container" #searchContainer>
-    <div class="search-input">
+    <form class="search-input" (submit)="onSearch()">
       <input
         type="text"
         class="search-input__input"
@@ -48,7 +48,7 @@
           </svg>
         </ng-template>
       </button>
-    </div>
+    </form>
 
     <ng-container *ngIf="isShowResult">
       <div class="search-results" *ngIf="isShowTrending">
@@ -243,10 +243,7 @@
         </ng-container>
       </div>
       <div class="search-results-layout__content">
-        <app-search-list
-          [suggestions]="suggestion$"
-          [activeTabId]="activeTabId"
-        ></app-search-list>
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>

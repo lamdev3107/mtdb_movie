@@ -1,0 +1,90 @@
+<div class="favorite-page">
+  <div class="favorite-header">
+    <h2 class="favorite-title">My Favorites</h2>
+    <div class="favorite-actions">
+      <button class="action-button">
+        <i class="icon-ellipsis"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Favorite Sub-tabs -->
+  <div class="favorite-sub-tabs">
+    <app-tab
+      [tabs]="favoriteSubTabs"
+      [activeTabId]="activeFavoriteTab"
+      (tabChange)="onFavoriteTabChange($event)"
+    >
+      <div class="sub-tab-content">
+        <!-- Movies Tab -->
+        <div *ngIf="activeFavoriteTab === 'movies'" class="sub-tab-panel">
+          <div class="favorite-filters">
+            <div class="filter-group">
+              <span class="filter-label">Filter by:</span>
+              <select class="filter-select">
+                <option>Date Added</option>
+                <option>Title</option>
+                <option>Rating</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Order:</span>
+              <select class="filter-select">
+                <option>Ascending</option>
+                <option>Descending</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="favorite-items">
+            <!-- Sample Favorite Item -->
+            <div class="favorite-item">
+              <div class="item-thumbnail">
+                <img
+                  src="assets/images/default-avatar.jpg"
+                  alt="Sample Movie"
+                  class="thumbnail-image"
+                />
+                <div class="item-rating rating-green">85%</div>
+              </div>
+              <div class="item-content">
+                <h3 class="item-title">Sample Favorite Movie</h3>
+                <p class="item-date">June 15, 2025</p>
+                <p class="item-description">
+                  This is a sample favorite movie description. It shows how the
+                  favorite items will be displayed in the favorites section.
+                </p>
+                <div class="item-actions">
+                  <button class="action-btn">
+                    <i class="icon-star"></i>
+                    Rate it!
+                  </button>
+                  <button class="action-btn">
+                    <i class="icon-heart"></i>
+                    Remove from Favorites
+                  </button>
+                  <button class="action-btn">
+                    <i class="icon-list"></i>
+                    Add to list
+                  </button>
+                  <button class="action-btn">
+                    <i class="icon-close"></i>
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TV Shows Tab -->
+        <div *ngIf="activeFavoriteTab === 'tv'" class="sub-tab-panel">
+          <div class="tv-content">
+            <h3>TV Shows in Favorites</h3>
+            <p>TV shows content will be displayed here.</p>
+          </div>
+        </div>
+      </div>
+    </app-tab>
+  </div>
+</div>

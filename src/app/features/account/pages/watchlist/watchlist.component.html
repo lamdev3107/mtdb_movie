@@ -1,0 +1,43 @@
+<div class="watchlist-page">
+  <h2 class="watchlist-title">My Watchlist</h2>
+
+  <!-- Watchlist Sub-tabs -->
+  <app-tab
+    [tabs]="watchlistSubTabs"
+    [activeTabId]="activeWatchlistTab"
+    (tabChange)="onWatchlistTabChange($event)"
+  >
+    <div class="sub-tab-content">
+      <!-- Movies Tab -->
+      <div *ngIf="activeWatchlistTab === 'movies'" class="sub-tab-panel">
+        <ng-container *ngIf="watchlistMovies$ | async as watchlistMovies">
+          <div class="watchlist-items">
+            <app-watchlist-card
+              *ngFor="let item of watchlistMovies.results"
+              [mediaType]="'movie'"
+              [data]="item"
+              (removeFromWatchlist)="handleRemoveFromWatchlist()"
+            ></app-watchlist-card>
+          </div>
+          <div *ngIf="watchlistMovies.results.length === 0" class="no-movies">
+            <p>No movies in watchlist</p>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- TV Shows Tab -->
+      <div *ngIf="activeWatchlistTab === 'tv'" class="sub-tab-panel">
+        <ng-container *ngIf="watchlistTv$ | async as watchlistTv">
+          <div class="watchlist-items">
+            <app-watchlist-card
+              *ngFor="let item of watchlistTv.results"
+              [mediaType]="'tv'"
+              [data]="item"
+              (removeFromWatchlist)="handleRemoveFromWatchlist()"
+            ></app-watchlist-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </app-tab>
+</div>

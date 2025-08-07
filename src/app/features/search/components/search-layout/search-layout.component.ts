@@ -134,14 +134,15 @@ export class SearchLayoutComponent implements OnInit {
         );
       })
     );
-
-    this.suggestion$.subscribe((value) => {
-      console.log('Giá trị của suggestions$', value);
-    });
   }
 
   onSearch() {
     this.isShowResult = false;
+    this.searchQuery = this.searchInput.nativeElement.value;
+    this.router.navigate([`search/movie`], {
+      queryParams: { query: this.searchQuery },
+      state: { data: this.searchQuery },
+    });
   }
   onClickItem(queryObj: { media_type: string; query: string }) {
     const { media_type, query } = queryObj;
@@ -203,9 +204,7 @@ export class SearchLayoutComponent implements OnInit {
     }
   }
 
-  getTotalResult(item: any){
-  
-  }
+  getTotalResult(item: any) {}
 
   getItemTitle(item: Movie | TVShow | Person): string {
     if ('title' in item) {

@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchLayoutComponent } from './components/search-layout/search-layout.component';
 import { SearchListComponent } from './components/search-list/search-list.component';
+import { TvComponent } from './pages/tv/tv.component';
+import { MovieComponent } from './pages/movie/movie.component';
+import { PersonComponent } from './pages/person/person.component';
 const routes: Routes = [
   {
     path: '',
@@ -14,15 +17,15 @@ const routes: Routes = [
       },
       {
         path: 'tv',
-        component: SearchListComponent,
+        component: TvComponent,
       },
       {
         path: 'movie',
-        component: SearchListComponent,
+        component: MovieComponent,
       },
       {
         path: 'person',
-        component: SearchListComponent,
+        component: PersonComponent,
       },
     ],
   },

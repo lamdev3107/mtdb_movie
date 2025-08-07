@@ -14,6 +14,8 @@ import { TVShow } from '@features/tv-shows/models/tv-show.model';
 import { Person } from '@features/people/models/person.model';
 import { Observable, fromEvent, map, of, startWith, switchMap } from 'rxjs';
 import { header_navigation } from 'src/app/core/utils/constants';
+import { AccountService } from '@core/services/account.service';
+import { Account } from '@core/models/account.model';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +24,7 @@ import { header_navigation } from 'src/app/core/utils/constants';
 })
 export class HeaderComponent implements OnInit {
   @ViewChild('userMenuContainer') userMenuContainer!: ElementRef;
-
+  accountDetails$!: Observable<Account>;
   headerNavigation = header_navigation;
   isHeaderVisible = true;
   isSearchVisible = false;
@@ -32,9 +34,11 @@ export class HeaderComponent implements OnInit {
   private lastScrollTop = 0;
   private scrollThreshold = 10;
 
-  constructor() {}
+  constructor(private accountService: AccountService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.accountDetails$ = this.accountService.getAccountDetails();
+  }
 
   toggleUserMenu(event: Event): void {
     event.stopPropagation();

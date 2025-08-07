@@ -28,6 +28,7 @@ import { InputKeywordComponent } from './input-keyword/input-keyword.component';
 import { ToastComponent } from './toast/toast.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { ActionMenuComponent } from './action-menu/action-menu.component';
+import { WatchlistCardComponent } from './watchlist-card/watchlist-card.component';
 
 export const components = [
   LoadingComponent,
@@ -62,4 +63,5 @@ export const components = [
   ToastComponent,
   ToastContainerComponent,
   ActionMenuComponent,
+  WatchlistCardComponent,
 ];

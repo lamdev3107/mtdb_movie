@@ -29,6 +29,9 @@ export class SearchService {
       )
       .subscribe((query) => {
         this.searchMulti(query).subscribe();
+        this.searchMovie(query).subscribe();
+        this.searchTV(query).subscribe();
+        this.searchPerson(query).subscribe();
       });
   }
 

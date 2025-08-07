@@ -1,0 +1,202 @@
+@use "../../../../../assets/styles/variables.scss" as *;
+@use "../../../../../assets/styles/base.scss" as *;
+@use "../../../../../assets/styles/mixins.scss" as *;
+
+.watchlist-page {
+}
+
+.watchlist-title {
+  @include font-base(2.4rem, $bold, $white);
+  margin-bottom: 1rem;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.watchlist-sub-tabs {
+  margin-top: 1rem;
+}
+
+.sub-tab-content {
+  margin-top: 1rem;
+}
+
+.sub-tab-panel {
+  min-height: 300px;
+}
+
+// Watchlist Items
+.watchlist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.watchlist-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid $black-20;
+  border-radius: 8px;
+  background: $white;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.item-thumbnail {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.thumbnail-image {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.item-rating {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: $bold;
+  color: $white;
+
+  &.rating-green {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+
+  &.rating-yellow {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+}
+
+.item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-size: 1.8rem;
+  font-weight: $bold;
+  color: $white;
+  margin: 0 0 0.5rem 0;
+}
+
+.item-date {
+  font-size: 1.4rem;
+  color: $grey-65;
+  margin: 0 0 1rem 0;
+}
+
+.item-description {
+  font-size: 1.4rem;
+  color: $grey-70;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  flex: 1;
+}
+
+.item-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid $black-20;
+  border-radius: 4px;
+  background: $white;
+  color: $grey-75;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    // background: $grey-10;
+    // border-color: $grey-40;
+  }
+
+  i {
+    font-size: 1.4rem;
+  }
+}
+
+// Icons
+.icon-ellipsis::before {
+  content: "⋮";
+  font-size: 1.8rem;
+  color: $grey-65;
+}
+
+.icon-star::before {
+  content: "★";
+  color: #f59e0b;
+}
+
+.icon-heart::before {
+  content: "♥";
+  color: #ef4444;
+}
+
+.icon-list::before {
+  content: "☰";
+  color: $grey-65;
+}
+
+.icon-close::before {
+  content: "×";
+  color: $grey-65;
+}
+
+// TV Content
+.tv-content {
+  padding: 2rem;
+  text-align: center;
+  color: $grey-65;
+
+  h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .watchlist-item {
+    flex-direction: column;
+  }
+
+  .item-thumbnail {
+    align-self: center;
+  }
+
+  .watchlist-filters {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .item-actions {
+    justify-content: center;
+  }
+}

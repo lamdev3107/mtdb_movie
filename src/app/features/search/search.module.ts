@@ -6,9 +6,9 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { components } from './components';
 import { FormsModule } from '@angular/forms';
-
+import { pages } from './pages';
 @NgModule({
-  declarations: [...components],
+  declarations: [...components, ...pages],
   imports: [
     CommonModule,
     SearchRoutingModule,

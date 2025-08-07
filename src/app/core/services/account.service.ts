@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Account } from '@core/models/account.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,10 @@ export class AccountService {
   private accountId = 21966283;
   constructor(private http: HttpClient) {}
 
-  /** -----------------------
-   *  FAVORITE
-   * ----------------------- */
+  getAccountDetails(): Observable<Account> {
+    return this.http.get<Account>(`${this.baseUrl}/${this.accountId}`);
+  }
+
   markAsFavorite(
     mediaType: 'movie' | 'tv',
     mediaId: number,
@@ -81,9 +83,6 @@ export class AccountService {
     });
   }
 
-  /** -----------------------
-   *  RATED MOVIES & TV
-   * ----------------------- */
   getRatedMovies(page: number = 1): Observable<any> {
     const params = new HttpParams().set('page', page);
 

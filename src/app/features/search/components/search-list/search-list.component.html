@@ -1,87 +1,19 @@
-<ng-container *ngIf="suggestions | async as suggestionsData">
-  <!-- Loading State -->
-  <div *ngIf="suggestionsData.loading" class="search-list__loading">
-    <div class="spinner-loading">Loading...</div>
+<div class="search-list">
+  <div
+    *ngIf="data && data.results && data.results.length > 0; else noMovieResults"
+    class="search-list__grid"
+  >
+    <p class="search-list__title">Có {{ data?.total_results }} kết quả</p>
+    <div *ngFor="let movie of data.results" class="search-list__item">
+      <app-search-card [item]="movie" [type]="activeTabId"></app-search-card>
+    </div>
+    <app-pagination
+      [totalPages]="data.total_pages"
+      [currentPage]="data.page"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
   </div>
-
-  <!-- Content -->
-  <ng-container *ngIf="!suggestionsData.loading">
-    <!-- Movies Tab -->
-    <div *ngIf="activeTabId === 'movie'" class="search-list">
-      <div
-        *ngIf="
-          suggestionsData.suggestions.movie?.results?.length;
-          else noMovieResults
-        "
-        class="search-list__grid"
-      >
-        <p class="search-list__title">
-          Có {{ suggestionsData.suggestions.movie?.total_results }} kết quả
-        </p>
-        <div
-          *ngFor="let movie of suggestionsData.suggestions.movie?.results"
-          class="search-list__item"
-        >
-          <app-search-card
-            [item]="movie"
-            [type]="activeTabId"
-          ></app-search-card>
-        </div>
-      </div>
-      <ng-template #noMovieResults>
-        <p class="search-list__no-results">No movie results found</p>
-      </ng-template>
-    </div>
-
-    <!-- TV Shows Tab -->
-    <div *ngIf="activeTabId === 'tv'" class="search-list">
-      <div
-        *ngIf="
-          suggestionsData.suggestions.tv?.results?.length;
-          else noTvResults
-        "
-        class="search-list__grid"
-      >
-        <p class="search-list__title">
-          Có {{ suggestionsData.suggestions.tv?.total_results }} kết quả
-        </p>
-        <div
-          *ngFor="let tv of suggestionsData.suggestions.tv?.results"
-          class="search-list__item"
-        >
-          <app-search-card [item]="tv" [type]="activeTabId"></app-search-card>
-        </div>
-      </div>
-      <ng-template #noTvResults>
-        <p class="search-list__no-results">No TV show results found</p>
-      </ng-template>
-    </div>
-
-    <!-- People Tab -->
-    <div *ngIf="activeTabId === 'person'" class="search-list">
-      <div
-        *ngIf="
-          suggestionsData.suggestions.person?.results?.length;
-          else noPersonResults
-        "
-        class="search-list__grid"
-      >
-        <p class="search-list__title">
-          Có {{ suggestionsData.suggestions.person?.total_results }} kết quả
-        </p>
-        <div
-          *ngFor="let person of suggestionsData.suggestions.person?.results"
-          class="search-list__item"
-        >
-          <app-search-card
-            [item]="person"
-            [type]="activeTabId"
-          ></app-search-card>
-        </div>
-      </div>
-      <ng-template #noPersonResults>
-        <p class="search-list__no-results">No people results found</p>
-      </ng-template>
-    </div>
-  </ng-container>
-</ng-container>
+  <ng-template #noMovieResults>
+    <p class="search-list__no-results">Không tìm thấy kết quả phim nào</p>
+  </ng-template>
+</div>
