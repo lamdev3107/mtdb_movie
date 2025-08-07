@@ -12,9 +12,9 @@
   flex-direction: row;
   padding-top: 3rem;
   padding-bottom: 3rem;
-  margin-top: 8rem;
+  margin-top: 10rem;
   @include mq-md {
-    margin-top: 10rem;
+    margin-top: 12rem;
   }
   @extend .container;
   @include mq-sm {
@@ -165,9 +165,62 @@
     overflow: hidden;
     flex-direction: column;
     gap: 1.5rem;
+
     &__title {
       @include font-base(2rem, $bold, $white, 1.5);
       margin-bottom: 1rem;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+
+      &-header {
+        display: flex;
+        align-items: center;
+        gap: 1.6rem;
+      }
+
+      &-year {
+        font-size: 1.5rem;
+        color: #bdbdbd;
+        min-width: 3.5rem;
+        text-align: right;
+      }
+
+      &-dot {
+        font-size: 1.5rem;
+        color: #bdbdbd;
+      }
+
+      &-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-title {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+
+        &:hover {
+          color: $primary;
+          text-decoration: underline;
+        }
+      }
+
+      &-character {
+        font-size: 1.4rem;
+        color: #bdbdbd;
+      }
     }
   }
 }

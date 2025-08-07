@@ -30,11 +30,11 @@
     padding: 0 4rem;
     @include mq-md {
       padding: 0 4rem;
-      bottom: -100px;
+      bottom: 0;
     }
     @include mq-lg {
       padding: 0 15rem;
-      bottom: -100px;
+      bottom: 0;
     }
 
     @include mq-xl {

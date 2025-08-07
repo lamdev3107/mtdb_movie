@@ -3,9 +3,9 @@
 @use "../../../../../assets/styles/base" as *;
 .people-page {
   @extend .container;
-  margin-top: 8rem;
+  margin-top: 10rem;
   @include mq-md {
-    margin-top: 10rem;
+    margin-top: 12rem;
   }
   &__grid {
     display: grid;
