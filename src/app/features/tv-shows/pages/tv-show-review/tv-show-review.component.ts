@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
-import { Review } from '@features/review/models/review.model';
 
 import { ActivatedRoute } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { TVShowDetail } from '@features/tv-shows/models/tv-show.model';
 import { TVShowService } from '@features/tv-shows/services/tv-shows.service';
+import { Review } from '@core/models/review.model';
 
 @Component({
   selector: 'app-tv-show-review',

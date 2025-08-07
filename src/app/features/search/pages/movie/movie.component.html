@@ -2,6 +2,7 @@
   <app-search-list
     [data]="movieResults"
     [activeTabId]="'movie'"
+    (onChangePage)="onPageChange($event)"
   ></app-search-list>
 </ng-container>
 <ng-template #loading>

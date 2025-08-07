@@ -35,11 +35,12 @@ export class SearchService {
       });
   }
 
-  searchMulti(query: string): Observable<SearchResponse> {
+  searchMulti(query: string, page: number = 1): Observable<SearchResponse> {
     return this.http
       .get<SearchResponse>(`search/multi`, {
         params: {
           query,
+          page,
         },
       })
       .pipe(
@@ -49,11 +50,12 @@ export class SearchService {
       );
   }
 
-  searchMovie(query: string): Observable<SearchResponse> {
+  searchMovie(query: string, page: number = 1): Observable<SearchResponse> {
     return this.http
       .get<SearchResponse>(`search/movie`, {
         params: {
           query,
+          page,
         },
       })
       .pipe(
@@ -63,11 +65,12 @@ export class SearchService {
       );
   }
 
-  searchTV(query: string): Observable<SearchResponse> {
+  searchTV(query: string, page: number = 1): Observable<SearchResponse> {
     return this.http
       .get<SearchResponse>(`search/tv`, {
         params: {
           query,
+          page,
         },
       })
       .pipe(
@@ -77,11 +80,12 @@ export class SearchService {
       );
   }
 
-  searchPerson(query: string): Observable<SearchResponse> {
+  searchPerson(query: string, page: number = 1): Observable<SearchResponse> {
     return this.http
       .get<SearchResponse>(`search/person`, {
         params: {
           query,
+          page,
         },
       })
       .pipe(

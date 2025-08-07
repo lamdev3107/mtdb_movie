@@ -7,7 +7,6 @@ import {
   TVShowDetail,
 } from '../models/tv-show.model';
 import { Cast, CreditsResponse } from '@features/movies/models/credit.model';
-import { ReviewResponse } from '@features/review/models/review.model';
 import { Video, VideoResponse } from '@features/movies/models/video.model';
 import { ImagesResponse } from '@features/movies/models/images.model';
 import {
@@ -17,6 +16,7 @@ import {
 import { GenreListResponse } from '@features/home/models/genre.model';
 import { TrailerItem } from '@features/movies/models/movie.model';
 import { AccountStates } from '@core/models/account.model';
+import { ReviewResponse } from '@core/models/review.model';
 
 export interface queryListTVShow {
   language: string;
@@ -123,7 +123,6 @@ export class TVShowService {
         const trailer = res.results.find(
           (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
         );
-        console.log('dfasdfasdf', res);
 
         if (!trailer) return null;
         return {

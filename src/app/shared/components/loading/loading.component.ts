@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { LoadingService } from 'src/app/core/services/loading.service';
 
 @Component({
   selector: 'app-loading',
@@ -7,6 +6,7 @@ import { LoadingService } from 'src/app/core/services/loading.service';
   styleUrls: ['./loading.component.scss'],
 })
 export class LoadingComponent {
-  constructor(public loadingService: LoadingService) {}
+  @Input() isOverlay = false;
+  constructor() {}
   ngOnInit(): void {}
 }

@@ -9,10 +9,10 @@ import {
 } from '../models/movie.model';
 import { Cast, CreditsResponse } from '../models/credit.model';
 import { Keyword, KeywordResponse } from '../models/keyword.model';
-import { Review, ReviewResponse } from '../../review/models/review.model';
 import { ImagesResponse } from '../models/images.model';
 import { Video, VideoResponse } from '../models/video.model';
 import { Account, AccountStates } from '@core/models/account.model';
+import { ReviewResponse } from '@core/models/review.model';
 
 export interface queryListMovie {
   language: string;

@@ -145,73 +145,198 @@
 
         <!-- Content -->
         <div class="main-content">
-          <!-- Name -->
-          <h1 class="main-content__name">
-            {{ personState?.data?.name || "-------" }}
-          </h1>
+          <div class="bio">
+            <!-- Name -->
+            <h1 class="bio__name">
+              {{ personState?.data?.name || "-------" }}
+            </h1>
 
-          <!-- Biography -->
-          <div class="main-content__biography">
-            <h2 class="main-content__biography-text">Biography</h2>
-            <p class="main-content__biography-content">
-              <ng-container *ngIf="personState?.data?.biography; else noBio">
-                <span>
-                  {{
-                    showFullBio
-                      ? personState?.data?.biography
-                      : (personState?.data?.biography | slice : 0 : 600)
-                  }}
-                  <span
-                    *ngIf="
-                      !showFullBio &&
-                      (personState?.data?.biography?.length ?? 0) > 600
-                    "
-                    >...</span
+            <!-- Biography -->
+            <div class="bio__biography">
+              <h2 class="bio__biography-text">Biography</h2>
+              <p class="bio__biography-content">
+                <ng-container *ngIf="personState?.data?.biography; else noBio">
+                  <span>
+                    {{
+                      showFullBio
+                        ? personState?.data?.biography
+                        : (personState?.data?.biography | slice : 0 : 600)
+                    }}
+                    <span
+                      *ngIf="
+                        !showFullBio &&
+                        (personState?.data?.biography?.length ?? 0) > 600
+                      "
+                      >...</span
+                    >
+                  </span>
+                  <button
+                    *ngIf="(personState?.data?.biography?.length ?? 0) > 600"
+                    class="read-more-btn"
+                    (click)="showFullBio = !showFullBio"
                   >
-                </span>
-                <button
-                  *ngIf="(personState?.data?.biography?.length ?? 0) > 600"
-                  class="read-more-btn"
-                  (click)="showFullBio = !showFullBio"
-                >
-                  {{ showFullBio ? "Read Less" : "Read More" }}
-                </button>
-              </ng-container>
-              <ng-template #noBio> No biography available </ng-template>
-            </p>
-          </div>
+                    {{ showFullBio ? "Read Less" : "Read More" }}
+                  </button>
+                </ng-container>
+                <ng-template #noBio> No biography available </ng-template>
+              </p>
+            </div>
 
-          <!-- Known For -->
-          <div class="main-content__known-for">
-            <h2 class="main-content__known-for-text">Known For</h2>
-            <ng-container *ngIf="knownForState$ | async as knownForState">
-              <div
-                class="main-content__known-for-content"
-                *ngIf="
-                  knownForState?.data?.cast?.length ||
-                  knownForState?.data?.crew?.length
-                "
-              >
+            <!-- Known For -->
+            <div class="bio__known-for">
+              <h2 class="bio__known-for-text">Known For</h2>
+              <ng-container *ngIf="knownForState$ | async as knownForState">
                 <div
-                  class="main-content__known-for-item"
-                  *ngFor="let item of knownForState?.data?.cast"
+                  class="bio__known-for-content"
+                  *ngIf="
+                    knownForState?.data?.cast?.length ||
+                    knownForState?.data?.crew?.length
+                  "
                 >
-                  <img
-                    class="main-content__known-for-item-image"
-                    [src]="item.poster_path | imageUrl : 500 : false"
-                    [alt]="item.title || item.name"
-                    loading="lazy"
-                  />
-                  <a
-                    [href]="renderKnowForLink(item)"
-                    class="main-content__known-for-item-title"
+                  <div
+                    class="bio__known-for-item"
+                    *ngFor="let item of knownForState?.data?.cast"
                   >
-                    {{ item?.title || item?.name }}
-                  </a>
+                    <img
+                      class="bio__known-for-item-image"
+                      [src]="item.poster_path | imageUrl : 500 : false"
+                      [alt]="item.title || item.name"
+                      loading="lazy"
+                    />
+                    <a
+                      [href]="renderKnowForLink(item)"
+                      class="bio__known-for-item-title"
+                    >
+                      {{ item?.title || item?.name }}
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
+
+          <ng-container *ngIf="creditState$ | async as creditState">
+            <div class="credit">
+              <h2 class="credit__title">Acting Credits</h2>
+              <div class="credit__known-for-content">
+                <ng-container
+                  *ngFor="
+                    let item of creditState?.data?.castJobs;
+                    let i = index
+                  "
+                >
+                  <div
+                    class="credit__known-for-item"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      margin-bottom: 1.5rem;
+                    "
+                  >
+                    <div
+                      style="display: flex; align-items: center; gap: 1.6rem"
+                    >
+                      <span
+                        style="
+                          font-size: 1.5rem;
+                          color: #bdbdbd;
+                          min-width: 3.5rem;
+                          text-align: right;
+                        "
+                      >
+                        {{ renderCastJob(item).date?.slice(0, 4) || "—" }}
+                      </span>
+                      <span style="font-size: 1.5rem; color: #bdbdbd"
+                        >&#9675;</span
+                      >
+                      <div style="display: flex; flex-direction: column">
+                        <a
+                          [routerLink]="renderCastLink(item)"
+                          style="
+                            font-size: 1.6rem;
+                            font-weight: bold;
+                            color: #fff;
+                          "
+                        >
+                          {{ renderCastJob(item).title }}
+                        </a>
+                        <ng-container *ngIf="item.character">
+                          <span style="font-size: 1.4rem; color: #bdbdbd">
+                            as {{ item.character }}
+                          </span>
+                        </ng-container>
+                        <!-- <ng-container *ngIf="!item.character && item.job">
+                          <span style="font-size: 1.4rem; color: #bdbdbd">
+                            as {{ item.job }}
+                          </span>
+                        </ng-container> -->
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <div class="credit">
+              <h2 class="credit__title">Crew Credits</h2>
+              <div class="credit__known-for-content">
+                <ng-container
+                  *ngFor="
+                    let item of creditState?.data?.castJobs;
+                    let i = index
+                  "
+                >
+                  <div
+                    class="credit__known-for-item"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      margin-bottom: 1.5rem;
+                    "
+                  >
+                    <div
+                      style="display: flex; align-items: center; gap: 1.6rem"
+                    >
+                      <span
+                        style="
+                          font-size: 1.5rem;
+                          color: #bdbdbd;
+                          min-width: 3.5rem;
+                          text-align: right;
+                        "
+                      >
+                        {{ renderCastJob(item).date?.slice(0, 4) || "—" }}
+                      </span>
+                      <span style="font-size: 1.5rem; color: #bdbdbd"
+                        >&#9675;</span
+                      >
+                      <div style="display: flex; flex-direction: column">
+                        <span
+                          style="
+                            font-size: 1.6rem;
+                            font-weight: bold;
+                            color: #fff;
+                          "
+                        >
+                          {{ renderCastJob(item).title }}
+                        </span>
+                        <ng-container *ngIf="item.character">
+                          <span style="font-size: 1.4rem; color: #bdbdbd">
+                            as {{ item.character }}
+                          </span>
+                        </ng-container>
+                        <ng-container *ngIf="!item.character && item.job">
+                          <span style="font-size: 1.4rem; color: #bdbdbd">
+                            as {{ item.job }}
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div> -->
+          </ng-container>
         </div>
       </div>
     </ng-container>

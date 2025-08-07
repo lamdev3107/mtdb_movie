@@ -1,5 +1,9 @@
 <ng-container *ngIf="tvResults$ | async as tvResults; else loading">
-  <app-search-list [data]="tvResults" [activeTabId]="'tv'"></app-search-list>
+  <app-search-list
+    [data]="tvResults"
+    [activeTabId]="'tv'"
+    (onChangePage)="onPageChange($event)"
+  ></app-search-list>
 </ng-container>
 <ng-template #loading>
   <div class="loading-spinner">Đang tải dữ liệu...</div>

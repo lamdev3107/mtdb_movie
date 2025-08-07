@@ -16,11 +16,11 @@
               *ngFor="let item of watchlistMovies.results"
               [mediaType]="'movie'"
               [data]="item"
-              (removeFromWatchlist)="handleRemoveFromWatchlist()"
+              (removeFromList)="handleRemoveFromWatchlist()"
             ></app-watchlist-card>
           </div>
-          <div *ngIf="watchlistMovies.results.length === 0" class="no-movies">
-            <p>No movies in watchlist</p>
+          <div *ngIf="watchlistMovies.results.length === 0">
+            <p class="no-data-text">No movies in watchlist</p>
           </div>
         </ng-container>
       </div>
@@ -33,8 +33,11 @@
               *ngFor="let item of watchlistTv.results"
               [mediaType]="'tv'"
               [data]="item"
-              (removeFromWatchlist)="handleRemoveFromWatchlist()"
+              (removeFromList)="handleRemoveFromWatchlist()"
             ></app-watchlist-card>
+          </div>
+          <div *ngIf="watchlistTv.results.length === 0">
+            <p class="no-data-text">No tv shows in watchlist</p>
           </div>
         </ng-container>
       </div>

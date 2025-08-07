@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,6 +21,7 @@ interface SearchResults {
 export class SearchListComponent implements OnInit, OnChanges {
   @Input() data!: SearchResponse;
   @Input() activeTabId!: 'movie' | 'tv' | 'person';
+  @Output() onChangePage = new EventEmitter<number>();
   total_page!: number;
   currentPage!: number;
 
@@ -29,7 +32,8 @@ export class SearchListComponent implements OnInit, OnChanges {
   }
 
   onPageChange(page: number) {
-    this.currentPage = page++;
+    this.currentPage = page;
+    this.onChangePage.emit(this.currentPage);
   }
   constructor(private route: Router) {}
   ngOnInit(): void {}

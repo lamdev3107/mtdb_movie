@@ -2,9 +2,6 @@
 @use "../../../../../assets/styles/base.scss" as *;
 @use "../../../../../assets/styles/mixins.scss" as *;
 
-.watchlist-page {
-}
-
 .watchlist-title {
   @include font-base(2.4rem, $bold, $white);
   margin-bottom: 1rem;
@@ -67,25 +64,6 @@
   border-radius: 4px;
 }
 
-.item-rating {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 0.3rem 0.6rem;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  font-weight: $bold;
-  color: $white;
-
-  &.rating-green {
-    background: linear-gradient(135deg, #10b981, #059669);
-  }
-
-  &.rating-yellow {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-  }
-}
-
 .item-content {
   flex: 1;
   display: flex;
@@ -131,53 +109,13 @@
   font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.2s ease;
-
-  &:hover {
-    // background: $grey-10;
-    // border-color: $grey-40;
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
   }
-
-  i {
-    font-size: 1.4rem;
-  }
-}
-
-// Icons
-.icon-ellipsis::before {
-  content: "⋮";
-  font-size: 1.8rem;
-  color: $grey-65;
-}
-
-.icon-star::before {
-  content: "★";
-  color: #f59e0b;
-}
-
-.icon-heart::before {
-  content: "♥";
-  color: #ef4444;
-}
-
-.icon-list::before {
-  content: "☰";
-  color: $grey-65;
-}
-
-.icon-close::before {
-  content: "×";
-  color: $grey-65;
-}
-
-// TV Content
-.tv-content {
-  padding: 2rem;
-  text-align: center;
-  color: $grey-65;
-
-  h3 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+  &__icon--active {
+    fill: $green;
+    color: $green;
   }
 }
 
@@ -191,12 +129,13 @@
     align-self: center;
   }
 
-  .watchlist-filters {
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
   .item-actions {
     justify-content: center;
   }
+}
+.no-data-text {
+  @include font-base(1.6rem, $regular, $grey-65);
+  text-align: center;
+  font-style: italic;
+  margin-top: 2rem;
 }

@@ -58,7 +58,7 @@
             *ngIf="trendingResults.loading; else trendingResultsContent"
           >
             <div class="search-results__loading">
-              <div class="spinner-loading">loading...</div>
+              <app-loading></app-loading>
             </div>
           </div>
           <ng-template #trendingResultsContent>
@@ -95,7 +95,7 @@
         <ng-container *ngIf="suggestion$ | async as suggestions">
           <ng-container *ngIf="suggestions.loading; else resultsContent">
             <div class="search-results__loading">
-              <div class="spinner-loading">loading...</div>
+              <app-loading></app-loading>
             </div>
           </ng-container>
 

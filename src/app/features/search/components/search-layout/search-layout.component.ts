@@ -147,7 +147,7 @@ export class SearchLayoutComponent implements OnInit {
   onClickItem(queryObj: { media_type: string; query: string }) {
     const { media_type, query } = queryObj;
     this.querySubject.next(query);
-    this.searchQuery = query;
+    this.searchInput.nativeElement.value = query;
     this.router.navigate([`search/${media_type}`], {
       queryParams: { query },
       state: { data: query },

@@ -28,11 +28,19 @@
 
 .account-avatar {
   flex-shrink: 0;
+  width: 15rem;
+  height: 15rem;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .avatar-circle {
-  width: 15rem;
-  height: 15rem;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background: linear-gradient(135deg, #8b5cf6, #a855f7);
   display: flex;
@@ -62,7 +70,7 @@
 
 .account-container {
   @extend .container;
-  margin-top: 3.6rem;
+  margin-top: 2rem;
 }
 // Navigation Section
 .account-navigation {

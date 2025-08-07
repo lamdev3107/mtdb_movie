@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
   map,
@@ -35,6 +35,8 @@ export class PeopleDetailComponent {
     ApiState<{ crewJobs: Record<string, CrewJob[]>; castJobs: CastJob[] }>
   >;
   showFullBio = false;
+  sortedCastJob: CastJob[] = [];
+  sortedCrewJob: CrewJob[] = [];
 
   constructor(
     private peopleService: PeopleService,
@@ -62,7 +64,10 @@ export class PeopleDetailComponent {
     this.knownForState$ = personId$.pipe(
       switchMap((id) =>
         this.peopleService.getKnownFor(id).pipe(
-          map((data) => ({ loading: false, data } as ApiState<any>)),
+          map((data) => {
+            console.log('Check data', data);
+            return { loading: false, data } as ApiState<any>;
+          }),
           startWith({ loading: true } as ApiState<any>),
           catchError((error) => of({ loading: false, error } as ApiState<any>))
         )
@@ -73,19 +78,38 @@ export class PeopleDetailComponent {
     this.creditState$ = personId$.pipe(
       switchMap((id) =>
         this.peopleService.getPersonCombinedCredit(id).pipe(
-          map(
-            (res) =>
-              ({
-                loading: false,
-                data: {
-                  crewJobs: this.groupCrewByJob(res.crew),
-                  castJobs: res.cast,
-                },
-              } as ApiState<{
-                crewJobs: Record<string, CrewJob[]>;
-                castJobs: CastJob[];
-              }>)
-          ),
+          map((res) => {
+            this.sortedCastJob = res.cast.sort((a: any, b: any) => {
+              // Ưu tiên dùng release_date, nếu không có thì fallback sang first_air_date
+              const dateA = a.release_date
+                ? new Date(a.release_date)
+                : a.first_air_date
+                ? new Date(a.first_air_date)
+                : null;
+              const dateB = b.release_date
+                ? new Date(b.release_date)
+                : b.first_air_date
+                ? new Date(b.first_air_date)
+                : null;
+
+              if (dateA && dateB) {
+                return dateB.getTime() - dateA.getTime();
+              }
+              if (dateA) return -1;
+              if (dateB) return 1;
+              return 0;
+            });
+            return {
+              loading: false,
+              data: {
+                crewJobs: this.groupCrewByJob(res.crew),
+                castJobs: res.cast,
+              },
+            } as ApiState<{
+              crewJobs: Record<string, CrewJob[]>;
+              castJobs: CastJob[];
+            }>;
+          }),
           startWith({ loading: true } as ApiState<{
             crewJobs: Record<string, CrewJob[]>;
             castJobs: CastJob[];
@@ -101,6 +125,12 @@ export class PeopleDetailComponent {
     );
   }
 
+  renderCastLink(item: any) {
+    if (item.media_type === 'tv') {
+      return `/tv_shows/details/${item.id}`;
+    }
+    return `/movies/details/${item.id}`;
+  }
   renderKnowForLink(knownFor: any) {
     if (knownFor.media_type === 'movie') {
       return './movies/details/' + knownFor.id;
@@ -123,6 +153,22 @@ export class PeopleDetailComponent {
     return age;
   }
 
+  renderCastJob(item: any) {
+    if (item.media_type === 'movie') {
+      return {
+        id: item.id,
+        title: item.title,
+        character: item.character,
+        date: item.release_date,
+      };
+    }
+    return {
+      id: item.id,
+      title: item.name,
+      character: item.character,
+      date: item.first_air_date,
+    };
+  }
   renderGender(gender: number | undefined) {
     if (gender === 1) {
       return 'Female';

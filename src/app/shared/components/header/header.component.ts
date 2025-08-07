@@ -67,6 +67,7 @@ export class HeaderComponent implements OnInit {
     if (currentScrollTop > this.scrollThreshold) {
       this.isHeaderVisible = currentScrollTop < this.lastScrollTop;
       this.isSearchVisible = false;
+      this.isUserMenuOpen = false;
     } else {
       this.isHeaderVisible = true;
     }

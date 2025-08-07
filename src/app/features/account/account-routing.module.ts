@@ -10,8 +10,14 @@ const routes: Routes = [
     component: AccountLayoutComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'watchlist' },
-      { path: 'watchlist', component: WatchlistComponent },
-      { path: 'favorite', component: FavoriteComponent },
+      {
+        path: 'watchlist',
+        component: WatchlistComponent,
+      },
+      {
+        path: 'favorite',
+        component: FavoriteComponent,
+      },
     ],
   },
 ];

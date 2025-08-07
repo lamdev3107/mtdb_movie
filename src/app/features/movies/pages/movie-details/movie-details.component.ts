@@ -5,13 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize, map, Subject, takeUntil } from 'rxjs';
 import { Movie, MovieDetail } from '../../models/movie.model';
 import { Keyword } from '../../models/keyword.model';
-import { Review } from '../../../review/models/review.model';
 import { LoadingService } from '@core/services/loading.service';
 import { TabItem } from '@shared/components/tab/tab.component';
 import { Video } from '@features/movies/models/video.model';
 import { Image } from '@features/movies/models/images.model';
 import { CardType } from '@core/utils/enums';
 import { AccountService } from '@core/services/account.service';
+import { Review } from '@core/models/review.model';
 
 @Component({
   selector: 'app-movie-details',

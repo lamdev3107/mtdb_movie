@@ -59,17 +59,9 @@ export class PeopleService {
       )
       .pipe(
         map((res: any) => {
-          console.log('res', res);
-
-          const sortedCastJob = res.cast.sort((a: any, b: any) =>
-            a.release_date.localeCompare(b.release_date)
-          );
-          const sortedCrewJob = res.crew.sort((a: any, b: any) =>
-            a.release_date.localeCompare(b.release_date)
-          );
           return {
-            cast: sortedCastJob.slice(0, 10),
-            crew: res.crew.slice(0, 10),
+            cast: res.cast,
+            crew: res.crew,
           };
         })
       );

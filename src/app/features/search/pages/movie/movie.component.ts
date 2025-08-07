@@ -13,6 +13,7 @@ export class MovieComponent implements OnInit {
   movieResults$!: Observable<SearchResponse>;
   currentPage!: number;
   totalPages!: number;
+  query!: string;
   constructor(
     private route: ActivatedRoute,
     private serviceService: SearchService
@@ -23,8 +24,10 @@ export class MovieComponent implements OnInit {
       const query = params['query'];
       if (query) {
         this.movieResults$ = this.serviceService.searchMovie(query!);
+        this.query = query;
       } else {
         this.movieResults$ = this.serviceService.searchMovie('');
+        this.query = '';
       }
       this.movieResults$.subscribe((data) => {
         this.totalPages = data.total_pages;
@@ -34,6 +37,6 @@ export class MovieComponent implements OnInit {
   }
 
   onPageChange(page: number) {
-    this.currentPage = page;
+    this.movieResults$ = this.serviceService.searchMovie(this.query, page);
   }
 }

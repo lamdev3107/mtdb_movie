@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { MovieService } from './../../../features/movies/services/movie.service';
 import { AccountStates } from './../../../core/models/account.model';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
@@ -15,18 +16,30 @@ export class WatchlistCardComponent implements OnInit {
   @Input() mediaType: 'movie' | 'tv' = 'movie';
   @Input() data: any;
 
-  @Output() removeFromWatchlist = new EventEmitter<any>();
+  @Output() removeFromList = new EventEmitter<any>();
   accountStates: AccountStates | null = null;
   constructor(
     private movieService: MovieService,
     private tvShowService: TVShowService,
     private accountService: AccountService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute
   ) {}
+  currentRoute: string = 'watchlist';
+  // Lấy ra watchlist trên url
+  isWatchlistPage: boolean = false;
 
   ngOnInit(): void {
     this.loadAccountStatus();
+    this.route.url.subscribe((segments) => {
+      if (segments.length > 0) {
+        const currentRoute = segments[0].path;
+        this.currentRoute = currentRoute;
+      }
+    });
+    // Kiểm tra nếu url chứa '/account/watchlist'
   }
+
   loadAccountStatus() {
     if (this.mediaType === 'movie') {
       this.movieService
@@ -71,26 +84,84 @@ export class WatchlistCardComponent implements OnInit {
         });
     }
   }
-
-  handleRemoveFromWatchlist() {
+  handleToggleWatchlist() {
     if (this.mediaType === 'movie') {
       this.accountService
-        .addToWatchlist('movie', Number(this?.data.id), false)
+        .addToWatchlist(
+          'movie',
+          Number(this.data.id),
+          !this.accountStates?.watchlist
+        )
         .subscribe((res) => {
           this.toastService.success('Thao tác thành công!');
           if (this.accountStates) {
-            this.removeFromWatchlist.emit(this.data);
+            this.accountStates.watchlist = !this.accountStates.watchlist;
           }
         });
     } else {
       this.accountService
-        .addToWatchlist('tv', Number(this?.data.id), false)
+        .addToWatchlist(
+          'tv',
+          Number(this.data.id),
+          !this.accountStates?.watchlist
+        )
         .subscribe((res) => {
           this.toastService.success('Thao tác thành công!');
           if (this.accountStates) {
-            this.removeFromWatchlist.emit(this.data);
+            this.accountStates.watchlist = !this.accountStates.watchlist;
           }
         });
+    }
+  }
+
+  handleRemoveFromlist() {
+    if (this.currentRoute === 'watchlist') {
+      if (this.mediaType === 'movie') {
+        this.accountService
+          .addToWatchlist('movie', Number(this?.data.id), false)
+          .subscribe((res) => {
+            this.toastService.success('Thao tác thành công!');
+            if (this.accountStates) {
+              this.removeFromList.emit(this.data);
+            }
+          });
+      } else {
+        this.accountService
+          .addToWatchlist('tv', Number(this?.data.id), false)
+          .subscribe((res) => {
+            this.toastService.success('Thao tác thành công!');
+            if (this.accountStates) {
+              this.removeFromList.emit(this.data);
+            }
+          });
+      }
+    } else {
+      if (this.mediaType === 'movie') {
+        this.accountService
+          .markAsFavorite('movie', Number(this?.data.id), false)
+          .subscribe((res) => {
+            this.toastService.success('Thao tác thành công!');
+            if (this.accountStates) {
+              this.removeFromList.emit(this.data);
+            }
+          });
+      } else {
+        this.accountService
+          .markAsFavorite('tv', Number(this?.data.id), false)
+          .subscribe((res) => {
+            this.toastService.success('Thao tác thành công!');
+            if (this.accountStates) {
+              this.removeFromList.emit(this.data);
+            }
+          });
+      }
+    }
+  }
+  renderLink() {
+    if (this.mediaType === 'movie') {
+      return `/movies/details/${this.data.id}`;
+    } else {
+      return `/tv_shows/details/${this.data.id}`;
     }
   }
 

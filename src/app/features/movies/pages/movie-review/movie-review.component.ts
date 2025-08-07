@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
-import { Review } from '@features/review/models/review.model';
 import { MovieService } from '@features/movies/services/movie.service';
 import { MovieDetail } from '@features/movies/models/movie.model';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
+import { Review } from '@core/models/review.model';
 
 @Component({
   selector: 'app-movie-review',

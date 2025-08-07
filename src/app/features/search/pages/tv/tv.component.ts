@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
 })
 export class TvComponent implements OnInit {
   tvResults$!: Observable<SearchResponse>;
-
+  currentPage!: number;
+  totalPages!: number;
+  query!: string;
   constructor(
     private route: ActivatedRoute,
     private serviceService: SearchService
@@ -22,9 +24,19 @@ export class TvComponent implements OnInit {
       const query = params['query'];
       if (query) {
         this.tvResults$ = this.serviceService.searchTV(query!);
+        this.query = query;
       } else {
         this.tvResults$ = this.serviceService.searchTV('');
+        this.query = '';
       }
+      this.tvResults$.subscribe((data) => {
+        this.totalPages = data.total_pages;
+        this.currentPage = data.page;
+      });
     });
+  }
+
+  onPageChange(page: number) {
+    this.tvResults$ = this.serviceService.searchTV(this.query, page);
   }
 }

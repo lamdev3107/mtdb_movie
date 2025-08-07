@@ -51,17 +51,17 @@
           [class.header__user-menu--open]="isUserMenuOpen"
         >
           <div class="header__user-menu-item">
-            <a routerLink="/account" (click)="closeUserMenu()">
+            <!-- <a routerLink="/account" (click)="closeUserMenu()">
               <img src="assets/icons/user-solid.svg" alt="User" />
               <ng-container *ngIf="accountDetails$ | async as accountDetails">
                 <span>{{ accountDetails.username }}</span>
               </ng-container>
-            </a>
+            </a> -->
             <a routerLink="/account/watchlist" (click)="closeUserMenu()">
               <img src="assets/icons/bookmark.svg" alt="User" />
               <span>My Watchlist</span>
             </a>
-            <a routerLink="/accont/favorite" (click)="closeUserMenu()">
+            <a routerLink="/account/favorite" (click)="closeUserMenu()">
               <img src="assets/icons/heart-white.svg" alt="User" />
               <span>My Favorites</span>
             </a>

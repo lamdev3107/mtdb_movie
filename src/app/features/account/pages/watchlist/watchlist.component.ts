@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '@core/services/account.service';
 import { TabItem } from '@shared/components/tab/tab.component';
+import { ChangeDetectorRef } from '@angular/core'; // Thêm dòng này ở đầu file
 
 @Component({
   selector: 'app-watchlist',
@@ -10,24 +11,20 @@ import { TabItem } from '@shared/components/tab/tab.component';
 export class WatchlistComponent implements OnInit {
   // Watchlist sub-tabs
   watchlistSubTabs: TabItem[] = [
-    { id: 'movies', label: 'Movies (0)' },
-    { id: 'tv', label: 'TV (0)' },
+    { id: 'movies', label: 'Movies ' },
+    { id: 'tv', label: 'TV ' },
   ];
   watchlistMovies$ = this.accountService.getWatchlistMovies();
   watchlistTv$ = this.accountService.getWatchlistTV();
 
   activeWatchlistTab: string = 'movies';
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {
-    this.watchlistMovies$.subscribe((movies) => {
-      this.watchlistSubTabs[0].label = `Movies (${movies.total_results})`;
-    });
-    this.watchlistTv$.subscribe((tv) => {
-      this.watchlistSubTabs[1].label = `TV (${tv.total_results})`;
-    });
-  }
+  ngOnInit(): void {}
 
   handleRemoveFromWatchlist() {
     this.watchlistMovies$ = this.accountService.getWatchlistMovies();

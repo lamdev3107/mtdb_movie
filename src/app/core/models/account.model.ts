@@ -1,5 +1,12 @@
 export interface Account {
-  avatar: any;
+  avatar: {
+    gravatar: {
+      hash: string | null;
+    };
+    tmdb: {
+      avatar_path: string | null;
+    };
+  };
   id: number;
   iso_639_1: string;
   iso3166_1: string;

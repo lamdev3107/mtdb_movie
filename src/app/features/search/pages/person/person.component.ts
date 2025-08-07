@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
 })
 export class PersonComponent implements OnInit {
   personResults$!: Observable<SearchResponse>;
-
+  currentPage!: number;
+  totalPages!: number;
+  query!: string;
   constructor(
     private route: ActivatedRoute,
     private serviceService: SearchService
@@ -22,9 +24,19 @@ export class PersonComponent implements OnInit {
       const query = params['query'];
       if (query) {
         this.personResults$ = this.serviceService.searchPerson(query!);
+        this.query = query;
       } else {
         this.personResults$ = this.serviceService.searchPerson('');
+        this.query = '';
       }
+      this.personResults$.subscribe((data) => {
+        this.totalPages = data.total_pages;
+        this.currentPage = data.page;
+      });
     });
+  }
+
+  onPageChange(page: number) {
+    this.personResults$ = this.serviceService.searchPerson(this.query, page);
   }
 }
