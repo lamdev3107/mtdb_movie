@@ -1,18 +1,12 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   HostListener,
-  AfterViewInit,
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { Movie } from '@features/movies/models/movie.model';
-import { MovieService } from '@features/movies/services/movie.service';
-import { SearchService } from '@features/search/services/search.service';
-import { TVShow } from '@features/tv-shows/models/tv-show.model';
-import { Person } from '@features/people/models/person.model';
-import { Observable, fromEvent, map, of, startWith, switchMap } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { header_navigation } from 'src/app/core/utils/constants';
 import { AccountService } from '@core/services/account.service';
 import { Account } from '@core/models/account.model';
@@ -31,6 +25,7 @@ export class HeaderComponent implements OnInit {
 
   isOpenUserMenu = false;
   isUserMenuOpen = false;
+  isOpenHamburgerMenu = false;
   private lastScrollTop = 0;
   private scrollThreshold = 10;
 
@@ -43,6 +38,14 @@ export class HeaderComponent implements OnInit {
   toggleUserMenu(event: Event): void {
     event.stopPropagation();
     this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  onClickOpenMenuBurger() {
+    this.isOpenHamburgerMenu = true;
+  }
+
+  onClickCloseMenuBurger() {
+    this.isOpenHamburgerMenu = false;
   }
 
   closeUserMenu(): void {

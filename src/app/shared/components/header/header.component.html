@@ -10,7 +10,12 @@
       <img src="assets/images/logo-desktop.svg" alt="StreamVibe" />
     </a>
 
-    <button class="header__hamburger" type="button" aria-label="Mở menu">
+    <button
+      class="header__hamburger"
+      type="button"
+      aria-label="Mở menu"
+      (click)="onClickOpenMenuBurger()"
+    >
       <img src="assets/icons/menu.svg" alt="Menu" />
     </button>
 
@@ -57,11 +62,19 @@
                 <span>{{ accountDetails.username }}</span>
               </ng-container>
             </a> -->
-            <a routerLink="/account/watchlist" (click)="closeUserMenu()">
+            <a
+              class="header__user-menu-item-link"
+              routerLink="/account/watchlist"
+              (click)="onClickCloseMenuBurger()"
+            >
               <img src="assets/icons/bookmark.svg" alt="User" />
               <span>My Watchlist</span>
             </a>
-            <a routerLink="/account/favorite" (click)="closeUserMenu()">
+            <a
+              class="header__user-menu-item-link"
+              routerLink="/account/favorite"
+              (click)="onClickCloseMenuBurger()"
+            >
               <img src="assets/icons/heart-white.svg" alt="User" />
               <span>My Favorites</span>
             </a>
@@ -175,3 +188,74 @@
     </div>
   </div> -->
 </header>
+
+<div class="hamburger-menu" [class.hamburger-menu--open]="isOpenHamburgerMenu">
+  <div class="hamburger-menu-overlay" (click)="onClickCloseMenuBurger()">
+    <div class="hamburger-menu-content" (click)="$event.stopPropagation()">
+      <div class="hamburger-menu-header">
+        <a routerLink="/" class="hamburger-menu-logo">
+          <img src="assets/images/logo-mobile.svg" alt="StreamVibe" />
+        </a>
+        <button class="hamburger-menu-close" (click)="onClickCloseMenuBurger()">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="hamburger-menu-list">
+        <!-- Nav items -->
+        <a
+          *ngFor="let item of headerNavigation"
+          [routerLink]="item.link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="hamburger-menu-item"
+          (click)="onClickCloseMenuBurger()"
+        >
+          <span>{{ item.title }}</span>
+        </a>
+
+        <div class="hamburger-menu-divider"></div>
+
+        <!-- Actions -->
+        <a
+          [routerLink]="['/search']"
+          class="hamburger-menu-item"
+          (click)="onClickCloseMenuBurger()"
+        >
+          <img
+            src="assets/icons/search.svg"
+            class="icon icon--white"
+            alt="Search"
+          />
+          <span>Search</span>
+        </a>
+        <a
+          routerLink="/account/watchlist"
+          class="hamburger-menu-item"
+          (click)="onClickCloseMenuBurger()"
+        >
+          <img src="assets/icons/bookmark.svg" alt="User" />
+          <span>My Watchlist</span>
+        </a>
+        <a
+          routerLink="/account/favorite"
+          class="hamburger-menu-item"
+          (click)="onClickCloseMenuBurger()"
+        >
+          <img src="assets/icons/heart-white.svg" alt="User" />
+          <span>My Favorites</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

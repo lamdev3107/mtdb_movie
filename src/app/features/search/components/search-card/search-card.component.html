@@ -7,14 +7,17 @@
       <a [routerLink]="getRouterLink(item)" class="search-card__title">
         {{ getItemTitle(item) }}
       </a>
-      <p class="search-card__date" *ngIf="getOvervie(item)">
-        <!-- {{ getOvervie(item) | slice : 0 : 100 }} -->
+      <p
+        class="search-card__knownfor-department"
+        *ngIf="getKnownForDepartment(item) !== ''"
+      >
+        {{ getKnownForDepartment(item) }}
       </p>
     </div>
 
     <div class="search-card__info-footer">
-      <p class="search-card__overview" *ngIf="getOvervie(item)">
-        {{ getOvervie(item) | slice : 0 : 100 }}
+      <p class="search-card__overview" *ngIf="getOverview(item)">
+        {{ getOverview(item) | slice : 0 : 100 }}
       </p>
     </div>
   </div>

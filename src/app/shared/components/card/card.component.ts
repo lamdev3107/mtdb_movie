@@ -15,6 +15,7 @@ export class CardComponent implements OnInit {
   moviePath = '/movies/details/';
   tvPath = '/tv_shows/details/';
   castPath = '/people/';
+  hasImage = true;
   imageBaseUrl = environment.imageBaseUrl;
   @Input() data!: any;
   @Input() type: CardType = CardType.MOVIE;
@@ -33,20 +34,27 @@ export class CardComponent implements OnInit {
     switch (this.type) {
       case CardType.MOVIE:
         if ((this.data as Movie).poster_path) {
+          this.hasImage = true;
           return this.imageBaseUrl + (this.data as Movie).poster_path;
         }
+        this.hasImage = false;
         return 'assets/icons/picture.svg';
       case CardType.TV_SHOW:
         if ((this.data as TVShow).poster_path) {
+          this.hasImage = true;
           return this.imageBaseUrl + (this.data as TVShow).poster_path;
         }
+        this.hasImage = false;
         return 'assets/icons/picture.svg';
       case CardType.CAST:
         if ((this.data as Cast).profile_path) {
+          this.hasImage = true;
           return this.imageBaseUrl + (this.data as Cast).profile_path;
         }
+        this.hasImage = false;
         return 'assets/icons/picture.svg';
       default:
+        this.hasImage = false;
         return 'assets/icons/picture.svg';
     }
   }

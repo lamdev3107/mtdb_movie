@@ -2,7 +2,10 @@
   <a [routerLink]="renderLink()" class="movie-card__image-wrapper">
     <img
       [src]="getPosterPath()"
-      class="movie-card__poster"
+      [ngClass]="{
+        'movie-card__post--no-image': hasImage,
+        'movie-card__poster': true
+      }"
       loading="lazy"
       [alt]="renderTitle()"
     />

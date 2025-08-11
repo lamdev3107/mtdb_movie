@@ -1,7 +1,7 @@
 export const header_navigation = [
   {
     title: 'Home',
-    link: '/',
+    link: '/home',
   },
   {
     title: 'Movies',

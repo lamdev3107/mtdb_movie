@@ -38,7 +38,19 @@
     display: flex;
     height: 100%;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 0.5rem;
+    &-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+  }
+
+  &__knownfor-department {
+    font-size: 1.4rem;
+    color: $grey-65;
+    margin: 0;
   }
 
   &__title {

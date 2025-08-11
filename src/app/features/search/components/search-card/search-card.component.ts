@@ -13,7 +13,9 @@ export class SearchCardComponent implements OnInit {
   @Input() type!: 'tv' | 'person' | 'movie';
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('check item', this.item);
+  }
 
   getItemTitle(item: any): string {
     if (this.type === 'movie') return item.title;
@@ -31,7 +33,12 @@ export class SearchCardComponent implements OnInit {
       : `assets/icons/picture.svg`;
   }
 
-  getOvervie(item: any): string {
+  getKnownForDepartment(item: any): string {
+    if (this.type !== 'person') return '';
+    return item.known_for_department;
+  }
+
+  getOverview(item: any): string {
     if (this.type === 'person') return '';
     else {
       return item.overview;

@@ -1,10 +1,13 @@
 import { SearchModule } from './features/search/search.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MainLayoutComponent } from '@shared/components/main-layout/main-layout.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
-    path: '',
+    path: 'home',
     loadChildren: () =>
       import('./features/home/home.module').then((m) => m.HomeModule),
   },
@@ -37,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'movies',
+    redirectTo: 'home',
   },
 ];
 
